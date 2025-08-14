@@ -1,0 +1,31 @@
+name: Deploy to Shopify
+
+on:
+  push:
+    branches: [ master, main ]
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - '.github/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Shopify CLI
+      run: npm install -g @shopify/cli @shopify/theme
+    
+    - name: Deploy to Shopify
+      env:
+        SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_STORE }}
+        SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+        SHOPIFY_FLAG_THEME_ID: 184655905105
+      run: |
+        shopify theme push \
+          --store $SHOPIFY_FLAG_STORE \
+          --theme $SHOPIFY_FLAG_THEME_ID \
+          --force \
+          --allow-live
