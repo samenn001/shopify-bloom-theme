@@ -1,0 +1,173 @@
+{% comment %}
+  Renders a quantity selector with popover functionality
+  
+  Accepts:
+  - product: {Object} Product object (optional)
+  - section_id: {String} Section ID for unique identifiers
+  - product_form_id: {String} Form ID for the product form
+{% endcomment %}
+
+<div class="quantity-popover">
+  <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
+    {{ 'products.product.quantity.label' | t }}
+  </label>
+  <div class="quantity__selector">
+    <button
+      class="quantity__button"
+      name="minus"
+      type="button"
+      aria-label="{{ 'products.product.quantity.decrease' | t }}"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+        class="icon icon-minus"
+        viewBox="0 0 10 2"
+        fill="none"
+      >
+        <path fill="currentColor" d="M.5 1h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <input
+      class="quantity__input"
+      type="number"
+      name="quantity"
+      id="Quantity-{{ section.id }}"
+      data-cart-quantity="{{ cart_qty }}"
+      min="1"
+      value="1"
+      form="{{ product_form_id }}"
+    >
+    <button
+      class="quantity__button"
+      name="plus"
+      type="button"
+      aria-label="{{ 'products.product.quantity.increase' | t }}"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+        class="icon icon-plus"
+        viewBox="0 0 10 10"
+        fill="none"
+      >
+        <path fill="currentColor" d="M5 .5v9M.5 5h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .quantity-popover {
+    margin: var(--spacing-md, 24px) 0;
+  }
+
+  .quantity__label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--figma-color-black, #131212);
+  }
+
+  .quantity__selector {
+    display: inline-flex;
+    align-items: center;
+    border: 2px solid var(--figma-color-gray-200, #E5E7EB);
+    border-radius: 12px;
+    background: white;
+    overflow: hidden;
+  }
+
+  .quantity__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--figma-color-black, #131212);
+  }
+
+  .quantity__button:hover {
+    background: var(--figma-color-gray-50, #F9FAFB);
+  }
+
+  .quantity__button:active {
+    transform: scale(0.95);
+  }
+
+  .quantity__button svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .quantity__input {
+    width: 60px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-left: 1px solid var(--figma-color-gray-200, #E5E7EB);
+    border-right: 1px solid var(--figma-color-gray-200, #E5E7EB);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--figma-color-black, #131212);
+    background: transparent;
+    -moz-appearance: textfield;
+  }
+
+  .quantity__input::-webkit-outer-spin-button,
+  .quantity__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .quantity__input:focus {
+    outline: none;
+    background: var(--figma-color-gray-50, #F9FAFB);
+  }
+
+  @media (max-width: 749px) {
+    .quantity__selector {
+      transform: scale(1.1);
+      margin: 8px 0;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const quantityContainer = document.querySelector('#Quantity-{{ section.id }}')?.closest('.quantity-popover');
+    if (!quantityContainer) return;
+
+    const input = quantityContainer.querySelector('.quantity__input');
+    const minusBtn = quantityContainer.querySelector('[name="minus"]');
+    const plusBtn = quantityContainer.querySelector('[name="plus"]');
+
+    if (!input || !minusBtn || !plusBtn) return;
+
+    function updateQuantity(change) {
+      const currentValue = parseInt(input.value) || 1;
+      const newValue = Math.max(1, currentValue + change);
+      input.value = newValue;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    minusBtn.addEventListener('click', () => updateQuantity(-1));
+    plusBtn.addEventListener('click', () => updateQuantity(1));
+
+    input.addEventListener('change', function() {
+      const value = parseInt(this.value) || 1;
+      this.value = Math.max(1, value);
+    });
+  });
+</script>

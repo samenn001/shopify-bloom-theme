@@ -1,0 +1,2076 @@
+{%- liquid
+  comment
+    Check if this is being used as a product template or as a section
+  endcomment
+  
+  if template contains 'product'
+    comment
+      This is a product template page, product is already available globally
+      No need to assign it
+    endcomment
+  else
+    comment
+      This is being used as a section, use the product setting
+    endcomment
+    assign product = section.settings.product
+  endif
+  
+  if product == null
+    assign placeholder = true
+  endif
+-%}
+
+<product-info
+  data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="false"
+  data-url="{{ product.url }}"
+>
+  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+  {{ 'section-featured-product.css' | asset_url | stylesheet_tag }}
+  {{ 'section-product-landing.css' | asset_url | stylesheet_tag }}
+  {{ 'instagram-reels.css' | asset_url | stylesheet_tag }}
+  {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+  {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+  {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
+  {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
+
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+    
+    /* Custom layout settings from theme editor */
+    @media screen and (min-width: 1200px) {
+      .hero-grid {
+        grid-template-columns: {{ section.settings.media_max_width }}px {{ section.settings.info_max_width }}px !important;
+        gap: {{ section.settings.layout_gap }}px !important;
+        padding-left: {{ section.settings.pad_left }}px !important;
+        padding-right: {{ section.settings.pad_right }}px !important;
+      }
+      
+      .bundle-modern {
+        max-width: {{ section.settings.bundle_max_width }}px !important;
+      }
+    }
+  {%- endstyle -%}
+
+  <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  
+  {%- if section.settings.show_dynamic_checkout -%}
+    <script src="{{ 'share.js' | asset_url }}" defer="defer"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialize payment buttons after page load
+        if (window.Shopify && window.Shopify.PaymentButton) {
+          window.Shopify.PaymentButton.init();
+        }
+      });
+    </script>
+  {%- endif -%}
+
+  {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
+  {% assign product_form_id = 'product-form-' | append: section.id %}
+
+  {% comment %} FORCE HIDE EMBEDDED HEADER - Using global header instead {% endcomment %}
+  {% if false %}
+  <!-- Announcement Bar with Integrated Countdown -->
+  <div class="announcement-bar">
+    <div class="announcement-track">
+      <span class="announcement-text">🌸 FREE SHIPPING on Orders $75+</span>
+      <span class="announcement-text">•</span>
+      <span class="announcement-text">30-Day Happy Cat Guarantee</span>
+      <span class="announcement-text">•</span>
+      <span class="announcement-text">🐾 Vet Approved Design</span>
+      <span class="announcement-text">•</span>
+      <span class="announcement-text">🌿 Eco-Friendly Materials</span>
+      <span class="announcement-text">•</span>
+      <!-- Repeat for seamless loop -->
+      <span class="announcement-text">🌸 FREE SHIPPING on Orders $75+</span>
+      <span class="announcement-text">•</span>
+      <span class="announcement-text">30-Day Happy Cat Guarantee</span>
+      <span class="announcement-text">•</span>
+      <span class="announcement-text">🐾 Vet Approved Design</span>
+      <span class="announcement-text">•</span>
+      <span class="announcement-text">🌿 Eco-Friendly Materials</span>
+      <span class="announcement-text">•</span>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if false %}
+  <!-- ELEVÉ Header -->
+  <header class="eleve-header">
+    <div class="eleve-header-content">
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" aria-label="Open menu" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <a href="/" class="eleve-text-logo eleve-text-logo-header">
+        <span class="logo-full">BLOOM & CLIMB</span>
+        <span class="logo-short">B&C</span>
+      </a>
+      
+      <nav class="eleve-nav" id="mobile-nav">
+        <button class="mobile-close-btn" onclick="toggleMobileMenu()">✕</button>
+        <a href="/collections/all" class="nav-link">Shop</a>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/pages/contact" class="nav-link">Contact</a>
+        <!-- Mobile-only items -->
+        <div class="mobile-nav-extras">
+          <a href="/account/login" class="nav-link mobile-only">Account</a>
+          <div class="mobile-locale">
+            <select class="mobile-locale-select" onchange="changeLocale(this)">
+              <option value="US">🇺🇸 USD</option>
+              <option value="CA">🇨🇦 CAD</option>
+              <option value="GB">🇬🇧 GBP</option>
+              <option value="EU">🇪🇺 EUR</option>
+              <option value="AU">🇦🇺 AUD</option>
+            </select>
+          </div>
+        </div>
+      </nav>
+      
+      <div class="header-right">
+        <!-- Working Currency Selector -->
+        <div class="locale-selector">
+          <form method="post" action="/localization" id="localization_form" accept-charset="UTF-8" enctype="multipart/form-data">
+            <input type="hidden" name="form_type" value="localization">
+            <input type="hidden" name="utf8" value="✓">
+            <input type="hidden" name="_method" value="put">
+            <input type="hidden" name="return_to" value="{{ request.path }}">
+            
+            <button class="locale-button compact" type="button" aria-label="Currency selector">
+              <span class="locale-text">{{ localization.country.currency.iso_code }}</span>
+              <span class="locale-arrow">▾</span>
+            </button>
+            
+            <div class="locale-dropdown compact">
+              <!-- Popular currencies -->
+              <div class="locale-group">
+                <span class="locale-label">Popular</span>
+                {%- assign popular_countries = 'US,GB,EU,CA' | split: ',' -%}
+                {%- for country in localization.available_countries -%}
+                  {%- if popular_countries contains country.iso_code -%}
+                    <button 
+                      type="submit" 
+                      name="country_code" 
+                      value="{{ country.iso_code }}"
+                      class="locale-option"
+                      {% if country.iso_code == localization.country.iso_code %}aria-current="true"{% endif %}
+                    >
+                      <span>{{ country.currency.iso_code }}</span>
+                      <span class="currency-name">{{ country.name }}</span>
+                    </button>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              
+              <!-- All other countries -->
+              <div class="locale-group">
+                <span class="locale-label">All regions</span>
+                {%- for country in localization.available_countries -%}
+                  {%- unless popular_countries contains country.iso_code -%}
+                    <button 
+                      type="submit" 
+                      name="country_code" 
+                      value="{{ country.iso_code }}"
+                      class="locale-option"
+                      {% if country.iso_code == localization.country.iso_code %}aria-current="true"{% endif %}
+                    >
+                      <span>{{ country.currency.iso_code }}</span>
+                      <span class="currency-name">{{ country.name }}</span>
+                    </button>
+                  {%- endunless -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="header-icons">
+          <a href="/account/login" class="header-icon" title="Account">👤</a>
+          <a href="/search" class="header-icon" title="Search">🔍</a>
+          <a href="/cart" class="header-icon" title="Cart">🛒</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% endif %}
+  
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" onclick="toggleMobileMenu()"></div>
+
+  <!-- Hero Section -->
+  <section class="hero-container section-{{ section.id }}-padding">
+    <!-- ELEVÉ Watermark -->
+    <div class="eleve-text-watermark" aria-hidden="true">ELEVÉ</div>
+    
+    <div class="hero-grid">
+      <!-- Product Image -->
+      <div class="product-hero-image" id="product-images-{{ section.id }}">
+        {%- if product != blank -%}
+          {%- assign current_variant = product.selected_or_first_available_variant -%}
+          
+          <!-- Main image display - Always show main product image first -->
+          <div class="main-image-container">
+            {%- if product.featured_image -%}
+              <img id="main-product-image-{{ section.id }}" 
+                   src="{{ product.featured_image | image_url: width: 1000 }}" 
+                   alt="{{ product.title | escape }}"
+                   loading="eager"
+                   width="1000"
+                   height="1000"
+                   data-main-image
+                   data-original-src="{{ product.featured_image | image_url: width: 1000 }}">
+            {%- elsif product.images.size > 0 -%}
+              <img id="main-product-image-{{ section.id }}" 
+                   src="{{ product.images.first | image_url: width: 1000 }}" 
+                   alt="{{ product.title | escape }}"
+                   loading="eager"
+                   width="1000"
+                   height="1000"
+                   data-main-image
+                   data-original-src="{{ product.images.first | image_url: width: 1000 }}">
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          
+          <!-- Thumbnail Carousel -->
+          {%- if product.images.size > 1 -%}
+            <div class="thumbnail-carousel">
+              <button class="carousel-arrow carousel-prev" aria-label="Previous image" onclick="scrollThumbnails(-1)">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M12 14L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+              
+              <div class="thumbnail-track" id="thumbnail-track-{{ section.id }}">
+                {%- for image in product.images -%}
+                  <button class="thumbnail-item {% if forloop.first %}active{% endif %}" 
+                          onclick="changeMainImage('{{ image | image_url: width: 1000 }}', this)"
+                          data-image-url="{{ image | image_url: width: 1000 }}"
+                          data-image-index="{{ forloop.index }}"
+                          aria-label="View image {{ forloop.index }}">
+                    <img src="{{ image | image_url: width: 150 }}" 
+                         alt="{{ image.alt | default: product.title | escape }}"
+                         loading="lazy">
+                    <span class="thumbnail-indicator"></span>
+                  </button>
+                {%- endfor -%}
+              </div>
+              
+              <button class="carousel-arrow carousel-next" aria-label="Next image" onclick="scrollThumbnails(1)">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M8 14L12 10L8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          {%- endif -%}
+          
+          <!-- Hidden images for all variants -->
+          <div class="variant-images-data" style="display: none;">
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_image -%}
+                <img data-variant-id="{{ variant.id }}"
+                     data-variant-title="{{ variant.title | escape }}"
+                     data-variant-image="{{ variant.featured_image | image_url: width: 1000 }}"
+                     data-thumbnail-url="{{ variant.featured_image | image_url: width: 150 }}"
+                     {%- for option in variant.options -%}
+                       data-option{{ forloop.index }}="{{ option | escape }}"
+                     {%- endfor -%}>
+              {%- endif -%}
+            {%- endfor -%}
+            
+            <!-- Default product images -->
+            {%- for image in product.images -%}
+              <img data-product-image="{{ forloop.index }}"
+                   data-image-url="{{ image | image_url: width: 1000 }}"
+                   data-thumbnail-url="{{ image | image_url: width: 150 }}"
+                   data-image-alt="{{ image.alt | escape }}">
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-hero-info">
+        <!-- Limited Badge -->
+        {%- if product.compare_at_price > product.price -%}
+          {%- assign discount_percentage = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+          <div class="limited-badge">
+            ☀️ SUMMER SALE: {{ discount_percentage }}% OFF
+          </div>
+        {%- endif -%}
+
+        <!-- Title -->
+        <h1 class="hero-title">
+          {%- if section.settings.custom_heading != blank -%}
+            {{ section.settings.custom_heading | newline_to_br }}
+          {%- elsif placeholder -%}
+            {{ 'onboarding.product_title' | t }}
+          {%- else -%}
+            {{ product.title | escape }}
+          {%- endif -%}
+        </h1>
+
+        <!-- Price -->
+        <div class="hero-price">
+          {%- unless placeholder -%}
+            {%- assign selected_variant = product.selected_or_first_available_variant -%}
+            <span class="price-current">{{ selected_variant.price | money }}</span>
+            {%- if selected_variant.compare_at_price > selected_variant.price -%}
+              <span class="price-original">{{ selected_variant.compare_at_price | money }}</span>
+              <span class="price-save">SAVE {{ selected_variant.compare_at_price | minus: selected_variant.price | money }}</span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="price-current">$44.99</span>
+            <span class="price-original">$89.99</span>
+            <span class="price-save">SAVE $45</span>
+          {%- endunless -%}
+        </div>
+
+        <!-- Review Stars -->
+        <div class="review-summary">
+          <span class="review-stars">⭐⭐⭐⭐⭐</span>
+          <span>4.9/5 (2,847 Reviews)</span>
+        </div>
+
+        <!-- Trust Bar -->
+        <div class="trust-bar">
+          <div class="trust-item">
+            <span class="trust-icon">🌿</span>
+            <span>Eco-Friendly</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">🐾</span>
+            <span>Vet Approved</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">🏠</span>
+            <span>Apartment Safe</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">🔒</span>
+            <span>Stable Base</span>
+          </div>
+        </div>
+
+        <!-- Variant Selectors -->
+        {%- unless product == blank or product.has_only_default_variant -%}
+          <div class="variant-selectors">
+            {%- for option in product.options_with_values -%}
+              <div class="variant-group">
+                <label>{{ option.name }}:</label>
+                {%- if option.name == 'Color' or option.name == 'Colour' or option.name == 'Flower Color' -%}
+                  <div class="color-selector">
+                    {%- for value in option.values -%}
+                      {%- comment -%}
+                        Map product codes and color names to actual colors
+                        AMT codes endings: BK=Black, GN=Green, PK=Pink, GY=Grey, BG=Beige, PP=Purple, YE=Yellow, WH=White, BL=Blue, etc.
+                      {%- endcomment -%}
+                      <button class="color-dot {% if forloop.first %}selected{% endif %}" 
+                              data-option="{{ option.name }}" 
+                              data-value="{{ value }}"
+                              style="background: {% assign last_two = value | slice: -2, 2 %}{% assign last_three = value | slice: -3, 3 %}{% if value == 'Blue Pink' %}linear-gradient(135deg, #87CEEB 50%, #FFB7C5 50%){% elsif last_two == 'BG' or last_three contains 'BG' %}#D2B48C{% elsif last_two == 'PP' or last_three contains 'PP' %}#9B7BB8{% elsif last_two == 'BK' or last_three contains 'BK' %}#000000{% elsif last_two == 'GN' or last_three contains 'GN' %}#7FB069{% elsif last_two == 'PK' or last_three contains 'PK' %}#FFB7C5{% elsif last_two == 'GY' or last_three contains 'GY' %}#808080{% elsif last_two == 'YE' or last_three contains 'YE' %}#FFD700{% elsif last_two == 'WH' or last_three contains 'WH' %}#FFFFFF{% elsif last_two == 'BL' or last_three contains 'BL' %}#87CEEB{% elsif last_two == 'BE' or last_three contains 'BE' %}#D2B48C{% elsif value contains 'Black180cm' or value contains 'Black' or value contains 'black' %}#000000{% elsif value contains 'Deep grey' or value contains 'Dark Gray' or value contains 'Dark Grey' or value contains 'dark gray' or value contains 'dark grey' %}#4A4A4A{% elsif value contains 'Light Gray' or value contains 'Light Grey' or value contains 'light gray' or value contains 'light grey' %}#C4A484{% elsif value contains 'Gray' or value contains 'Grey' or value contains 'gray' or value contains 'grey' %}#808080{% elsif value contains 'Beige' or value contains 'beige' or value contains 'Tan' or value contains 'tan' %}#D2B48C{% elsif value contains 'Cream' or value contains 'cream' %}#FFF8E7{% elsif value contains 'White' or value contains 'white' %}#FFFFFF{% elsif value contains 'Navy' or value contains 'navy' %}#001F3F{% elsif value contains 'Blue' or value contains 'blue' %}#87CEEB{% elsif value contains 'Red' or value contains 'red' %}#FF0000{% elsif value contains 'Green' or value contains 'green' %}#7FB069{% elsif value contains 'Yellow' or value contains 'yellow' %}#FFD700{% elsif value contains 'Pink' or value contains 'pink' %}#FFB7C5{% elsif value contains 'Purple' or value contains 'purple' %}#9B7BB8{% elsif value contains 'Orange' or value contains 'orange' %}#FFA500{% elsif value contains 'Brown' or value contains 'brown' %}#8B4513{% elsif value contains 'Khaki' or value contains 'khaki' %}#BDB76B{% elsif value contains 'Taupe' or value contains 'taupe' %}#B8A390{% else %}linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc){% endif %};" 
+                              aria-label="{{ value }}"
+                              title="{{ value }}"></button>
+                    {%- endfor -%}
+                  </div>
+                {%- else -%}
+                  <div class="variant-pills">
+                    {%- for value in option.values -%}
+                      <button class="size-pill {% if forloop.first %}selected{% endif %}" 
+                              data-option="{{ option.name }}" 
+                              data-value="{{ value }}">{{ value }}</button>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <!-- Default mockup variants for placeholder -->
+          <div class="variant-selectors">
+            <div class="variant-group">
+              <label>Size:</label>
+              <div class="variant-pills">
+                <button class="size-pill selected">M</button>
+                <button class="size-pill">L</button>
+                <button class="size-pill">XL</button>
+              </div>
+            </div>
+          </div>
+        {%- endunless -%}
+
+        <!-- Modern Bundle Section with Dynamic Real Pricing -->
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        {%- assign base_price = current_variant.price -%}
+        {%- assign original_price = current_variant.compare_at_price | default: current_variant.price -%}
+        
+        {%- comment -%} Calculate real bundle prices with discounts {%- endcomment -%}
+        {%- assign bundle1_price = base_price -%}
+        {%- assign bundle1_save = original_price | minus: base_price -%}
+        
+        {%- assign bundle2_price = base_price | times: 2 | times: 0.9 -%}
+        {%- assign bundle2_original = base_price | times: 2 -%}
+        {%- assign bundle2_save = bundle2_original | minus: bundle2_price -%}
+        
+        {%- assign bundle3_price = base_price | times: 3 | times: 0.85 -%}
+        {%- assign bundle3_original = base_price | times: 3 -%}
+        {%- assign bundle3_save = bundle3_original | minus: bundle3_price -%}
+        
+        <div class="bundle-modern bundle-ultra-thin">
+          <div class="bundle-header">
+            <span class="bundle-title">CREATE YOUR CAT GARDEN</span>
+            <span class="bundle-divider"></span>
+          </div>
+          
+          <div class="bundle-options">
+            <label class="bundle-option">
+              <input type="radio" name="bundle-qty" value="1" class="bundle-radio">
+              <div class="bundle-details">
+                <div class="bundle-label">Starter Garden</div>
+                {%- if bundle1_save > 0 -%}
+                  <div class="bundle-save">1 Tree + Toy Set</div>
+                {%- else -%}
+                  <div class="bundle-save">Perfect for 1-2 cats</div>
+                {%- endif -%}
+              </div>
+              <div class="bundle-pricing">
+                <div class="bundle-final">{{ bundle1_price | money }}</div>
+                {%- if original_price > base_price -%}
+                  <div class="bundle-compare">{{ original_price | money }}</div>
+                {%- endif -%}
+              </div>
+            </label>
+
+            <label class="bundle-option selected bundle-popular">
+              <input type="radio" name="bundle-qty" value="2" checked class="bundle-radio">
+              <div class="bundle-details">
+                <div class="bundle-label">Family Forest</div>
+                <div class="bundle-save">2 Trees + Bridge - Save {{ bundle2_save | money }}</div>
+              </div>
+              <div class="bundle-pricing">
+                <div class="bundle-final">{{ bundle2_price | money }}</div>
+                <div class="bundle-compare">{{ bundle2_original | money }}</div>
+              </div>
+            </label>
+
+            <label class="bundle-option">
+              <input type="radio" name="bundle-qty" value="3" class="bundle-radio">
+              <div class="bundle-details">
+                <div class="bundle-label">Palace Paradise</div>
+                <div class="bundle-save">3 Trees + Wall Garden - Save {{ bundle3_save | money }}</div>
+              </div>
+              <div class="bundle-pricing">
+                <div class="bundle-final">{{ bundle3_price | money }}</div>
+                <div class="bundle-compare">{{ bundle3_original | money }}</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- CTA Buttons with Real Shopify Checkout -->
+        {%- unless product == blank -%}
+          {%- assign product_form_id = 'product-form-' | append: section.id -%}
+          {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <!-- Hidden variant selector - Remove disabled attribute -->
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id>
+            
+            <!-- Quantity for bundles (default is 2 since that's selected) -->
+            <input type="hidden" name="quantity" value="2" id="quantity-input-{{ section.id }}">
+            
+            <div class="cta-container">
+              <!-- Real Add to Cart Button -->
+              <button type="submit" name="add" class="btn-primary ripple product-form__submit" 
+                      {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+                <span>
+                  {%- if product.selected_or_first_available_variant.available -%}
+                    ADD TO CART
+                  {%- else -%}
+                    SOLD OUT
+                  {%- endif -%}
+                </span>
+                <div class="loading-overlay__spinner hidden">
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div>
+              </button>
+              
+              <!-- Dynamic Checkout Buttons (Shop Pay, Apple Pay, etc.) -->
+              {%- if section.settings.show_dynamic_checkout != false and product.selected_or_first_available_variant.available -%}
+                {{ form | payment_button }}
+              {%- endif -%}
+            </div>
+          {%- endform -%}
+        {%- else -%}
+          <!-- Fallback for placeholder -->
+          <div class="cta-container">
+            <button class="btn-primary ripple" disabled>
+              ADD TO CART
+            </button>
+            <button class="btn-secondary" disabled>
+              Buy with ShopPay
+            </button>
+          </div>
+        {%- endunless -%}
+
+        <!-- Stock Alert -->
+        {%- assign selected_variant = product.selected_or_first_available_variant -%}
+        {%- if selected_variant.inventory_management == 'shopify' and selected_variant.inventory_quantity > 0 and selected_variant.inventory_quantity <= 50 -%}
+          <div class="stock-alert">
+            ☀️ Limited Summer Collection - Only {{ selected_variant.inventory_quantity }} left!
+          </div>
+        {%- elsif selected_variant.available == false -%}
+          <div class="stock-alert">
+            ❌ Currently Out of Stock
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Bar -->
+  <div class="social-proof-bar">
+    <div class="social-proof-content">
+      <div class="social-stat">
+        <span class="stat-icon">🐱</span>
+        <span class="stat-number">234</span> happy cats playing
+      </div>
+      <div class="social-stat">
+        <span class="stat-icon">🌸</span>
+        <span class="stat-number">89</span> sold today
+      </div>
+      <div class="social-stat">
+        <span class="stat-icon">⭐</span>
+        <span class="stat-number">4.9/5</span> (2,847 reviews)
+      </div>
+    </div>
+  </div>
+
+  <!-- Value Props - Bento Grid -->
+  <section class="value-props">
+    <div class="value-props-container">
+      <h2 class="value-props-title">Where Nature Meets Play</h2>
+      
+      <div class="bento-grid">
+        <div class="bento-card">
+          <div class="bento-icon">🌿</div>
+          <div class="bento-title">Sisal Wrapped</div>
+          <div class="bento-desc">Every branch wrapped in natural sisal for endless scratching</div>
+        </div>
+        
+        <div class="bento-card">
+          <div class="bento-icon">🌸</div>
+          <div class="bento-title">Washable Flowers</div>
+          <div class="bento-desc">Machine washable flower attachments stay fresh and clean</div>
+        </div>
+        
+        <div class="bento-card">
+          <div class="bento-icon">🏛</div>
+          <div class="bento-title">Real Wood Base</div>
+          <div class="bento-desc">Solid oak construction ensures years of stability</div>
+        </div>
+        
+        <div class="bento-card">
+          <div class="bento-icon">🏠</div>
+          <div class="bento-title">Modular Design</div>
+          <div class="bento-desc">Add extensions and bridges as your cat family grows</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Before & After Transformation -->
+  <section class="before-after-section">
+    <div class="before-after-container">
+      <div class="before-after-header">
+        <h2 class="before-after-title">The Transformation Your Home Deserves</h2>
+        <p class="before-after-subtitle">From empty corner to cat paradise in minutes</p>
+      </div>
+      
+      <div class="before-after-wrapper">
+        <div class="before-panel">
+          <div class="panel-label">BEFORE</div>
+          <div class="image-container">
+            <img src="{{ 'cat-tree-before.jpg' | asset_url }}" alt="Room before cat tree" loading="lazy">
+          </div>
+          <div class="panel-caption">
+            <h3>😔 Just Another Corner</h3>
+            <ul>
+              <li>Unused space</li>
+              <li>Bored cats</li>
+              <li>No vertical territory</li>
+              <li>Missing personality</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="vs-divider">
+          <span class="vs-text">VS</span>
+          <div class="magic-sparkles">✨</div>
+        </div>
+        
+        <div class="after-panel">
+          <div class="panel-label winner">AFTER</div>
+          <div class="image-container">
+            <img src="{{ 'cat-tree-after.jpg' | asset_url }}" alt="Room with cat enjoying flower tree" loading="lazy">
+          </div>
+          <div class="panel-caption">
+            <h3>😻 Living Art & Happy Cat</h3>
+            <ul>
+              <li>Beautiful focal point</li>
+              <li>Engaged, active cat</li>
+              <li>Multi-level playground</li>
+              <li>Instagram-worthy space</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="transformation-cta">
+        <p class="urgency-text">🌸 Join 2,847+ cat parents who've transformed their homes</p>
+        <a href="#product-hero" class="transformation-button">Start Your Transformation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cat Life Video Triptych -->
+  {%- if section.settings.show_video_section -%}
+    <section class="video-triptych-section">
+      <div class="video-triptych-container">
+        <div class="video-header">
+          <h2 class="video-main-title">✨ Watch Them Thrive ✨</h2>
+          <p class="video-subtitle">Every branch tells a story of happiness</p>
+        </div>
+        
+        <div class="video-grid">
+          <!-- Video 1: Morning Zoomies -->
+          <div class="video-card">
+            <div class="video-frame">
+              {%- if section.settings.video1_shopify_url != blank -%}
+                <video autoplay muted loop playsinline class="cat-video">
+                  <source src="{{ section.settings.video1_shopify_url }}" type="video/mp4">
+                </video>
+              {%- elsif section.settings.video1_url != blank -%}
+                {%- if section.settings.video1_url contains 'youtube.com' or section.settings.video1_url contains 'youtu.be' -%}
+                  {%- assign video1_id = section.settings.video1_url | split: 'v=' | last | split: '&' | first | split: '/' | last -%}
+                  <iframe src="https://www.youtube.com/embed/{{ video1_id }}?autoplay=1&mute=1&loop=1&playlist={{ video1_id }}" frameborder="0" allowfullscreen class="cat-video"></iframe>
+                {%- else -%}
+                  <video autoplay muted loop playsinline class="cat-video">
+                    <source src="{{ section.settings.video1_url }}" type="video/mp4">
+                  </video>
+                {%- endif -%}
+              {%- else -%}
+                <div class="video-placeholder">
+                  <span class="placeholder-icon">🎬</span>
+                  <span>Video 1</span>
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="video-caption">
+              <h3 class="video-title">{{ section.settings.video1_title | default: 'Morning Zoomies' }}</h3>
+              <span class="video-emoji">🌅</span>
+              <span class="video-mood">Active</span>
+            </div>
+          </div>
+
+          <!-- Video 2: Afternoon Bliss -->
+          <div class="video-card">
+            <div class="video-frame">
+              {%- if section.settings.video2_shopify_url != blank -%}
+                <video autoplay muted loop playsinline class="cat-video">
+                  <source src="{{ section.settings.video2_shopify_url }}" type="video/mp4">
+                </video>
+              {%- elsif section.settings.video2_url != blank -%}
+                {%- if section.settings.video2_url contains 'youtube.com' or section.settings.video2_url contains 'youtu.be' -%}
+                  {%- assign video2_id = section.settings.video2_url | split: 'v=' | last | split: '&' | first | split: '/' | last -%}
+                  <iframe src="https://www.youtube.com/embed/{{ video2_id }}?autoplay=1&mute=1&loop=1&playlist={{ video2_id }}" frameborder="0" allowfullscreen class="cat-video"></iframe>
+                {%- else -%}
+                  <video autoplay muted loop playsinline class="cat-video">
+                    <source src="{{ section.settings.video2_url }}" type="video/mp4">
+                  </video>
+                {%- endif -%}
+              {%- else -%}
+                <div class="video-placeholder">
+                  <span class="placeholder-icon">🎬</span>
+                  <span>Video 2</span>
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="video-caption">
+              <h3 class="video-title">{{ section.settings.video2_title | default: 'Afternoon Bliss' }}</h3>
+              <span class="video-emoji">😴</span>
+              <span class="video-mood">Relaxed</span>
+            </div>
+          </div>
+
+          <!-- Video 3: Evening Perch -->
+          <div class="video-card">
+            <div class="video-frame">
+              {%- if section.settings.video3_shopify_url != blank -%}
+                <video autoplay muted loop playsinline class="cat-video">
+                  <source src="{{ section.settings.video3_shopify_url }}" type="video/mp4">
+                </video>
+              {%- elsif section.settings.video3_url != blank -%}
+                {%- if section.settings.video3_url contains 'youtube.com' or section.settings.video3_url contains 'youtu.be' -%}
+                  {%- assign video3_id = section.settings.video3_url | split: 'v=' | last | split: '&' | first | split: '/' | last -%}
+                  <iframe src="https://www.youtube.com/embed/{{ video3_id }}?autoplay=1&mute=1&loop=1&playlist={{ video3_id }}" frameborder="0" allowfullscreen class="cat-video"></iframe>
+                {%- else -%}
+                  <video autoplay muted loop playsinline class="cat-video">
+                    <source src="{{ section.settings.video3_url }}" type="video/mp4">
+                  </video>
+                {%- endif -%}
+              {%- else -%}
+                <div class="video-placeholder">
+                  <span class="placeholder-icon">🎬</span>
+                  <span>Video 3</span>
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="video-caption">
+              <h3 class="video-title">{{ section.settings.video3_title | default: 'Evening Perch' }}</h3>
+              <span class="video-emoji">👑</span>
+              <span class="video-mood">Regal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  <!-- Instagram Reels Showcase -->
+  {%- if section.settings.show_instagram_section -%}
+    <section class="instagram-reels-section">
+      <div class="instagram-container">
+        <!-- Header with Instagram styling -->
+        <div class="instagram-header">
+          <div class="instagram-profile">
+            <div class="profile-avatar">
+              <img src="{{ 'eleve-logo.png' | asset_url }}" alt="Bloom & Climb">
+            </div>
+            <div class="profile-info">
+              <h3 class="profile-name">@bloomandclimb</h3>
+              <p class="profile-followers">
+                <span class="new-badge">NEW</span>
+                <span class="founder-text">Join our first 100 founders</span>
+              </p>
+            </div>
+            <button class="follow-btn pulse">Follow & Save 20%</button>
+          </div>
+          <h2 class="instagram-title">Our Cats in Action 🎬</h2>
+          <p class="instagram-subtitle">Real videos from real customers!</p>
+          <div class="submission-cta">
+            <span class="cta-icon">📹</span>
+            <span class="cta-text">Love your tree? Show us! Tag #BloomAndClimbCats for 15% OFF next purchase</span>
+          </div>
+        </div>
+
+        <!-- Reels Grid -->
+        <div class="reels-container">
+          <!-- Reel 1 -->
+          <div class="reel-wrapper">
+            <div class="phone-mockup">
+              <div class="phone-screen">
+                {%- if section.settings.reel1_shopify_url != blank -%}
+                  <video autoplay muted loop playsinline class="reel-video">
+                    <source src="{{ section.settings.reel1_shopify_url }}" type="video/mp4">
+                  </video>
+                {%- elsif section.settings.reel1_url != blank -%}
+                  <video autoplay muted loop playsinline class="reel-video">
+                    <source src="{{ section.settings.reel1_url }}" type="video/mp4">
+                  </video>
+                {%- else -%}
+                  <div class="reel-placeholder">
+                    <span class="placeholder-icon">📹</span>
+                    <span>Reel 1</span>
+                  </div>
+                {%- endif -%}
+                
+                <!-- Instagram UI Overlay -->
+                <div class="instagram-overlay">
+                  <div class="reel-sidebar">
+                    <div class="action-btn">
+                      <span class="heart-icon">🤍</span>
+                      <span class="action-count">{{ section.settings.reel1_likes | default: '127' }}</span>
+                    </div>
+                    <div class="action-btn">
+                      <span class="comment-icon">💬</span>
+                      <span class="action-count">847</span>
+                    </div>
+                    <div class="action-btn">
+                      <span class="share-icon">➤</span>
+                    </div>
+                  </div>
+                  
+                  <div class="reel-bottom">
+                    <p class="reel-caption">{{ section.settings.reel1_caption | default: '"Best purchase ever! My cats love it" - Sarah M. (Verified Buyer)' }}</p>
+                    <div class="audio-label">📍 Purchased 2 weeks ago • Saved 15% on next order</div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-notch"></div>
+            </div>
+          </div>
+
+          <!-- Reel 2 -->
+          <div class="reel-wrapper">
+            <div class="phone-mockup">
+              <div class="phone-screen">
+                {%- if section.settings.reel2_shopify_url != blank -%}
+                  <video autoplay muted loop playsinline class="reel-video">
+                    <source src="{{ section.settings.reel2_shopify_url }}" type="video/mp4">
+                  </video>
+                {%- elsif section.settings.reel2_url != blank -%}
+                  <video autoplay muted loop playsinline class="reel-video">
+                    <source src="{{ section.settings.reel2_url }}" type="video/mp4">
+                  </video>
+                {%- else -%}
+                  <div class="reel-placeholder">
+                    <span class="placeholder-icon">📹</span>
+                    <span>Reel 2</span>
+                  </div>
+                {%- endif -%}
+                
+                <div class="instagram-overlay">
+                  <div class="reel-sidebar">
+                    <div class="action-btn liked">
+                      <span class="heart-icon">❤️</span>
+                      <span class="action-count">{{ section.settings.reel2_likes | default: '89' }}</span>
+                    </div>
+                    <div class="action-btn">
+                      <span class="comment-icon">💬</span>
+                      <span class="action-count">523</span>
+                    </div>
+                    <div class="action-btn">
+                      <span class="share-icon">➤</span>
+                    </div>
+                  </div>
+                  
+                  <div class="reel-bottom">
+                    <p class="reel-caption">{{ section.settings.reel2_caption | default: '"3 cats, 1 tree, endless fun!" - Mike R. (Verified Buyer)' }}</p>
+                    <div class="audio-label">📍 Purchased last month • Tagged us for discount</div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-notch"></div>
+            </div>
+          </div>
+
+          <!-- Reel 3 -->
+          <div class="reel-wrapper">
+            <div class="phone-mockup">
+              <div class="phone-screen">
+                {%- if section.settings.reel3_shopify_url != blank -%}
+                  <video autoplay muted loop playsinline class="reel-video">
+                    <source src="{{ section.settings.reel3_shopify_url }}" type="video/mp4">
+                  </video>
+                {%- elsif section.settings.reel3_url != blank -%}
+                  <video autoplay muted loop playsinline class="reel-video">
+                    <source src="{{ section.settings.reel3_url }}" type="video/mp4">
+                  </video>
+                {%- else -%}
+                  <div class="reel-placeholder">
+                    <span class="placeholder-icon">📹</span>
+                    <span>Reel 3</span>
+                  </div>
+                {%- endif -%}
+                
+                <div class="instagram-overlay">
+                  <div class="reel-sidebar">
+                    <div class="action-btn">
+                      <span class="heart-icon">🤍</span>
+                      <span class="action-count">{{ section.settings.reel3_likes | default: '213' }}</span>
+                    </div>
+                    <div class="action-btn">
+                      <span class="comment-icon">💬</span>
+                      <span class="action-count">1.2K</span>
+                    </div>
+                    <div class="action-btn">
+                      <span class="share-icon">➤</span>
+                    </div>
+                  </div>
+                  
+                  <div class="reel-bottom">
+                    <p class="reel-caption">{{ section.settings.reel3_caption | default: '"Finally, furniture that looks good!" - Emma L. (Verified Buyer)' }}</p>
+                    <div class="audio-label">📍 Got your tree? Tag #BloomAndClimbCats for 15% OFF</div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-notch"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Hearts Animation -->
+        <div class="floating-hearts"></div>
+      </div>
+    </section>
+  {%- endif -%}
+
+
+  <!-- Reviews Section -->
+  <section class="reviews-section">
+    <div class="reviews-container">
+      <div class="reviews-header">
+        <h2 class="reviews-title">Paw-some Reviews from Cat Parents</h2>
+        <div class="reviews-stats">
+          <div class="review-stars">
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+          </div>
+          <span>4.9 out of 5 (2,847 reviews)</span>
+        </div>
+      </div>
+
+      <div class="reviews-masonry">
+        <div class="review-card featured">
+          <div class="review-rating">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">"Finally, cat furniture I'm proud to show off! My cats LOVE the flowers and spend hours climbing. It's become the centerpiece of my living room."</p>
+          <div class="review-author">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+              <div class="author-name">Sarah M.</div>
+              <div class="author-verified">✓ Verified Buyer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-rating">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">"Sturdy, beautiful, and my 3 cats are obsessed! Worth every penny."</p>
+          <div class="review-author">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+              <div class="author-name">James T.</div>
+              <div class="author-verified">✓ Verified Buyer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-rating">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">"Assembly was super easy and the flowers are machine washable!"</p>
+          <div class="review-author">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+              <div class="author-name">Mike R.</div>
+              <div class="author-verified">✓ Verified Buyer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-rating">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">"My cat hasn't left the top perch since we set it up. She's in heaven!"</p>
+          <div class="review-author">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+              <div class="author-name">Emma L.</div>
+              <div class="author-verified">✓ Verified Buyer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-rating">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">"Goodbye ugly carpet tower! This is art that my cats actually use. The sisal scratching posts saved my furniture. Best cat investment ever!"</p>
+          <div class="review-author">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+              <div class="author-name">David K.</div>
+              <div class="author-verified">✓ Verified Buyer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="faq-container">
+      <h2 class="faq-title">Common Questions About Your Future Cat Tree</h2>
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">
+            How difficult is assembly?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Assembly takes about 15 minutes with our clear instructions. All tools are included, and each piece is labeled. Most customers say it's easier than IKEA furniture!
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            What if my cat doesn't use it?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              We offer a 30-day Happy Cat Guarantee! If your cat doesn't love it, return it for a full refund. Pro tip: Sprinkle catnip on the flowers to encourage exploration.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I buy replacement flowers?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Yes! We sell flower sets separately in all colors. They're machine washable and designed to last years, but accidents happen and we've got you covered.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Is it stable for large cats?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Absolutely! The solid oak base weighs 25 lbs and has a wide stance. It's tested for cats up to 30 lbs and can support multiple cats at once.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Bottom CTA -->
+  <div class="sticky-cta" id="sticky-cta">
+    <div class="sticky-cta-content">
+      <div class="sticky-product-info">
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 100 }}" 
+               alt="{{ product.title }}"
+               class="sticky-product-image">
+        {%- endif -%}
+        <div class="sticky-product-details">
+          <div class="sticky-product-name">{{ product.title | escape }}</div>
+          <div class="sticky-product-price">{{ product.price | money }}</div>
+        </div>
+      </div>
+      
+      <div class="sticky-stock">
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        {%- if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 30 -%}
+          ⚡ Only {{ current_variant.inventory_quantity }} left
+        {%- elsif current_variant.available -%}
+          ✅ In Stock
+        {%- else -%}
+          ❌ Out of Stock
+        {%- endif -%}
+      </div>
+      
+      <div class="sticky-actions">
+        {%- if product.has_only_default_variant == false -%}
+          <select class="sticky-select" onchange="updateStickyVariant(this)">
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %}>
+                {{ variant.title }}
+              </option>
+            {%- endfor -%}
+          </select>
+        {%- endif -%}
+        <button class="btn-primary" onclick="addStickyToCart()">
+          Add to Cart
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            - Save {{ current_variant.compare_at_price | minus: current_variant.price | money }}
+          {%- endif -%}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for Interactions -->
+  <script>
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const nav = document.getElementById('mobile-nav');
+      const overlay = document.getElementById('mobile-overlay');
+      const menuBtn = document.querySelector('.mobile-menu-btn');
+      
+      nav.classList.toggle('active');
+      overlay.classList.toggle('active');
+      menuBtn.classList.toggle('active');
+    }
+    
+    // Locale Change Handler
+    function changeLocale(select) {
+      console.log('Changing locale to:', select.value);
+    }
+    
+    // Image Carousel Functions
+    function changeMainImage(imageUrl, thumbnailElement) {
+      const mainImage = document.getElementById('main-product-image-{{ section.id }}');
+      if (mainImage) {
+        // Fade transition
+        mainImage.style.opacity = '0.7';
+        setTimeout(() => {
+          mainImage.src = imageUrl;
+          mainImage.style.opacity = '1';
+        }, 150);
+        
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail-item').forEach(thumb => {
+          thumb.classList.remove('active');
+        });
+        if (thumbnailElement) {
+          thumbnailElement.classList.add('active');
+        }
+      }
+    }
+    
+    function scrollThumbnails(direction) {
+      const track = document.getElementById('thumbnail-track-{{ section.id }}');
+      if (track) {
+        const scrollAmount = 100;
+        track.scrollBy({
+          left: scrollAmount * direction,
+          behavior: 'smooth'
+        });
+      }
+    }
+    
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const mainImageContainer = document.querySelector('.main-image-container');
+      const thumbnails = document.querySelectorAll('.thumbnail-item');
+      
+      if (mainImageContainer && thumbnails.length > 1) {
+        // Add touch listeners for swipe
+        mainImageContainer.addEventListener('touchstart', function(e) {
+          touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        mainImageContainer.addEventListener('touchend', function(e) {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        });
+        
+        function handleSwipe() {
+          const swipeThreshold = 50;
+          const diff = touchStartX - touchEndX;
+          
+          if (Math.abs(diff) > swipeThreshold) {
+            const currentActive = document.querySelector('.thumbnail-item.active');
+            const currentIndex = parseInt(currentActive.dataset.imageIndex);
+            let newIndex;
+            
+            if (diff > 0) {
+              // Swipe left - next image
+              newIndex = currentIndex < thumbnails.length ? currentIndex + 1 : 1;
+            } else {
+              // Swipe right - previous image
+              newIndex = currentIndex > 1 ? currentIndex - 1 : thumbnails.length;
+            }
+            
+            const newThumbnail = document.querySelector(`.thumbnail-item[data-image-index="${newIndex}"]`);
+            if (newThumbnail) {
+              newThumbnail.click();
+            }
+          }
+        }
+        
+        // Add zoom on hover for desktop
+        if (window.innerWidth > 768) {
+          mainImageContainer.addEventListener('mousemove', function(e) {
+            const img = e.currentTarget.querySelector('img');
+            if (img) {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = ((e.clientX - rect.left) / rect.width) * 100;
+              const y = ((e.clientY - rect.top) / rect.height) * 100;
+              img.style.transformOrigin = `${x}% ${y}%`;
+            }
+          });
+          
+          mainImageContainer.addEventListener('mouseenter', function(e) {
+            const img = e.currentTarget.querySelector('img');
+            if (img) {
+              img.style.transform = 'scale(1.5)';
+              img.style.cursor = 'zoom-in';
+            }
+          });
+          
+          mainImageContainer.addEventListener('mouseleave', function(e) {
+            const img = e.currentTarget.querySelector('img');
+            if (img) {
+              img.style.transform = 'scale(1)';
+            }
+          });
+        }
+      }
+    });
+    
+    // Store product variants data for price updates
+    window.productVariants = [
+      {%- for variant in product.variants -%}
+        {
+          id: {{ variant.id }},
+          price: {{ variant.price }},
+          compare_at_price: {{ variant.compare_at_price | default: 'null' }},
+          available: {{ variant.available }},
+          options: [
+            {%- for option in variant.options -%}
+              "{{ option | escape }}"{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ];
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Bundle selection handling
+      const bundleRadios = document.querySelectorAll('.bundle-radio');
+      const bundleOptions = document.querySelectorAll('.bundle-option');
+      
+      bundleRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          // Remove selected class from all
+          bundleOptions.forEach(opt => opt.classList.remove('selected'));
+          
+          // Add selected to current
+          const parentOption = this.closest('.bundle-option');
+          if (parentOption) {
+            parentOption.classList.add('selected');
+          }
+          
+          // Update quantity input
+          const qtyInput = document.getElementById('quantity-input-{{ section.id }}');
+          if (qtyInput) {
+            qtyInput.value = this.value;
+          }
+        });
+      });
+      
+      // FAQ Accordion
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+
+      // Sticky CTA visibility
+      const stickyCTA = document.getElementById('sticky-cta');
+      const heroSection = document.querySelector('.hero-container');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            stickyCTA.classList.remove('visible');
+          } else {
+            stickyCTA.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      if (heroSection) observer.observe(heroSection);
+
+      // Story animations on scroll
+      const storyChapters = document.querySelectorAll('.story-chapter');
+      const storyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, { threshold: 0.2 });
+      
+      storyChapters.forEach(chapter => storyObserver.observe(chapter));
+
+      // Size pill selection
+      const sizePills = document.querySelectorAll('.size-pill');
+      sizePills.forEach(pill => {
+        pill.addEventListener('click', function() {
+          // Find all pills in the same variant group
+          const variantGroup = this.closest('.variant-group');
+          if (variantGroup) {
+            const groupPills = variantGroup.querySelectorAll('.size-pill');
+            groupPills.forEach(p => p.classList.remove('selected'));
+          } else {
+            sizePills.forEach(p => p.classList.remove('selected'));
+          }
+          
+          this.classList.add('selected');
+          
+          // Trigger image update based on current selections
+          updateProductImage();
+          
+          // Find matching variant and update price
+          findAndUpdateVariant();
+        });
+      });
+      
+      // Function to find the matching variant based on all selected options
+      function findAndUpdateVariant() {
+        const selectedOptions = [];
+        
+        // Get all selected options in order - need to ensure we get ALL variant groups
+        const variantGroups = document.querySelectorAll('.variant-group');
+        console.log('Found variant groups:', variantGroups.length);
+        
+        variantGroups.forEach((group, index) => {
+          const selected = group.querySelector('.size-pill.selected, .color-dot.selected');
+          if (selected) {
+            const value = selected.getAttribute('data-value');
+            selectedOptions.push(value);
+            console.log(`Option ${index}: ${value}`);
+          }
+        });
+        
+        console.log('Selected options array:', selectedOptions);
+        console.log('Available variants:', window.productVariants);
+        
+        // Find matching variant - must match ALL options exactly
+        if (window.productVariants && selectedOptions.length === variantGroups.length) {
+          const matchingVariant = window.productVariants.find(variant => {
+            // Check if this variant matches all selected options
+            const matches = variant.options.length === selectedOptions.length &&
+                          variant.options.every((option, index) => {
+                            const match = option === selectedOptions[index];
+                            if (!match) {
+                              console.log(`Variant ${variant.id} option ${index} mismatch: "${option}" !== "${selectedOptions[index]}"`);
+                            }
+                            return match;
+                          });
+            if (matches) {
+              console.log('Found exact match:', variant);
+            }
+            return matches;
+          });
+          
+          if (matchingVariant) {
+            console.log('Updating price for variant:', matchingVariant);
+            updateVariantPrice(matchingVariant);
+            
+            // Update hidden variant input
+            const variantInput = document.querySelector('input[data-variant-id]');
+            const idInput = document.querySelector('input[name="id"]');
+            if (variantInput) {
+              variantInput.value = matchingVariant.id;
+              console.log('Updated variant input to:', matchingVariant.id);
+            }
+            // Also update the form's id input
+            if (idInput) {
+              idInput.value = matchingVariant.id;
+              console.log('Updated form id input to:', matchingVariant.id);
+            }
+            
+            // Update add to cart button availability
+            const addToCartBtn = document.querySelector('.product-form__submit');
+            if (addToCartBtn) {
+              if (matchingVariant.available) {
+                addToCartBtn.disabled = false;
+                const btnText = addToCartBtn.querySelector('span');
+                if (btnText) btnText.textContent = 'ADD TO CART';
+              } else {
+                addToCartBtn.disabled = true;
+                const btnText = addToCartBtn.querySelector('span');
+                if (btnText) btnText.textContent = 'SOLD OUT';
+              }
+            }
+          } else {
+            console.log('No matching variant found for options:', selectedOptions);
+          }
+        } else {
+          console.log('Not all options selected. Selected:', selectedOptions.length, 'Groups:', variantGroups.length);
+        }
+      }
+      
+      // Function to update variant price
+      function updateVariantPrice(variant) {
+        if (!variant) {
+          console.log('No variant provided to updateVariantPrice');
+          return;
+        }
+        
+        console.log('Updating price display for variant:', variant);
+        
+        // Try multiple selectors for price container
+        let priceContainer = document.querySelector('.price-container');
+        if (!priceContainer) {
+          // Try to find price elements in the product info section
+          const productInfo = document.querySelector('.product-hero-info');
+          if (productInfo) {
+            priceContainer = productInfo.querySelector('div');
+          }
+        }
+        
+        // Update current price - search more broadly
+        let currentPrice = document.querySelector('.price-current');
+        if (!currentPrice) {
+          // Try alternative selectors
+          currentPrice = document.querySelector('[class*="price-current"]');
+        }
+        if (!currentPrice) {
+          // Look for any element with price in class that contains a dollar sign
+          const allPriceElements = document.querySelectorAll('[class*="price"]');
+          for (let elem of allPriceElements) {
+            if (elem.textContent.includes('$')) {
+              currentPrice = elem;
+              break;
+            }
+          }
+        }
+        
+        if (currentPrice) {
+          const newPrice = formatMoney(variant.price);
+          console.log('Updating current price to:', newPrice);
+          currentPrice.textContent = newPrice;
+        } else {
+          console.log('Current price element not found - unable to update price display');
+        }
+        
+        // Update compare price if exists
+        let originalPrice = document.querySelector('.price-original');
+        if (!originalPrice) {
+          originalPrice = document.querySelector('[class*="price-original"], [class*="compare"]');
+        }
+        
+        let saveAmount = document.querySelector('.price-save');
+        if (!saveAmount) {
+          saveAmount = document.querySelector('[class*="price-save"], [class*="savings"]');
+        }
+        
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          if (originalPrice) {
+            originalPrice.textContent = formatMoney(variant.compare_at_price);
+            originalPrice.style.display = 'inline-block';
+          }
+          if (saveAmount) {
+            const savings = variant.compare_at_price - variant.price;
+            saveAmount.textContent = 'SAVE ' + formatMoney(savings);
+            saveAmount.style.display = 'inline-block';
+          }
+        } else {
+          if (originalPrice) originalPrice.style.display = 'none';
+          if (saveAmount) saveAmount.style.display = 'none';
+        }
+        
+        // Update bundle prices based on new variant price
+        updateBundlePrices(variant.price, variant.compare_at_price || variant.price);
+      }
+      
+      // Function to update bundle prices
+      function updateBundlePrices(basePrice, originalPrice) {
+        // Bundle 1 (no discount)
+        const bundle1Final = document.querySelector('.bundle-option:nth-child(1) .bundle-final');
+        if (bundle1Final) {
+          bundle1Final.textContent = formatMoney(basePrice);
+        }
+        
+        // Bundle 2 (10% off)
+        const bundle2Price = basePrice * 2 * 0.9;
+        const bundle2Final = document.querySelector('.bundle-option:nth-child(2) .bundle-final');
+        const bundle2Compare = document.querySelector('.bundle-option:nth-child(2) .bundle-compare');
+        const bundle2Save = document.querySelector('.bundle-option:nth-child(2) .bundle-save');
+        
+        if (bundle2Final) bundle2Final.textContent = formatMoney(bundle2Price);
+        if (bundle2Compare) bundle2Compare.textContent = formatMoney(basePrice * 2);
+        if (bundle2Save) bundle2Save.textContent = 'Save ' + formatMoney(basePrice * 2 - bundle2Price);
+        
+        // Bundle 3 (15% off)
+        const bundle3Price = basePrice * 3 * 0.85;
+        const bundle3Final = document.querySelector('.bundle-option:nth-child(3) .bundle-final');
+        const bundle3Compare = document.querySelector('.bundle-option:nth-child(3) .bundle-compare');
+        const bundle3Save = document.querySelector('.bundle-option:nth-child(3) .bundle-save');
+        
+        if (bundle3Final) bundle3Final.textContent = formatMoney(bundle3Price);
+        if (bundle3Compare) bundle3Compare.textContent = formatMoney(basePrice * 3);
+        if (bundle3Save) bundle3Save.textContent = 'Save ' + formatMoney(basePrice * 3 - bundle3Price);
+      }
+      
+      // Money formatting function
+      function formatMoney(cents) {
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2
+        });
+        return formatter.format(cents / 100);
+      }
+      
+      // Track if user has interacted with color selector
+      let userHasSelectedColor = false;
+      
+      // Function to update product image and variant based on all selected options
+      function updateProductImage(forceUpdate = false) {
+        // Only update image if user has clicked a color or forced
+        if (!userHasSelectedColor && !forceUpdate) {
+          return;
+        }
+        
+        const mainImage = document.getElementById('main-product-image-{{ section.id }}');
+        const variantImages = document.querySelectorAll('.variant-images-data img[data-variant-id]');
+        const variantInput = document.querySelector('input[data-variant-id]');
+        const productImages = document.querySelectorAll('.variant-images-data img[data-product-image]');
+        
+        console.log('Updating product image...');
+        console.log('Main image:', mainImage);
+        console.log('Variant images found:', variantImages.length);
+        console.log('Product images found:', productImages.length);
+        
+        // Get all selected options
+        const selectedOptions = {};
+        document.querySelectorAll('.size-pill.selected, .color-dot.selected').forEach(selected => {
+          const optionName = selected.getAttribute('data-option');
+          const optionValue = selected.getAttribute('data-value');
+          if (optionName && optionValue) {
+            selectedOptions[optionName] = optionValue;
+          }
+        });
+        
+        console.log('Selected options:', selectedOptions);
+        
+        // Try to find exact variant match first
+        if (variantImages.length > 0) {
+          let exactMatch = null;
+          let bestMatch = null;
+          let bestMatchCount = 0;
+          
+          variantImages.forEach(img => {
+            let matchCount = 0;
+            let isExactMatch = true;
+            
+            // Check all options
+            Object.keys(selectedOptions).forEach((key, index) => {
+              const variantOption = img.getAttribute('data-option' + (index + 1));
+              if (variantOption === selectedOptions[key]) {
+                matchCount++;
+              } else if (variantOption) {
+                isExactMatch = false;
+              }
+            });
+            
+            if (isExactMatch && matchCount === Object.keys(selectedOptions).length) {
+              exactMatch = img;
+            } else if (matchCount > bestMatchCount) {
+              bestMatchCount = matchCount;
+              bestMatch = img;
+            }
+          });
+          
+          const matchToUse = exactMatch || bestMatch;
+          
+          if (matchToUse && mainImage) {
+            const newImageUrl = matchToUse.getAttribute('data-variant-image');
+            const variantId = matchToUse.getAttribute('data-variant-id');
+            
+            console.log('Updating to variant image:', newImageUrl);
+            mainImage.src = newImageUrl;
+            
+            // Update variant input for checkout
+            if (variantId && variantInput) {
+              variantInput.value = variantId;
+              
+              // Find and update price for this variant
+              const variantData = window.productVariants && window.productVariants.find(v => v.id == variantId);
+              if (variantData) {
+                updateVariantPrice(variantData);
+              }
+            }
+            return; // Exit if we found a variant match
+          }
+        }
+        
+        // Fallback: Use product images based on color selection
+        if (productImages.length > 0 && mainImage) {
+          const colorValue = selectedOptions['Color'] || selectedOptions['Flower Color'] || '';
+          console.log('Using color-based fallback for:', colorValue);
+          
+          let targetIndex = 0;
+          
+          // Map specific color values to image indices
+          if (colorValue.toLowerCase().includes('blue') && colorValue.toLowerCase().includes('pink')) {
+            // Blue Pink combo - use a specific image
+            targetIndex = Math.min(3, productImages.length - 1);
+          } else if (colorValue.toLowerCase().includes('pink')) {
+            targetIndex = Math.min(1, productImages.length - 1);
+          } else if (colorValue.toLowerCase().includes('green') || colorValue.includes('AMT0236GN')) {
+            targetIndex = 0; // Default green
+          } else if (colorValue.toLowerCase().includes('blue')) {
+            targetIndex = Math.min(2, productImages.length - 1);
+          }
+          
+          const targetImage = productImages[targetIndex];
+          if (targetImage) {
+            const imageUrl = targetImage.getAttribute('data-image-url');
+            console.log('Fallback to product image index', targetIndex, ':', imageUrl);
+            mainImage.src = imageUrl;
+          }
+        }
+      }
+
+      // Trigger initial variant selection on page load (price only, not image)
+      findAndUpdateVariant();
+      
+      // Color dot selection with image switching
+      const colorDots = document.querySelectorAll('.color-dot');
+      
+      colorDots.forEach(dot => {
+        dot.addEventListener('click', function() {
+          // Mark that user has selected a color
+          userHasSelectedColor = true;
+          
+          // Find all dots in the same variant group
+          const variantGroup = this.closest('.variant-group');
+          if (variantGroup) {
+            const groupDots = variantGroup.querySelectorAll('.color-dot');
+            groupDots.forEach(d => d.classList.remove('selected'));
+          } else {
+            colorDots.forEach(d => d.classList.remove('selected'));
+          }
+          
+          this.classList.add('selected');
+          
+          // Force image update since user clicked color
+          updateProductImage(true);
+          
+          // Find matching variant and update price
+          findAndUpdateVariant();
+        });
+      });
+
+      // Bundle option selection (second declaration - removed duplicate)
+      const bundleOptionsElements = document.querySelectorAll('.bundle-option');
+      bundleOptionsElements.forEach(option => {
+        option.addEventListener('click', function() {
+          bundleOptionsElements.forEach(o => o.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+
+      // Ripple effect
+      const rippleButtons = document.querySelectorAll('.ripple');
+      rippleButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          ripple.classList.add('ripple-effect');
+          this.appendChild(ripple);
+          
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.width = ripple.style.height = size + 'px';
+          ripple.style.left = x + 'px';
+          ripple.style.top = y + 'px';
+          
+          setTimeout(() => ripple.remove(), 600);
+        });
+      });
+
+      // Instagram Reels Interactions
+      const createFloatingHeart = (x, y) => {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.innerHTML = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+        heart.style.left = x + 'px';
+        heart.style.bottom = '50px';
+        heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+        heart.style.animationDelay = Math.random() * 0.5 + 's';
+        
+        const container = document.querySelector('.floating-hearts');
+        if (container) {
+          container.appendChild(heart);
+          setTimeout(() => heart.remove(), 5000);
+        }
+      };
+
+      // Add double-tap to like
+      document.querySelectorAll('.phone-screen').forEach(screen => {
+        let tapCount = 0;
+        screen.addEventListener('click', function(e) {
+          tapCount++;
+          if (tapCount === 2) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            createFloatingHeart(x, 0);
+            
+            // Toggle heart icon
+            const heartBtn = this.querySelector('.action-btn:first-child');
+            if (heartBtn) {
+              heartBtn.classList.add('liked');
+              const heartIcon = heartBtn.querySelector('.heart-icon');
+              if (heartIcon) heartIcon.textContent = '❤️';
+            }
+            
+            tapCount = 0;
+          }
+          setTimeout(() => { tapCount = 0; }, 500);
+        });
+      });
+
+      // Auto-generate floating hearts periodically
+      setInterval(() => {
+        const containers = document.querySelectorAll('.floating-hearts');
+        containers.forEach(container => {
+          if (Math.random() > 0.7) {
+            createFloatingHeart(Math.random() * 300, 0);
+          }
+        });
+      }, 3000);
+    });
+    
+    // Initialize form on page load
+    window.addEventListener('load', function() {
+      // Ensure the form has a valid variant ID
+      const idInput = document.querySelector('input[name="id"]');
+      if (idInput) {
+        // If no variant is set or invalid, use first available variant
+        if (!idInput.value || idInput.value === '0' || idInput.value === '') {
+          const firstAvailableVariant = window.productVariants ? 
+            window.productVariants.find(v => v.available) || window.productVariants[0] : null;
+          
+          if (firstAvailableVariant) {
+            idInput.value = firstAvailableVariant.id;
+            console.log('Initialized form with variant:', firstAvailableVariant.id);
+          }
+        }
+        console.log('Form variant ID on load:', idInput.value);
+      }
+      
+      // Trigger initial updates
+      if (typeof updateSelectedVariant === 'function') {
+        updateSelectedVariant();
+      }
+      if (typeof updateProductImage === 'function') {
+        updateProductImage();
+      }
+    });
+  </script>
+</product-info>
+
+{% schema %}
+{
+  "name": "Modern Product",
+  "tag": "section",
+  "class": "section section-ultra-modern",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hide_header",
+      "label": "Hide built-in header",
+      "default": false,
+      "info": "Enable this when using the unified Bloom & Climb header"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout widths"
+    },
+    {
+      "type": "range",
+      "id": "media_max_width",
+      "label": "Media max width (px)",
+      "min": 400,
+      "max": 1000,
+      "step": 10,
+      "default": 510
+    },
+    {
+      "type": "range",
+      "id": "info_max_width",
+      "label": "Info max width (px)",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "default": 430
+    },
+    {
+      "type": "range",
+      "id": "layout_gap",
+      "label": "Column gap (px)",
+      "min": 24,
+      "max": 128,
+      "step": 4,
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "pad_left",
+      "label": "Left padding (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "pad_right",
+      "label": "Right padding (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "bundle_max_width",
+      "label": "Bundle & Save max width (px)",
+      "min": 300,
+      "max": 600,
+      "step": 10,
+      "default": 520
+    },
+    {
+      "type": "textarea",
+      "id": "custom_heading",
+      "label": "Override heading (optional)",
+      "info": "Use line breaks to split title like Figma"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "info": "Shows payment buttons like Shop Pay, Apple Pay, Google Pay",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Cat Life Video Showcase"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_video_section",
+      "label": "Show video section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Video 1 - Morning Zoomies"
+    },
+    {
+      "type": "text",
+      "id": "video1_title",
+      "label": "Video 1 title",
+      "default": "Morning Zoomies"
+    },
+    {
+      "type": "url",
+      "id": "video1_url",
+      "label": "Video 1 URL",
+      "info": "YouTube, Vimeo, or direct URL"
+    },
+    {
+      "type": "text",
+      "id": "video1_shopify_url",
+      "label": "Video 1 Shopify URL",
+      "info": "Paste URL from Settings > Files"
+    },
+    {
+      "type": "header",
+      "content": "Video 2 - Afternoon Bliss"
+    },
+    {
+      "type": "text",
+      "id": "video2_title",
+      "label": "Video 2 title",
+      "default": "Afternoon Bliss"
+    },
+    {
+      "type": "url",
+      "id": "video2_url",
+      "label": "Video 2 URL",
+      "info": "YouTube, Vimeo, or direct URL"
+    },
+    {
+      "type": "text",
+      "id": "video2_shopify_url",
+      "label": "Video 2 Shopify URL",
+      "info": "Paste URL from Settings > Files"
+    },
+    {
+      "type": "header",
+      "content": "Video 3 - Evening Perch"
+    },
+    {
+      "type": "text",
+      "id": "video3_title",
+      "label": "Video 3 title",
+      "default": "Evening Perch"
+    },
+    {
+      "type": "url",
+      "id": "video3_url",
+      "label": "Video 3 URL",
+      "info": "YouTube, Vimeo, or direct URL"
+    },
+    {
+      "type": "text",
+      "id": "video3_shopify_url",
+      "label": "Video 3 Shopify URL",
+      "info": "Paste URL from Settings > Files"
+    },
+    {
+      "type": "header",
+      "content": "Instagram Reels Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_instagram_section",
+      "label": "Show Instagram Reels",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Reel 1"
+    },
+    {
+      "type": "text",
+      "id": "reel1_shopify_url",
+      "label": "Reel 1 Shopify URL",
+      "info": "Upload video to Settings > Files"
+    },
+    {
+      "type": "url",
+      "id": "reel1_url",
+      "label": "Reel 1 External URL",
+      "info": "Or use external video URL"
+    },
+    {
+      "type": "text",
+      "id": "reel1_caption",
+      "label": "Reel 1 Caption",
+      "default": "Morning stretches on the flower perch 🌅"
+    },
+    {
+      "type": "text",
+      "id": "reel1_likes",
+      "label": "Reel 1 Likes",
+      "default": "2.3M"
+    },
+    {
+      "type": "header",
+      "content": "Reel 2"
+    },
+    {
+      "type": "text",
+      "id": "reel2_shopify_url",
+      "label": "Reel 2 Shopify URL",
+      "info": "Upload video to Settings > Files"
+    },
+    {
+      "type": "url",
+      "id": "reel2_url",
+      "label": "Reel 2 External URL",
+      "info": "Or use external video URL"
+    },
+    {
+      "type": "text",
+      "id": "reel2_caption",
+      "label": "Reel 2 Caption",
+      "default": "Playtime paradise 🎮 Who else has a climber?"
+    },
+    {
+      "type": "text",
+      "id": "reel2_likes",
+      "label": "Reel 2 Likes",
+      "default": "1.8M"
+    },
+    {
+      "type": "header",
+      "content": "Reel 3"
+    },
+    {
+      "type": "text",
+      "id": "reel3_shopify_url",
+      "label": "Reel 3 Shopify URL",
+      "info": "Upload video to Settings > Files"
+    },
+    {
+      "type": "url",
+      "id": "reel3_url",
+      "label": "Reel 3 External URL",
+      "info": "Or use external video URL"
+    },
+    {
+      "type": "text",
+      "id": "reel3_caption",
+      "label": "Reel 3 Caption",
+      "default": "Naptime in the clouds ☁️💤"
+    },
+    {
+      "type": "text",
+      "id": "reel3_likes",
+      "label": "Reel 3 Likes",
+      "default": "3.1M"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Modern Product"
+    }
+  ]
+}
+{% endschema %}

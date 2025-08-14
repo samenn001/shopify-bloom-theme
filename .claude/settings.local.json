@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(shopify theme:*)",
+      "Bash(grep:*)",
+      "Bash(findstr:*)",
+      "Bash(powershell:*)",
+      "Bash(copy:*)",
+      "Bash(cp:*)",
+      "Bash(node:*)",
+      "Bash(mv:*)",
+      "Bash(git commit:*)",
+      "Bash(gh repo create:*)",
+      "Bash(rm:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git reset:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)"
+    ],
+    "deny": [],
+    "defaultMode": "acceptEdits"
+  }
+}

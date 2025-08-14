@@ -1,0 +1,340 @@
+<!-- Bloom & Climb Unified Header Section -->
+<style>
+  /* Announcement Bar */
+  .bc-announcement-bar {
+    background: linear-gradient(90deg, #7FB069 0%, #87A96B 50%, #7FB069 100%);
+    color: white;
+    padding: 8px 0;
+    font-size: 13px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+
+  .bc-announcement-track {
+    display: flex;
+    animation: scroll 20s linear infinite;
+    white-space: nowrap;
+    gap: 24px;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Header */
+  .bc-unified-header {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    height: 70px;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .bc-header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .bc-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2D3E2E;
+    text-decoration: none;
+    letter-spacing: 2px;
+  }
+
+  .bc-nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .bc-nav-link {
+    color: #2D3E2E;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .bc-nav-link:hover,
+  .bc-nav-link.active {
+    color: #7FB069;
+  }
+
+  .bc-header-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .bc-search-btn,
+  .bc-account-btn,
+  .bc-cart-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #2D3E2E;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .bc-cart-btn:hover {
+    color: #7FB069;
+  }
+
+  .bc-cart-count {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background: #FFB7C5;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  
+  .bc-cart-count.bc-cart-empty {
+    display: none;
+  }
+
+  /* Mobile Menu */
+  .bc-mobile-menu-btn,
+  .bc-mobile-close {
+    display: none;
+  }
+
+  /* Add spacing to main content */
+  body {
+    padding-top: 106px !important;
+  }
+
+  @media (max-width: 768px) {
+    .bc-mobile-menu-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .bc-mobile-menu-btn span {
+      width: 24px;
+      height: 2px;
+      background: #2D3E2E;
+      transition: all 0.3s ease;
+    }
+    
+    .bc-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      max-width: 320px;
+      height: 100vh;
+      background: white;
+      flex-direction: column;
+      padding: 80px 32px;
+      transition: all 0.3s ease;
+      z-index: 1001;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .bc-nav.active {
+      left: 0;
+    }
+    
+    .bc-mobile-close {
+      display: block;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+</style>
+
+<!-- Announcement Bar -->
+<div class="bc-announcement-bar">
+  <div class="bc-announcement-track">
+    <span>🌸 FREE SHIPPING on Orders $75+</span>
+    <span>•</span>
+    <span>30-Day Happy Cat Guarantee</span>
+    <span>•</span>
+    <span>🐾 Vet Approved Design</span>
+    <span>•</span>
+    <span>🌿 Eco-Friendly Materials</span>
+    <span>•</span>
+    <span>🌸 FREE SHIPPING on Orders $75+</span>
+    <span>•</span>
+    <span>30-Day Happy Cat Guarantee</span>
+    <span>•</span>
+    <span>🐾 Vet Approved Design</span>
+    <span>•</span>
+    <span>🌿 Eco-Friendly Materials</span>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="bc-unified-header">
+  <div class="bc-header-content">
+    <button class="bc-mobile-menu-btn" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    
+    <a href="/" class="bc-logo">BLOOM & CLIMB</a>
+    
+    <nav class="bc-nav" id="mobile-nav">
+      <button class="bc-mobile-close" onclick="toggleMobileMenu()">✕</button>
+      <a href="/collections/all" class="bc-nav-link {% if request.path contains '/collections' %}active{% endif %}">Shop</a>
+      <a href="/" class="bc-nav-link {% if template == 'index' %}active{% endif %}">Home</a>
+      <a href="/pages/contact" class="bc-nav-link {% if request.path contains '/contact' %}active{% endif %}">Contact</a>
+    </nav>
+    
+    <div class="bc-header-actions">
+      <button class="bc-search-btn" onclick="openSearch()">🔍</button>
+      <a href="/account" class="bc-account-btn">👤</a>
+      <a href="/cart" class="bc-cart-btn">
+        🛒 
+        <span class="bc-cart-count {% if cart.item_count == 0 %}bc-cart-empty{% endif %}" id="cart-count">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  function toggleMobileMenu() {
+    const nav = document.getElementById('mobile-nav');
+    nav.classList.toggle('active');
+  }
+
+  // Update cart count dynamically
+  function updateCartCount() {
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(data => {
+        const countElement = document.getElementById('cart-count');
+        if (countElement) {
+          countElement.textContent = data.item_count;
+          if (data.item_count === 0) {
+            countElement.classList.add('bc-cart-empty');
+          } else {
+            countElement.classList.remove('bc-cart-empty');
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error updating cart count:', error);
+      });
+  }
+
+  // Listen for cart updates
+  document.addEventListener('cart:updated', updateCartCount);
+  document.addEventListener('cart:added', updateCartCount);
+  
+  // Update cart count on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateCartCount);
+  } else {
+    // DOM is already loaded, update immediately
+    updateCartCount();
+  }
+  
+  // Update cart count when items are added
+  const originalFetch = window.fetch;
+  window.fetch = function(...args) {
+    return originalFetch.apply(this, args).then(response => {
+      if (args[0] && (args[0].includes('/cart/add') || args[0].includes('/cart/change') || args[0].includes('/cart/update'))) {
+        setTimeout(updateCartCount, 100);
+      }
+      return response;
+    });
+  };
+
+  // Open search (placeholder function)
+  function openSearch() {
+    // You can implement search functionality here
+    alert('Search functionality coming soon!');
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Bloom & Climb Header",
+  "tag": "section",
+  "class": "bloom-climb-header-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "🌸 FREE SHIPPING on Orders $75+ • 30-Day Happy Cat Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "BLOOM & CLIMB"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show account",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Show cart",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

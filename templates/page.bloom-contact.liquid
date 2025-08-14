@@ -1,0 +1,308 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#7FB069">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <title>Contact Us - {{ shop.name }}</title>
+
+    {{ 'bloom-climb-contact.css' | asset_url | stylesheet_tag }}
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Hide default Shopify elements -->
+    <style>
+      #shopify-section-header,
+      #shopify-section-footer,
+      .shopify-section-header,
+      .shopify-section-footer,
+      sticky-header,
+      .section-header {
+        display: none !important;
+      }
+      
+      body {
+        padding-top: 0 !important;
+        margin: 0;
+      }
+    </style>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="bloom-climb-contact">
+    <!-- Announcement Bar -->
+    <div class="bc-announcement-bar">
+      <div class="bc-announcement-track">
+        <span>🌸 FREE SHIPPING on Orders $75+</span>
+        <span>•</span>
+        <span>30-Day Happy Cat Guarantee</span>
+        <span>•</span>
+        <span>🐾 Vet Approved Design</span>
+        <span>•</span>
+        <span>🌿 Eco-Friendly Materials</span>
+        <span>•</span>
+        <span>🌸 FREE SHIPPING on Orders $75+</span>
+        <span>•</span>
+        <span>30-Day Happy Cat Guarantee</span>
+        <span>•</span>
+        <span>🐾 Vet Approved Design</span>
+        <span>•</span>
+        <span>🌿 Eco-Friendly Materials</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bc-header">
+      <div class="bc-header-content">
+        <button class="bc-mobile-menu-btn" onclick="toggleMobileMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        
+        <a href="/" class="bc-logo">BLOOM & CLIMB</a>
+        
+        <nav class="bc-nav" id="mobile-nav">
+          <button class="bc-mobile-close" onclick="toggleMobileMenu()">✕</button>
+          <a href="/collections/all" class="bc-nav-link">Shop</a>
+          <a href="/" class="bc-nav-link">Home</a>
+          <a href="/pages/contact" class="bc-nav-link active">Contact</a>
+        </nav>
+        
+        <div class="bc-header-actions">
+          <button class="bc-search-btn">🔍</button>
+          <a href="/account" class="bc-account-btn">👤</a>
+          <a href="/cart" class="bc-cart-btn">
+            🛒 <span class="bc-cart-count">{{ cart.item_count }}</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bc-contact-hero">
+      <div class="bc-hero-content">
+        <h1 class="bc-hero-title">🌺 Let's Chat 🌺</h1>
+        <p class="bc-hero-subtitle">We're here to help you and your feline friends</p>
+        <div class="bc-floating-petals">
+          <span class="petal petal-1">🌸</span>
+          <span class="petal petal-2">🌼</span>
+          <span class="petal petal-3">🌺</span>
+          <span class="petal petal-4">🌷</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Contact Content -->
+    <main class="bc-contact-main">
+      <div class="bc-container">
+        <!-- Contact Options Cards -->
+        <div class="bc-contact-cards">
+          <div class="bc-contact-card">
+            <div class="bc-card-icon">📧</div>
+            <h3>Email Us</h3>
+            <p>hello@bloomandclimb.com</p>
+            <span class="bc-response-time">We reply within 24 hours</span>
+          </div>
+          <div class="bc-contact-card">
+            <div class="bc-card-icon">📱</div>
+            <h3>Social Media</h3>
+            <p>@bloomandclimb</p>
+            <span class="bc-response-time">Follow for daily cat content!</span>
+          </div>
+        </div>
+
+        <!-- Contact Form Section -->
+        <div class="bc-contact-form-section">
+          <div class="bc-form-container">
+            <h2 class="bc-form-title">Send Us a Message 💌</h2>
+            <p class="bc-form-subtitle">Have a question about our cat trees? Need help choosing the perfect one?</p>
+            
+            {% form 'contact' %}
+              {% if form.posted_successfully? %}
+                <div class="bc-success-message">
+                  <span class="bc-success-icon">✅</span>
+                  <h3>Thank you for reaching out!</h3>
+                  <p>We've received your message and will get back to you soon. In the meantime, feel free to explore our cat tree collection!</p>
+                </div>
+              {% else %}
+                <div class="bc-form-grid">
+                  <div class="bc-form-group">
+                    <label for="ContactForm-name">Your Name 🌿</label>
+                    <input type="text" 
+                           id="ContactForm-name" 
+                           name="contact[name]" 
+                           class="bc-input"
+                           placeholder="Jane Doe"
+                           required>
+                  </div>
+                  
+                  <div class="bc-form-group">
+                    <label for="ContactForm-email">Email Address 📧</label>
+                    <input type="email" 
+                           id="ContactForm-email" 
+                           name="contact[email]" 
+                           class="bc-input"
+                           placeholder="jane@example.com"
+                           required>
+                  </div>
+                  
+                  <div class="bc-form-group">
+                    <label for="ContactForm-phone">Phone Number 📞 (Optional)</label>
+                    <input type="tel" 
+                           id="ContactForm-phone" 
+                           name="contact[phone]" 
+                           class="bc-input"
+                           placeholder="(555) 123-4567">
+                  </div>
+                  
+                  <div class="bc-form-group">
+                    <label for="ContactForm-topic">What's this about? 🐱</label>
+                    <select id="ContactForm-topic" 
+                            name="contact[topic]" 
+                            class="bc-select">
+                      <option value="">Choose a topic...</option>
+                      <option value="product-question">Product Question</option>
+                      <option value="order-status">Order Status</option>
+                      <option value="shipping">Shipping Info</option>
+                      <option value="returns">Returns & Exchanges</option>
+                      <option value="cat-advice">Cat Tree Advice</option>
+                      <option value="wholesale">Wholesale Inquiry</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  
+                  <div class="bc-form-group bc-form-group-full">
+                    <label for="ContactForm-message">Your Message 💬</label>
+                    <textarea id="ContactForm-message" 
+                              name="contact[body]" 
+                              rows="6" 
+                              class="bc-textarea"
+                              placeholder="Tell us how we can help you and your furry friend..."
+                              required></textarea>
+                  </div>
+                </div>
+                
+                {% if form.errors %}
+                  <div class="bc-error-message">
+                    <span class="bc-error-icon">⚠️</span>
+                    <p>Oops! Please check the form and try again.</p>
+                  </div>
+                {% endif %}
+                
+                <button type="submit" class="bc-submit-btn">
+                  Send Message 🌸
+                </button>
+              {% endif %}
+            {% endform %}
+          </div>
+
+          <!-- FAQ Sidebar -->
+          <div class="bc-faq-sidebar">
+            <h3>Quick Answers 🌟</h3>
+            
+            <div class="bc-faq-item">
+              <button class="bc-faq-toggle">
+                <span>How long does shipping take?</span>
+                <span class="bc-faq-arrow">▼</span>
+              </button>
+              <div class="bc-faq-answer">
+                <p>Standard shipping takes 5-7 business days. Express shipping (2-3 days) is available at checkout!</p>
+              </div>
+            </div>
+            
+            <div class="bc-faq-item">
+              <button class="bc-faq-toggle">
+                <span>Do you ship internationally?</span>
+                <span class="bc-faq-arrow">▼</span>
+              </button>
+              <div class="bc-faq-answer">
+                <p>Yes! We ship to most countries. International shipping typically takes 10-14 business days.</p>
+              </div>
+            </div>
+            
+            <div class="bc-faq-item">
+              <button class="bc-faq-toggle">
+                <span>What's your return policy?</span>
+                <span class="bc-faq-arrow">▼</span>
+              </button>
+              <div class="bc-faq-answer">
+                <p>We offer a 30-day Happy Cat Guarantee! If your cat doesn't love their new tree, we'll help make it right.</p>
+              </div>
+            </div>
+            
+            <div class="bc-faq-item">
+              <button class="bc-faq-toggle">
+                <span>How do I assemble the cat tree?</span>
+                <span class="bc-faq-arrow">▼</span>
+              </button>
+              <div class="bc-faq-answer">
+                <p>Each tree comes with easy step-by-step instructions and all tools needed. Most trees assemble in 15-20 minutes!</p>
+              </div>
+            </div>
+            
+            <div class="bc-faq-item">
+              <button class="bc-faq-toggle">
+                <span>Are the materials safe for cats?</span>
+                <span class="bc-faq-arrow">▼</span>
+              </button>
+              <div class="bc-faq-answer">
+                <p>Absolutely! All our materials are non-toxic, pet-safe, and vet-approved. The sisal is natural and the fabrics are washable.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <script>
+      // Mobile menu toggle
+      function toggleMobileMenu() {
+        const nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('active');
+      }
+
+      // FAQ toggles
+      document.querySelectorAll('.bc-faq-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function() {
+          const item = this.closest('.bc-faq-item');
+          const answer = item.querySelector('.bc-faq-answer');
+          const arrow = this.querySelector('.bc-faq-arrow');
+          
+          item.classList.toggle('active');
+          
+          if (item.classList.contains('active')) {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            arrow.style.transform = 'rotate(180deg)';
+          } else {
+            answer.style.maxHeight = null;
+            arrow.style.transform = 'rotate(0)';
+          }
+        });
+      });
+
+      // Floating petals animation
+      document.querySelectorAll('.petal').forEach(petal => {
+        petal.style.animationDelay = Math.random() * 5 + 's';
+      });
+
+      // Form enhancement
+      const form = document.querySelector('.bc-contact-form-section form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          const btn = this.querySelector('.bc-submit-btn');
+          btn.innerHTML = 'Sending... 🌸';
+          btn.disabled = true;
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "product": {
+    "id": 10281356886353,
+    "options": [
+      {
+        "id": 12824036049233,
+        "name": "Color",
+        "position": 1,
+        "values": ["AMT0236GN", "Blue Pink"]
+      },
+      {
+        "id": 12824036082001,
+        "name": "Ships From",
+        "position": 2,
+        "values": ["United States"]
+      }
+    ]
+  }
+}

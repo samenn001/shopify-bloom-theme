@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "featured_product": {
+      "type": "featured-product-landing",
+      "settings": {
+        "product": "{{ product }}",
+        "color_scheme": "scheme-1",
+        "media_max_width": 600,
+        "info_max_width": 600,
+        "layout_gap": 48,
+        "pad_left": 32,
+        "pad_right": 32,
+        "bundle_max_width": 520,
+        "show_dynamic_checkout": true,
+        "show_video_section": true,
+        "video1_title": "Morning Zoomies",
+        "video2_title": "Afternoon Bliss", 
+        "video3_title": "Evening Perch",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "More Cat Paradise Options",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "featured_product",
+    "related-products"
+  ]
+}

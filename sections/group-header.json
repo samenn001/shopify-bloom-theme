@@ -1,0 +1,11 @@
+{
+  "name": "Header Group",
+  "type": "header",
+  "sections": {
+    "header": {
+      "type": "bloom-climb-header",
+      "settings": {}
+    }
+  },
+  "order": ["header"]
+}

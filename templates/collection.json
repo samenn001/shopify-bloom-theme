@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "collection": {
+      "type": "bloom-climb-collection",
+      "settings": {}
+    }
+  },
+  "order": ["collection"]
+}

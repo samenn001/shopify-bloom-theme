@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "cart-bloom": {
+      "type": "bloom-climb-cart",
+      "settings": {}
+    }
+  },
+  "order": ["cart-bloom"]
+}

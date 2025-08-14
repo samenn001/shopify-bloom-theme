@@ -1,0 +1,42 @@
+EU Countries to Add to Shipping Zone:
+
+Core EU Countries (Add these first):
+□ Belgium
+□ Netherlands 
+□ Germany
+□ France
+□ Luxembourg
+□ Austria
+□ Italy
+□ Spain
+□ Portugal
+□ Ireland
+
+Nordic Countries:
+□ Denmark
+□ Sweden
+□ Finland
+
+Eastern EU:
+□ Poland
+□ Hungary
+□ Slovakia
+□ Slovenia
+□ Croatia
+□ Romania
+□ Bulgaria
+
+Baltic States:
+□ Estonia
+□ Latvia
+□ Lithuania
+
+Mediterranean:
+□ Greece
+□ Cyprus
+□ Malta
+
+SUGGESTED SHIPPING RATES:
+- Standard Shipping: €9.99 (5-10 business days)
+- Express Shipping: €19.99 (2-4 business days)
+- Free Shipping: Orders over €100

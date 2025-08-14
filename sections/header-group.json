@@ -1,0 +1,21 @@
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "bloom-climb-header": {
+      "type": "bloom-climb-header",
+      "settings": {
+        "show_announcement": true,
+        "announcement_text": "🌸 FREE SHIPPING on Orders $75+ • 30-Day Happy Cat Guarantee",
+        "logo_text": "BLOOM & CLIMB",
+        "menu": "main-menu",
+        "show_search": true,
+        "show_account": true,
+        "show_cart": true
+      }
+    }
+  },
+  "order": [
+    "bloom-climb-header"
+  ]
+}

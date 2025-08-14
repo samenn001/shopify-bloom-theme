@@ -1,0 +1,401 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#7FB069">
+  <link rel="canonical" href="{{ canonical_url }}">
+  
+  <title>Your Garden Cart - {{ shop.name }}</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+  
+  {{ 'bloom-climb-cart.css' | asset_url | stylesheet_tag }}
+  
+  <!-- Hide default Shopify elements -->
+  <style>
+    #shopify-section-header,
+    #shopify-section-footer,
+    .shopify-section-header,
+    .shopify-section-footer,
+    .header-wrapper,
+    .footer,
+    sticky-header,
+    .section-header,
+    header.header {
+      display: none !important;
+    }
+    
+    body {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
+  </style>
+  
+  {{ content_for_header }}
+</head>
+
+<body class="bloom-climb-cart">
+  <!-- Announcement Bar -->
+  <div class="bc-announcement-bar">
+    <div class="bc-announcement-track">
+      <span>🌸 FREE SHIPPING on Orders $75+</span>
+      <span>•</span>
+      <span>30-Day Happy Cat Guarantee</span>
+      <span>•</span>
+      <span>🐾 Vet Approved Design</span>
+      <span>•</span>
+      <span>🌿 Eco-Friendly Materials</span>
+      <span>•</span>
+      <span>🌸 FREE SHIPPING on Orders $75+</span>
+      <span>•</span>
+      <span>30-Day Happy Cat Guarantee</span>
+      <span>•</span>
+      <span>🐾 Vet Approved Design</span>
+      <span>•</span>
+      <span>🌿 Eco-Friendly Materials</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="bc-header">
+    <div class="bc-header-content">
+      <button class="bc-mobile-menu-btn" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <a href="/" class="bc-logo">BLOOM & CLIMB</a>
+      
+      <nav class="bc-nav" id="mobile-nav">
+        <button class="bc-mobile-close" onclick="toggleMobileMenu()">✕</button>
+        <a href="/collections/all" class="bc-nav-link">Shop</a>
+        <a href="/" class="bc-nav-link">Home</a>
+        <a href="/pages/contact" class="bc-nav-link">Contact</a>
+      </nav>
+      
+      <div class="bc-header-actions">
+        <button class="bc-search-btn">🔍</button>
+        <a href="/account" class="bc-account-btn">👤</a>
+        <a href="/cart" class="bc-cart-btn active">
+          🛒 <span class="bc-cart-count">{{ cart.item_count }}</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Cart Content -->
+  <main class="bc-cart-main">
+    <div class="bc-container">
+      <!-- Breadcrumbs -->
+      <div class="bc-breadcrumbs">
+        <a href="/">Home</a>
+        <span>🌱</span>
+        <a href="/collections/all">Shop</a>
+        <span>🌱</span>
+        <span>Your Garden Cart</span>
+      </div>
+
+      <h1 class="bc-cart-title">🌸 Your Garden Cart 🌸</h1>
+      
+      {% if cart.item_count > 0 %}
+        <div class="bc-cart-layout">
+          <!-- Cart Items -->
+          <div class="bc-cart-items">
+            <div class="bc-cart-header">
+              <span class="bc-items-count">{{ cart.item_count }} Beautiful {{ cart.item_count | pluralize: 'Item', 'Items' }}</span>
+              <a href="/collections/all" class="bc-continue-shopping">← Continue Shopping</a>
+            </div>
+
+            {% for item in cart.items %}
+              <div class="bc-cart-item" data-line="{{ forloop.index }}">
+                <div class="bc-item-image">
+                  {% if item.image %}
+                    <img src="{{ item.image | image_url: width: 150 }}" alt="{{ item.title }}">
+                  {% else %}
+                    <div class="bc-item-placeholder">🌸</div>
+                  {% endif %}
+                </div>
+
+                <div class="bc-item-details">
+                  <h3 class="bc-item-title">
+                    <a href="{{ item.url }}">{{ item.product.title }}</a>
+                  </h3>
+                  
+                  {% if item.variant.title != 'Default Title' %}
+                    <div class="bc-item-variant">
+                      {% for option in item.options_with_values %}
+                        <span class="bc-variant-label">{{ option.name }}:</span>
+                        <span class="bc-variant-value">{{ option.value }}</span>
+                        {% unless forloop.last %}<br>{% endunless %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+
+                  <div class="bc-item-price-mobile">
+                    {% if item.original_price != item.final_price %}
+                      <span class="bc-price-sale">{{ item.final_price | money }}</span>
+                      <span class="bc-price-original">{{ item.original_price | money }}</span>
+                    {% else %}
+                      <span class="bc-price">{{ item.price | money }}</span>
+                    {% endif %}
+                  </div>
+
+                  <div class="bc-item-quantity">
+                    <button class="bc-qty-btn bc-qty-minus" data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}">−</button>
+                    <input type="number" class="bc-qty-input" value="{{ item.quantity }}" min="1" data-line="{{ forloop.index }}">
+                    <button class="bc-qty-btn bc-qty-plus" data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}">+</button>
+                  </div>
+
+                  <button class="bc-item-remove" data-line="{{ forloop.index }}">
+                    Remove 🗑️
+                  </button>
+                </div>
+
+                <div class="bc-item-price-desktop">
+                  <span class="bc-price-label">Price:</span>
+                  {% if item.original_price != item.final_price %}
+                    <span class="bc-price-sale">{{ item.final_price | money }}</span>
+                    <span class="bc-price-original">{{ item.original_price | money }}</span>
+                  {% else %}
+                    <span class="bc-price">{{ item.price | money }}</span>
+                  {% endif %}
+                </div>
+
+                <div class="bc-item-total">
+                  <span class="bc-total-label">Total:</span>
+                  <span class="bc-total-price">{{ item.line_price | money }}</span>
+                </div>
+              </div>
+            {% endfor %}
+
+            <!-- Special Offers -->
+            <div class="bc-special-offers">
+              <div class="bc-offer-card">
+                <span class="bc-offer-icon">🎁</span>
+                <div class="bc-offer-content">
+                  <h4>Add a Cat Toy Bundle!</h4>
+                  <p>Complete your cat's paradise with our toy set - 20% off when added to cart</p>
+                  <a href="/products/cat-toy-bundle" class="bc-offer-btn">Add Toy Bundle</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cart Summary -->
+          <div class="bc-cart-summary">
+            <div class="bc-summary-card">
+              <h3 class="bc-summary-title">Order Summary 🌿</h3>
+              
+              <div class="bc-summary-row">
+                <span>Subtotal</span>
+                <span>{{ cart.total_price | money }}</span>
+              </div>
+
+              {% if cart.total_discount > 0 %}
+                <div class="bc-summary-row bc-discount">
+                  <span>Discounts</span>
+                  <span>-{{ cart.total_discount | money }}</span>
+                </div>
+              {% endif %}
+
+              <div class="bc-summary-row">
+                <span>Shipping</span>
+                <span class="bc-shipping-calc">Calculated at checkout</span>
+              </div>
+
+              <!-- Free Shipping Progress -->
+              {% assign free_shipping_threshold = 7500 %}
+              {% assign amount_needed = free_shipping_threshold | minus: cart.total_price %}
+              {% if amount_needed > 0 %}
+                <div class="bc-free-shipping">
+                  <p>Add <strong>{{ amount_needed | money }}</strong> more for FREE shipping! 🚚</p>
+                  <div class="bc-shipping-progress">
+                    <div class="bc-progress-bar" style="width: {{ cart.total_price | times: 100 | divided_by: free_shipping_threshold }}%"></div>
+                  </div>
+                </div>
+              {% else %}
+                <div class="bc-free-shipping bc-qualified">
+                  <p>✅ You qualify for FREE shipping!</p>
+                </div>
+              {% endif %}
+
+              <div class="bc-summary-total">
+                <span>Estimated Total</span>
+                <span class="bc-total">{{ cart.total_price | money }}</span>
+              </div>
+
+              <!-- Checkout Buttons -->
+              <form action="/cart" method="post" novalidate>
+                <button type="submit" name="checkout" class="bc-checkout-btn">
+                  Checkout 🌸
+                </button>
+                
+                <!-- Dynamic Checkout Buttons -->
+                <div class="bc-dynamic-checkout">
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+
+                <!-- Gift Note -->
+                <div class="bc-gift-note">
+                  <button type="button" class="bc-gift-toggle">
+                    Add a gift note 🎁
+                  </button>
+                  <div class="bc-gift-content" style="display: none;">
+                    <textarea name="note" placeholder="Add a special message...">{{ cart.note }}</textarea>
+                  </div>
+                </div>
+              </form>
+
+              <!-- Trust Badges -->
+              <div class="bc-trust-badges">
+                <div class="bc-trust-item">
+                  <span>🔒</span>
+                  <span>Secure Checkout</span>
+                </div>
+                <div class="bc-trust-item">
+                  <span>↩️</span>
+                  <span>30-Day Returns</span>
+                </div>
+                <div class="bc-trust-item">
+                  <span>🐾</span>
+                  <span>Cat Approved</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <!-- Empty Cart -->
+        <div class="bc-empty-cart">
+          <div class="bc-empty-icon">🌻</div>
+          <h2>Your garden cart is empty</h2>
+          <p>Let's find the perfect tree for your cat!</p>
+          <a href="/collections/all" class="bc-shop-btn">Start Shopping 🌸</a>
+          
+          <!-- Recommended Products -->
+          <div class="bc-recommended">
+            <h3>Popular Picks for You</h3>
+            <div class="bc-product-grid">
+              {% for product in collections.all.products limit: 4 %}
+                <div class="bc-product-card">
+                  <a href="{{ product.url }}">
+                    {% if product.featured_image %}
+                      <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}">
+                    {% endif %}
+                    <h4>{{ product.title }}</h4>
+                    <span class="bc-price">{{ product.price | money }}</span>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bc-footer">
+    <div class="bc-footer-content">
+      <div class="bc-footer-section">
+        <h4>BLOOM & CLIMB</h4>
+        <p>Where Nature Meets Play</p>
+      </div>
+      <div class="bc-footer-section">
+        <h4>Customer Care</h4>
+        <a href="/pages/shipping">Shipping Info</a>
+        <a href="/pages/returns">Returns</a>
+        <a href="/pages/contact">Contact Us</a>
+      </div>
+      <div class="bc-footer-section">
+        <h4>Connect</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Pinterest</a>
+        <a href="#">TikTok</a>
+      </div>
+    </div>
+    <div class="bc-footer-bottom">
+      <p>© 2025 Bloom & Climb | Portland, OR | 🐾 Cat Approved</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const nav = document.getElementById('mobile-nav');
+      nav.classList.toggle('active');
+    }
+
+    // Update quantity
+    document.querySelectorAll('.bc-qty-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const line = this.dataset.line;
+        const qty = this.dataset.qty;
+        updateQuantity(line, qty);
+      });
+    });
+
+    document.querySelectorAll('.bc-qty-input').forEach(input => {
+      input.addEventListener('change', function() {
+        const line = this.dataset.line;
+        updateQuantity(line, this.value);
+      });
+    });
+
+    // Remove item
+    document.querySelectorAll('.bc-item-remove').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const line = this.dataset.line;
+        updateQuantity(line, 0);
+      });
+    });
+
+    // Update cart quantity
+    function updateQuantity(line, quantity) {
+      fetch('/cart/change.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          line: parseInt(line),
+          quantity: parseInt(quantity)
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        location.reload();
+      });
+    }
+
+    // Gift note toggle
+    const giftToggle = document.querySelector('.bc-gift-toggle');
+    const giftContent = document.querySelector('.bc-gift-content');
+    if (giftToggle && giftContent) {
+      giftToggle.addEventListener('click', function() {
+        giftContent.style.display = giftContent.style.display === 'none' ? 'block' : 'none';
+        this.classList.toggle('active');
+      });
+    }
+
+    // Petal animation on checkout
+    document.querySelector('.bc-checkout-btn')?.addEventListener('click', function() {
+      this.classList.add('blooming');
+    });
+  </script>
+</body>
+</html>
+
+{% schema %}
+{
+  "name": "Bloom Climb Cart",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

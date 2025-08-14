@@ -1,0 +1,440 @@
+{{ content_for_header }}
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <title>
+      {{ collection.title | escape }} - {{ shop.name }}
+    </title>
+
+    {{ 'bloom-climb-collection.css' | asset_url | stylesheet_tag }}
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Hide default Shopify header -->
+    <style>
+      /* Hide default Dawn theme header and footer */
+      #shopify-section-header,
+      #shopify-section-footer,
+      .shopify-section-header,
+      .shopify-section-footer,
+      .header-wrapper,
+      .footer,
+      sticky-header,
+      .section-header,
+      .announcement-bar-section,
+      header.header {
+        display: none !important;
+      }
+      
+      /* Ensure our header is at the top */
+      body {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
+      
+      .bc-announcement-bar {
+        position: fixed;
+        top: 0 !important;
+      }
+      
+      .bc-header {
+        top: 36px !important;
+      }
+    </style>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="bloom-climb-collection">
+    <!-- Announcement Bar -->
+    <div class="bc-announcement-bar">
+      <div class="bc-announcement-track">
+        <span>🌸 FREE SHIPPING on Orders $75+</span>
+        <span>•</span>
+        <span>30-Day Happy Cat Guarantee</span>
+        <span>•</span>
+        <span>🐾 Vet Approved Design</span>
+        <span>•</span>
+        <span>🌿 Eco-Friendly Materials</span>
+        <span>•</span>
+        <span>🌸 FREE SHIPPING on Orders $75+</span>
+        <span>•</span>
+        <span>30-Day Happy Cat Guarantee</span>
+        <span>•</span>
+        <span>🐾 Vet Approved Design</span>
+        <span>•</span>
+        <span>🌿 Eco-Friendly Materials</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bc-header">
+      <div class="bc-header-content">
+        <button class="bc-mobile-menu-btn" onclick="toggleMobileMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        
+        <a href="/" class="bc-logo">BLOOM & CLIMB</a>
+        
+        <nav class="bc-nav" id="mobile-nav">
+          <button class="bc-mobile-close" onclick="toggleMobileMenu()">✕</button>
+          <a href="/collections/all" class="bc-nav-link active">Shop</a>
+          <a href="/" class="bc-nav-link">Home</a>
+          <a href="/pages/contact" class="bc-nav-link">Contact</a>
+        </nav>
+        
+        <div class="bc-header-actions">
+          <button class="bc-search-btn">🔍</button>
+          <a href="/account" class="bc-account-btn">👤</a>
+          <a href="/cart" class="bc-cart-btn">
+            🛒 <span class="bc-cart-count">{{ cart.item_count }}</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bc-collection-hero">
+      <div class="bc-hero-content">
+        <h1 class="bc-hero-title">🌿 Welcome to Our Garden Collection 🌿</h1>
+        <p class="bc-hero-subtitle">Handpicked Trees for Happy Cats</p>
+        <div class="bc-petal-animation"></div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="bc-main">
+      <div class="bc-container">
+        <div class="bc-layout">
+          <!-- Filters Sidebar -->
+          <aside class="bc-filters">
+            <div class="bc-filter-header">
+              <h3>🌻 Filter & Sort</h3>
+              <button class="bc-clear-filters">Clear all</button>
+            </div>
+
+            <!-- Size Filter -->
+            <div class="bc-filter-group">
+              <button class="bc-filter-toggle">
+                <span>By Size 🌱</span>
+                <span class="bc-toggle-icon">▼</span>
+              </button>
+              <div class="bc-filter-options">
+                <label class="bc-checkbox">
+                  <input type="checkbox" name="size" value="small">
+                  <span class="bc-checkbox-leaf"></span>
+                  <span>Small (3.5ft)</span>
+                </label>
+                <label class="bc-checkbox">
+                  <input type="checkbox" name="size" value="medium">
+                  <span class="bc-checkbox-leaf"></span>
+                  <span>Medium (4.5ft)</span>
+                </label>
+                <label class="bc-checkbox">
+                  <input type="checkbox" name="size" value="large">
+                  <span class="bc-checkbox-leaf"></span>
+                  <span>Large (5.5ft)</span>
+                </label>
+                <label class="bc-checkbox">
+                  <input type="checkbox" name="size" value="xl">
+                  <span class="bc-checkbox-leaf"></span>
+                  <span>XL (6.5ft)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Color Filter -->
+            <div class="bc-filter-group">
+              <button class="bc-filter-toggle">
+                <span>By Color 🎨</span>
+                <span class="bc-toggle-icon">▼</span>
+              </button>
+              <div class="bc-filter-options">
+                <label class="bc-color-option">
+                  <input type="radio" name="color" value="pink">
+                  <span class="bc-color-dot" style="background: #FFB7C5;"></span>
+                  <span>Cherry Blossom</span>
+                </label>
+                <label class="bc-color-option">
+                  <input type="radio" name="color" value="green">
+                  <span class="bc-color-dot" style="background: #7FB069;"></span>
+                  <span>Sage Green</span>
+                </label>
+                <label class="bc-color-option">
+                  <input type="radio" name="color" value="cream">
+                  <span class="bc-color-dot" style="background: #FFF8E7;"></span>
+                  <span>Cloud Cream</span>
+                </label>
+                <label class="bc-color-option">
+                  <input type="radio" name="color" value="blue-pink">
+                  <span class="bc-color-dot" style="background: linear-gradient(45deg, #87CEEB, #FFB7C5);"></span>
+                  <span>Blue Pink</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Features Filter -->
+            <div class="bc-filter-group">
+              <button class="bc-filter-toggle">
+                <span>Features 🐾</span>
+                <span class="bc-toggle-icon">▼</span>
+              </button>
+              <div class="bc-filter-options">
+                <label class="bc-checkbox">
+                  <input type="checkbox" name="features" value="scratching">
+                  <span class="bc-checkbox-leaf"></span>
+                  <span>Scratching Posts</span>
+                </label>
+                <label class="bc-checkbox">
+                  <input type="checkbox" name="features" value="hammock">
+                  <span class="bc-checkbox-leaf"></span>
+                  <span>Hammock</span>
+                </label>
+                <label class="bc-checkbox">
+                  <input type="checkbox" name="features" value="cave">
+                  <span class="bc-checkbox-leaf"></span>
+                  <span>Cozy Cave</span>
+                </label>
+                <label class="bc-checkbox">
+                  <input type="checkbox" name="features" value="toys">
+                  <span class="bc-checkbox-leaf"></span>
+                  <span>Hanging Toys</span>
+                </label>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Product Grid -->
+          <div class="bc-products">
+            <div class="bc-products-header">
+              <p class="bc-product-count">{{ collection.products_count }} Beautiful Trees</p>
+              <select class="bc-sort-select">
+                <option value="featured">Featured</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="newest">Newest First</option>
+                <option value="best-selling">Best Selling</option>
+              </select>
+            </div>
+
+            <div class="bc-product-grid">
+              {% for product in collection.products %}
+                <div class="bc-product-card" data-product-id="{{ product.id }}">
+                  <div class="bc-product-image-wrapper">
+                    <a href="{{ product.url }}">
+                      {% if product.featured_image %}
+                        <img src="{{ product.featured_image | image_url: width: 400 }}" 
+                             alt="{{ product.title }}"
+                             class="bc-product-image"
+                             loading="lazy">
+                      {% else %}
+                        <div class="bc-product-placeholder">🌸</div>
+                      {% endif %}
+                      
+                      {% if product.metafields.custom.is_new %}
+                        <span class="bc-badge bc-badge-new">NEW!</span>
+                      {% elsif product.metafields.custom.is_bestseller %}
+                        <span class="bc-badge bc-badge-popular">POPULAR</span>
+                      {% endif %}
+                    </a>
+                    
+                    <button class="bc-quick-view" data-product-id="{{ product.id }}">
+                      Quick View 👁️
+                    </button>
+                  </div>
+
+                  <div class="bc-product-info">
+                    <h3 class="bc-product-title">
+                      <a href="{{ product.url }}">{{ product.title }}</a>
+                    </h3>
+                    
+                    <div class="bc-product-rating">
+                      ⭐⭐⭐⭐⭐ <span>({{ product.metafields.reviews.count | default: 0 }})</span>
+                    </div>
+                    
+                    <div class="bc-product-price">
+                      {% if product.compare_at_price > product.price %}
+                        <span class="bc-price-sale">{{ product.price | money }}</span>
+                        <span class="bc-price-original">{{ product.compare_at_price | money }}</span>
+                      {% else %}
+                        <span class="bc-price">{{ product.price | money }}</span>
+                      {% endif %}
+                    </div>
+                    
+                    <form action="/cart/add" method="post" class="bc-add-to-cart-form">
+                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                      <button type="submit" class="bc-add-to-cart">
+                        Add to Garden 🌱
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              {% else %}
+                <div class="bc-empty-state">
+                  <span class="bc-empty-icon">🌻</span>
+                  <h3>No trees found</h3>
+                  <p>Try adjusting your filters to discover more cat trees!</p>
+                </div>
+              {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if paginate.pages > 1 %}
+              <nav class="bc-pagination">
+                {% if paginate.previous %}
+                  <a href="{{ paginate.previous.url }}" class="bc-page-prev">← Previous</a>
+                {% endif %}
+                
+                {% for part in paginate.parts %}
+                  {% if part.is_link %}
+                    <a href="{{ part.url }}" class="bc-page-number {% if part.title == paginate.current_page %}active{% endif %}">
+                      {{ part.title }}
+                    </a>
+                  {% else %}
+                    <span class="bc-page-dots">...</span>
+                  {% endif %}
+                {% endfor %}
+                
+                {% if paginate.next %}
+                  <a href="{{ paginate.next.url }}" class="bc-page-next">Next →</a>
+                {% endif %}
+              </nav>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bc-footer">
+      <div class="bc-footer-content">
+        <div class="bc-footer-section">
+          <h4>BLOOM & CLIMB</h4>
+          <p>Where Nature Meets Play</p>
+        </div>
+      </div>
+      <div class="bc-footer-bottom">
+        <p>© 2025 Bloom & Climb | Portland, OR | 🐾 Cat Approved</p>
+      </div>
+    </footer>
+
+
+    <script>
+      // Mobile menu toggle
+      function toggleMobileMenu() {
+        const nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('active');
+      }
+
+      // Filter toggles
+      document.querySelectorAll('.bc-filter-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function() {
+          this.classList.toggle('active');
+          const options = this.nextElementSibling;
+          options.style.maxHeight = options.style.maxHeight ? null : options.scrollHeight + 'px';
+        });
+      });
+
+      // Add to cart with animation
+      document.querySelectorAll('.bc-add-to-cart').forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          const form = this.closest('form');
+          const originalText = this.innerHTML;
+          
+          // Disable button and show loading state
+          this.disabled = true;
+          this.classList.add('adding');
+          this.innerHTML = 'Adding... 🌸';
+          
+          // Create form data and add JSON header
+          const formData = new FormData(form);
+          
+          // Submit form via AJAX with proper headers
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Accept': 'application/json'
+            },
+            body: new URLSearchParams(formData).toString()
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Failed to add to cart');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Success - update button state
+            this.classList.remove('adding');
+            this.classList.add('added');
+            this.innerHTML = 'Added! ✓';
+            this.disabled = false;
+            
+            // Update cart count
+            const cartCount = document.querySelector('.bc-cart-count');
+            if (cartCount) {
+              fetch('/cart.js', {
+                headers: {
+                  'Accept': 'application/json'
+                }
+              })
+              .then(r => r.json())
+              .then(cart => {
+                cartCount.textContent = cart.item_count;
+              })
+              .catch(err => console.error('Failed to update cart count:', err));
+            }
+            
+            // Reset button after delay
+            setTimeout(() => {
+              this.classList.remove('added');
+              this.innerHTML = originalText;
+            }, 2000);
+          })
+          .catch(error => {
+            // Error - reset button
+            console.error('Add to cart error:', error);
+            this.classList.remove('adding');
+            this.innerHTML = 'Error - Try Again';
+            this.disabled = false;
+            
+            setTimeout(() => {
+              this.innerHTML = originalText;
+            }, 2000);
+          });
+        });
+      });
+
+      // Products bloom animation on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('bloom-in');
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.bc-product-card').forEach(card => {
+        observer.observe(card);
+      });
+    </script>
+  </body>
+</html>
