@@ -1,87 +1,46 @@
 {
   "sections": {
-    "featured_product_landing": {
+    "featured_product": {
       "type": "featured-product-landing",
-      "blocks": {
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "swatch_shape": "circle"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "bundle_and_save": {
-          "type": "bundle_and_save",
-          "settings": {
-            "heading": "BUNDLE & SAVE",
-            "enable_1": true,
-            "label_1": "Buy 1",
-            "qty_1": 1,
-            "discount_1": 0,
-            "enable_2": true,
-            "label_2": "Buy 2 - Most Popular",
-            "qty_2": 2,
-            "discount_2": 18,
-            "enable_3": true,
-            "label_3": "Buy 3 - Best Value",
-            "qty_3": 3,
-            "discount_3": 27,
-            "enable_4": true,
-            "label_4": "Buy 4 - Maximum Savings",
-            "qty_4": 4,
-            "discount_4": 35
-          }
-        }
-      },
-      "block_order": [
-        "title",
-        "price",
-        "variant_picker",
-        "quantity_selector",
-        "bundle_and_save"
-      ],
       "settings": {
-        "hide_header": true,
-        "product": "new-designer-street-wear-men-hooded-zip-up-sweatshirt-unisex-100-cotton-french-terry-backpack-hoodie",
+        "product": "bloom-climb",
         "color_scheme": "scheme-1",
-        "secondary_background": false,
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "media_position": "left",
-        "image_zoom": "none",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "media_max_width": 600,
+        "info_max_width": 600,
+        "layout_gap": 48,
+        "pad_left": 32,
+        "pad_right": 32,
+        "bundle_max_width": 520,
+        "show_dynamic_checkout": true,
+        "show_video_section": true,
+        "video1_title": "Morning Zoomies",
+        "video2_title": "Afternoon Bliss", 
+        "video3_title": "Evening Perch",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "related-products": {
+      "type": "related-products",
       "settings": {
-        "title": "Featured Cat Trees",
-        "collection": "all"
-      }
-    },
-    "video": {
-      "type": "video",
-      "settings": {
-        "heading": "See Our Cat Trees In Action"
+        "heading": "More Cat Paradise Options",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     }
   },
   "order": [
-    "featured_product_landing",
-    "featured_collection",
-    "video"
+    "featured_product",
+    "related-products"
   ]
 }
