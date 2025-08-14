@@ -15,7 +15,7 @@ Thumbs.db
 *.swo
 
 # Shopify specific
-config/settings_data.json
+# Note: settings_data.json contains theme customizations and should be committed
 *.orig
 
 # Temporary files
