@@ -437,6 +437,11 @@ body.bloom-climb-collection {
   overflow: hidden;
   box-shadow: var(--shadow-soft);
   transition: all 0.3s ease;
+}
+
+/* Hidden state for filtered products */
+.bc-product-card.bc-hidden {
+  display: none !important;
   opacity: 0;
   transform: translateY(20px);
 }
