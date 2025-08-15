@@ -492,8 +492,8 @@
         {%- unless product == blank -%}
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
           {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-            <!-- Hidden variant selector - Remove disabled attribute -->
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id>
+            <!-- Hidden variant selector defaults to first available variant -->
+            <input type="hidden" name="id" value="{{ product.first_available_variant.id }}" data-variant-id>
             
             <!-- Quantity for bundles (default is 2 since that's selected) -->
             <input type="hidden" name="quantity" value="2" id="quantity-input-{{ section.id }}">
@@ -501,9 +501,9 @@
             <div class="cta-container">
               <!-- Real Add to Cart Button -->
               <button type="submit" name="add" class="btn-primary ripple product-form__submit" 
-                      {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+                      {% unless product.first_available_variant.available %}disabled{% endunless %}>
                 <span>
-                  {%- if product.selected_or_first_available_variant.available -%}
+                  {%- if product.first_available_variant.available -%}
                     ADD TO CART
                   {%- else -%}
                     SOLD OUT
@@ -517,7 +517,7 @@
               </button>
               
               <!-- Dynamic Checkout Buttons (Shop Pay, Apple Pay, etc.) -->
-              {%- if section.settings.show_dynamic_checkout != false and product.selected_or_first_available_variant.available -%}
+              {%- if section.settings.show_dynamic_checkout != false and product.first_available_variant.available -%}
                 {{ form | payment_button }}
               {%- endif -%}
             </div>
@@ -535,7 +535,7 @@
         {%- endunless -%}
 
         <!-- Stock Alert -->
-        {%- assign selected_variant = product.selected_or_first_available_variant -%}
+        {%- assign selected_variant = product.first_available_variant -%}
         {%- if selected_variant.inventory_management == 'shopify' and selected_variant.inventory_quantity > 0 and selected_variant.inventory_quantity <= 50 -%}
           <div class="stock-alert">
             ☀️ Limited Summer Collection - Only {{ selected_variant.inventory_quantity }} left!
@@ -1636,7 +1636,46 @@
         }
       }
 
-      // Trigger initial variant selection on page load (price only, not image)
+      // Helpers to sync UI to a specific variant (prefer first available)
+      function setSelectedOptionsFromVariant(variant) {
+        if (!variant) return;
+        const variantGroups = document.querySelectorAll('.variant-group');
+        variantGroups.forEach((group, index) => {
+          const desiredValue = variant.options[index];
+          if (!desiredValue) return;
+          const buttons = group.querySelectorAll('.size-pill, .color-dot');
+          buttons.forEach(btn => btn.classList.remove('selected'));
+          const match = Array.from(buttons).find(btn => btn.getAttribute('data-value') === desiredValue);
+          if (match) match.classList.add('selected');
+        });
+      }
+
+      function initializeDefaultVariantSelection() {
+        if (!window.productVariants || window.productVariants.length === 0) return;
+        const firstAvailable = window.productVariants.find(v => v.available) || window.productVariants[0];
+        if (!firstAvailable) return;
+        // Update UI selections
+        setSelectedOptionsFromVariant(firstAvailable);
+        // Update hidden inputs
+        const idInput = document.querySelector('input[name="id"]');
+        const variantInput = document.querySelector('input[data-variant-id]');
+        if (idInput) idInput.value = firstAvailable.id;
+        if (variantInput) variantInput.value = firstAvailable.id;
+        // Update button state immediately
+        const addToCartBtn = document.querySelector('.product-form__submit');
+        if (addToCartBtn) {
+          addToCartBtn.disabled = !firstAvailable.available;
+          const btnText = addToCartBtn.querySelector('span');
+          if (btnText) btnText.textContent = firstAvailable.available ? 'ADD TO CART' : 'SOLD OUT';
+        }
+        // Update pricing
+        if (typeof updateVariantPrice === 'function') {
+          updateVariantPrice(firstAvailable);
+        }
+      }
+
+      // Trigger initial variant selection to first available option
+      initializeDefaultVariantSelection();
       findAndUpdateVariant();
       
       // Color dot selection with image switching
