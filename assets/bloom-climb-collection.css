@@ -248,8 +248,8 @@ body.bloom-climb-collection {
   gap: 40px;
 }
 
-/* Filters Sidebar */
-.bc-filters {
+/* Trust Sidebar */
+.bc-trust-sidebar {
   background: white;
   border-radius: 16px;
   padding: 24px;
@@ -257,6 +257,137 @@ body.bloom-climb-collection {
   height: fit-content;
   position: sticky;
   top: 100px;
+}
+
+.bc-trust-section {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(127, 176, 105, 0.1);
+}
+
+.bc-trust-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Happy Cats Section */
+.bc-happy-cats {
+  text-align: center;
+}
+
+.bc-trust-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.bc-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.bc-stars {
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.bc-rating-text {
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Promise Section */
+.bc-section-title {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--leaf-green);
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.bc-promise-list {
+  list-style: none;
+  padding: 0;
+}
+
+.bc-promise-list li {
+  padding: 8px 0;
+  color: var(--text-dark);
+  font-size: 14px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.bc-promise-list li:before {
+  content: "•";
+  color: var(--petal-pink);
+  position: absolute;
+  left: 0;
+  font-size: 18px;
+}
+
+/* Reviews Section */
+.bc-review {
+  margin-bottom: 18px;
+}
+
+.bc-review:last-child {
+  margin-bottom: 0;
+}
+
+.bc-review-text {
+  font-style: italic;
+  color: var(--text-dark);
+  font-size: 14px;
+  margin-bottom: 4px;
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.bc-review-author {
+  color: var(--text-light);
+  font-size: 12px;
+  padding-left: 10px;
+}
+
+/* Help Section */
+.bc-help {
+  text-align: center;
+}
+
+.bc-help-text {
+  color: var(--text-light);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.bc-help-link {
+  display: inline-block;
+  color: var(--leaf-green);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border: 2px solid var(--leaf-green);
+  border-radius: 20px;
+}
+
+.bc-help-link:hover {
+  background: var(--leaf-green);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Hide old filter styles */
+.bc-filters {
+  display: none;
 }
 
 .bc-filter-header {
@@ -772,7 +903,7 @@ body.bloom-climb-collection {
     grid-template-columns: 1fr;
   }
   
-  .bc-filters {
+  .bc-trust-sidebar {
     position: static;
     margin-bottom: 32px;
   }

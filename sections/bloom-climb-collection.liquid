@@ -150,101 +150,51 @@
               </div>
             </form>
           </facet-filters-form>
-          <!-- Filters Sidebar -->
-          <aside class="bc-filters">
-            <div class="bc-filter-header">
-              <h3>🌻 Filter & Sort</h3>
-              <button class="bc-clear-filters">Clear all</button>
-            </div>
-
-            <!-- Size Filter -->
-            <div class="bc-filter-group">
-              <button class="bc-filter-toggle">
-                <span>By Size 🌱</span>
-                <span class="bc-toggle-icon">▼</span>
-              </button>
-              <div class="bc-filter-options">
-                <label class="bc-checkbox">
-                  <input type="checkbox" name="size" value="small">
-                  <span class="bc-checkbox-leaf"></span>
-                  <span>Small (3.5ft)</span>
-                </label>
-                <label class="bc-checkbox">
-                  <input type="checkbox" name="size" value="medium">
-                  <span class="bc-checkbox-leaf"></span>
-                  <span>Medium (4.5ft)</span>
-                </label>
-                <label class="bc-checkbox">
-                  <input type="checkbox" name="size" value="large">
-                  <span class="bc-checkbox-leaf"></span>
-                  <span>Large (5.5ft)</span>
-                </label>
-                <label class="bc-checkbox">
-                  <input type="checkbox" name="size" value="xl">
-                  <span class="bc-checkbox-leaf"></span>
-                  <span>XL (6.5ft)</span>
-                </label>
+          <!-- Trust Sidebar -->
+          <aside class="bc-trust-sidebar">
+            <!-- Happy Cats Counter -->
+            <div class="bc-trust-section bc-happy-cats">
+              <h3 class="bc-trust-title">🌸 2,847 Happy Cats</h3>
+              <div class="bc-rating">
+                <span class="bc-stars">⭐⭐⭐⭐⭐</span>
+                <span class="bc-rating-text">(4.9)</span>
               </div>
             </div>
 
-            <!-- Color Filter -->
-            <div class="bc-filter-group">
-              <button class="bc-filter-toggle">
-                <span>By Color 🎨</span>
-                <span class="bc-toggle-icon">▼</span>
-              </button>
-              <div class="bc-filter-options">
-                <label class="bc-color-option">
-                  <input type="radio" name="color" value="pink">
-                  <span class="bc-color-dot" style="background: #FFB7C5;"></span>
-                  <span>Cherry Blossom</span>
-                </label>
-                <label class="bc-color-option">
-                  <input type="radio" name="color" value="green">
-                  <span class="bc-color-dot" style="background: #7FB069;"></span>
-                  <span>Sage Green</span>
-                </label>
-                <label class="bc-color-option">
-                  <input type="radio" name="color" value="cream">
-                  <span class="bc-color-dot" style="background: #FFF8E7;"></span>
-                  <span>Cloud Cream</span>
-                </label>
-                <label class="bc-color-option">
-                  <input type="radio" name="color" value="blue-pink">
-                  <span class="bc-color-dot" style="background: linear-gradient(45deg, #87CEEB, #FFB7C5);"></span>
-                  <span>Blue Pink</span>
-                </label>
+            <!-- Garden Promise -->
+            <div class="bc-trust-section bc-promise">
+              <h4 class="bc-section-title">Our Garden Promise 🌱</h4>
+              <ul class="bc-promise-list">
+                <li>Free Shipping $75+</li>
+                <li>30-Day Happy Cat Guarantee</li>
+                <li>Handcrafted with Love</li>
+                <li>Eco-Friendly Materials</li>
+              </ul>
+            </div>
+
+            <!-- Latest Reviews -->
+            <div class="bc-trust-section bc-reviews">
+              <h4 class="bc-section-title">Latest Blooms 🌻</h4>
+              <div class="bc-review-list">
+                <div class="bc-review">
+                  <p class="bc-review-text">"My cats are obsessed!"</p>
+                  <p class="bc-review-author">- Sarah, 2 hours ago</p>
+                </div>
+                <div class="bc-review">
+                  <p class="bc-review-text">"Perfect for our apartment"</p>
+                  <p class="bc-review-author">- Mike, today</p>
+                </div>
+                <div class="bc-review">
+                  <p class="bc-review-text">"Worth every penny!"</p>
+                  <p class="bc-review-author">- Luna's mom, yesterday</p>
+                </div>
               </div>
             </div>
 
-            <!-- Features Filter -->
-            <div class="bc-filter-group">
-              <button class="bc-filter-toggle">
-                <span>Features 🐾</span>
-                <span class="bc-toggle-icon">▼</span>
-              </button>
-              <div class="bc-filter-options">
-                <label class="bc-checkbox">
-                  <input type="checkbox" name="features" value="scratching">
-                  <span class="bc-checkbox-leaf"></span>
-                  <span>Scratching Posts</span>
-                </label>
-                <label class="bc-checkbox">
-                  <input type="checkbox" name="features" value="hammock">
-                  <span class="bc-checkbox-leaf"></span>
-                  <span>Hammock</span>
-                </label>
-                <label class="bc-checkbox">
-                  <input type="checkbox" name="features" value="cave">
-                  <span class="bc-checkbox-leaf"></span>
-                  <span>Cozy Cave</span>
-                </label>
-                <label class="bc-checkbox">
-                  <input type="checkbox" name="features" value="toys">
-                  <span class="bc-checkbox-leaf"></span>
-                  <span>Hanging Toys</span>
-                </label>
-              </div>
+            <!-- Help Section -->
+            <div class="bc-trust-section bc-help">
+              <p class="bc-help-text">Need help choosing?</p>
+              <a href="/pages/contact" class="bc-help-link">🌿 Chat with us</a>
             </div>
           </aside>
 
@@ -460,154 +410,49 @@
         nav.classList.toggle('active');
       }
 
-      // Initialize filter state
-      let activeFilters = {
-        sizes: [],
-        colors: [],
-        features: []
-      };
+      // Simple animations for trust sidebar
+      const reviewTexts = [
+        { text: '"My cats are obsessed!"', author: 'Sarah, 2 hours ago' },
+        { text: '"Perfect for our apartment"', author: 'Mike, today' },
+        { text: '"Worth every penny!"', author: 'Luna\'s mom, yesterday' },
+        { text: '"Best purchase ever!"', author: 'Tom, this morning' },
+        { text: '"Cats love the hammock!"', author: 'Emma, 3 hours ago' },
+        { text: '"So easy to assemble"', author: 'Alex, yesterday' }
+      ];
 
-      // Filter toggles - expand/collapse filter groups
-      document.querySelectorAll('.bc-filter-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function() {
-          this.classList.toggle('active');
-          const options = this.nextElementSibling;
-          if (options) {
-            options.style.maxHeight = options.style.maxHeight ? null : options.scrollHeight + 'px';
+      // Rotate reviews every 5 seconds
+      let currentReviewSet = 0;
+      function rotateReviews() {
+        const reviewList = document.querySelector('.bc-review-list');
+        if (reviewList) {
+          currentReviewSet = (currentReviewSet + 3) % reviewTexts.length;
+          const reviews = [];
+          for (let i = 0; i < 3; i++) {
+            const review = reviewTexts[(currentReviewSet + i) % reviewTexts.length];
+            reviews.push(`
+              <div class="bc-review">
+                <p class="bc-review-text">${review.text}</p>
+                <p class="bc-review-author">- ${review.author}</p>
+              </div>
+            `);
           }
-        });
-      });
-
-      // Apply filters function
-      function applyFilters() {
-        const products = document.querySelectorAll('.bc-product-card');
-        let visibleCount = 0;
-
-        products.forEach(product => {
-          let shouldShow = true;
-
-          // Check size filters
-          if (activeFilters.sizes.length > 0) {
-            const productSizes = (product.dataset.productSizes || '').split(',').filter(s => s);
-            const hasMatchingSize = activeFilters.sizes.some(size => productSizes.includes(size));
-            if (!hasMatchingSize) shouldShow = false;
-          }
-
-          // Check color filters
-          if (shouldShow && activeFilters.colors.length > 0) {
-            const productColors = (product.dataset.productColors || '').split(',').filter(c => c);
-            const hasMatchingColor = activeFilters.colors.some(color => productColors.includes(color));
-            if (!hasMatchingColor) shouldShow = false;
-          }
-
-          // Check feature filters
-          if (shouldShow && activeFilters.features.length > 0) {
-            const productFeatures = (product.dataset.productFeatures || '').split(',').filter(f => f);
-            const hasMatchingFeature = activeFilters.features.some(feature => productFeatures.includes(feature));
-            if (!hasMatchingFeature) shouldShow = false;
-          }
-
-          // Show or hide product
-          if (shouldShow) {
-            product.style.display = '';
-            product.classList.remove('bc-hidden');
-            visibleCount++;
-          } else {
-            product.style.display = 'none';
-            product.classList.add('bc-hidden');
-          }
-        });
-
-        // Update product count
-        const countElement = document.getElementById('ProductCount');
-        if (countElement) {
-          const totalCount = products.length;
-          if (visibleCount === totalCount) {
-            countElement.textContent = `${totalCount} Beautiful Trees`;
-          } else {
-            countElement.textContent = `${visibleCount} of ${totalCount} Trees`;
-          }
-        }
-
-        // Show/hide empty state
-        const emptyState = document.querySelector('.bc-empty-state');
-        if (visibleCount === 0) {
-          if (!emptyState) {
-            const gridContainer = document.querySelector('.bc-product-grid');
-            if (gridContainer) {
-              const emptyHTML = `
-                <div class="bc-empty-state">
-                  <span class="bc-empty-icon">🌻</span>
-                  <h3>No trees found</h3>
-                  <p>Try adjusting your filters to discover more cat trees!</p>
-                </div>
-              `;
-              gridContainer.insertAdjacentHTML('afterend', emptyHTML);
-            }
-          } else {
-            emptyState.style.display = 'block';
-          }
-        } else if (emptyState) {
-          emptyState.style.display = 'none';
+          reviewList.style.opacity = '0';
+          setTimeout(() => {
+            reviewList.innerHTML = reviews.join('');
+            reviewList.style.opacity = '1';
+          }, 300);
         }
       }
 
-      // Handle checkbox changes for size and features
-      document.querySelectorAll('input[type="checkbox"][name="size"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-          if (this.checked) {
-            activeFilters.sizes.push(this.value);
-          } else {
-            activeFilters.sizes = activeFilters.sizes.filter(s => s !== this.value);
-          }
-          applyFilters();
-        });
-      });
+      // Start rotation after 5 seconds
+      setTimeout(() => {
+        setInterval(rotateReviews, 5000);
+      }, 5000);
 
-      document.querySelectorAll('input[type="checkbox"][name="feature"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-          if (this.checked) {
-            activeFilters.features.push(this.value);
-          } else {
-            activeFilters.features = activeFilters.features.filter(f => f !== this.value);
-          }
-          applyFilters();
-        });
-      });
-
-      // Handle radio changes for color
-      document.querySelectorAll('input[type="radio"][name="color"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-          if (this.checked) {
-            activeFilters.colors = [this.value];
-          }
-          applyFilters();
-        });
-      });
-
-      // Clear all filters
-      const clearButton = document.querySelector('.bc-clear-filters');
-      if (clearButton) {
-        clearButton.addEventListener('click', function() {
-          // Reset filter state
-          activeFilters = {
-            sizes: [],
-            colors: [],
-            features: []
-          };
-
-          // Uncheck all checkboxes and radios
-          document.querySelectorAll('.bc-filter-options input[type="checkbox"]').forEach(cb => {
-            cb.checked = false;
-          });
-          document.querySelectorAll('.bc-filter-options input[type="radio"]').forEach(radio => {
-            radio.checked = false;
-          });
-
-          // Apply filters (show all)
-          applyFilters();
-        });
-      }
+      // Add transition for review list
+      const style = document.createElement('style');
+      style.textContent = '.bc-review-list { transition: opacity 0.3s ease; }';
+      document.head.appendChild(style);
 
       // Add to cart with animation
       document.querySelectorAll('.bc-add-to-cart').forEach(button => {
