@@ -259,7 +259,97 @@
                 <div class="collection">
                   <div class="bc-product-grid">
               {% for product in collection.products %}
-                <div class="bc-product-card" data-product-id="{{ product.id }}">
+                {%- comment -%}
+                  Extract product attributes for filtering
+                  Using tags, variants, and metafields for filter data
+                {%- endcomment -%}
+                {%- assign product_tags = product.tags | join: ',' | downcase -%}
+                {%- assign product_colors = '' -%}
+                {%- assign product_sizes = '' -%}
+                {%- assign product_features = '' -%}
+                
+                {%- comment -%} Extract sizes from tags or variant options {%- endcomment -%}
+                {%- for tag in product.tags -%}
+                  {%- assign tag_lower = tag | downcase -%}
+                  {%- if tag_lower contains 'small' or tag_lower contains '3.5ft' or tag_lower contains '3.5' -%}
+                    {%- assign product_sizes = product_sizes | append: 'small,' -%}
+                  {%- elsif tag_lower contains 'medium' or tag_lower contains '4.5ft' or tag_lower contains '4.5' -%}
+                    {%- assign product_sizes = product_sizes | append: 'medium,' -%}
+                  {%- elsif tag_lower contains 'large' or tag_lower contains '5.5ft' or tag_lower contains '5.5' -%}
+                    {%- assign product_sizes = product_sizes | append: 'large,' -%}
+                  {%- elsif tag_lower contains 'xl' or tag_lower contains 'extra large' or tag_lower contains '6.5ft' or tag_lower contains '6.5' -%}
+                    {%- assign product_sizes = product_sizes | append: 'xl,' -%}
+                  {%- endif -%}
+                  
+                  {%- comment -%} Extract colors from tags {%- endcomment -%}
+                  {%- if tag_lower contains 'pink' or tag_lower contains 'cherry' or tag_lower contains 'blossom' -%}
+                    {%- assign product_colors = product_colors | append: 'pink,' -%}
+                  {%- elsif tag_lower contains 'green' or tag_lower contains 'sage' or tag_lower contains 'mint' -%}
+                    {%- assign product_colors = product_colors | append: 'green,' -%}
+                  {%- elsif tag_lower contains 'natural' or tag_lower contains 'beige' or tag_lower contains 'wood' -%}
+                    {%- assign product_colors = product_colors | append: 'natural,' -%}
+                  {%- elsif tag_lower contains 'white' or tag_lower contains 'cream' -%}
+                    {%- assign product_colors = product_colors | append: 'white,' -%}
+                  {%- endif -%}
+                  
+                  {%- comment -%} Extract features from tags {%- endcomment -%}
+                  {%- if tag_lower contains 'multi' or tag_lower contains 'multiple' -%}
+                    {%- assign product_features = product_features | append: 'multi-cat,' -%}
+                  {%- endif -%}
+                  {%- if tag_lower contains 'scratch' or tag_lower contains 'sisal' -%}
+                    {%- assign product_features = product_features | append: 'scratching-posts,' -%}
+                  {%- endif -%}
+                  {%- if tag_lower contains 'hammock' or tag_lower contains 'bed' -%}
+                    {%- assign product_features = product_features | append: 'hammock,' -%}
+                  {%- endif -%}
+                  {%- if tag_lower contains 'apartment' or tag_lower contains 'compact' -%}
+                    {%- assign product_features = product_features | append: 'apartment-friendly,' -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                
+                {%- comment -%} Also check variant options for size {%- endcomment -%}
+                {%- for variant in product.variants -%}
+                  {%- for option in variant.options -%}
+                    {%- assign option_lower = option | downcase -%}
+                    {%- unless product_sizes contains 'small' -%}
+                      {%- if option_lower contains 'small' -%}
+                        {%- assign product_sizes = product_sizes | append: 'small,' -%}
+                      {%- endif -%}
+                    {%- endunless -%}
+                    {%- unless product_sizes contains 'medium' -%}
+                      {%- if option_lower contains 'medium' -%}
+                        {%- assign product_sizes = product_sizes | append: 'medium,' -%}
+                      {%- endif -%}
+                    {%- endunless -%}
+                    {%- unless product_sizes contains 'large' -%}
+                      {%- if option_lower contains 'large' -%}
+                        {%- unless option_lower contains 'xl' -%}
+                          {%- assign product_sizes = product_sizes | append: 'large,' -%}
+                        {%- endunless -%}
+                      {%- endif -%}
+                    {%- endunless -%}
+                    {%- unless product_sizes contains 'xl' -%}
+                      {%- if option_lower contains 'xl' or option_lower contains 'extra' -%}
+                        {%- assign product_sizes = product_sizes | append: 'xl,' -%}
+                      {%- endif -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+                
+                {%- comment -%} Default values if none found {%- endcomment -%}
+                {%- if product_sizes == '' -%}
+                  {%- assign product_sizes = 'medium' -%}
+                {%- endif -%}
+                {%- if product_colors == '' -%}
+                  {%- assign product_colors = 'natural' -%}
+                {%- endif -%}
+                
+                <div class="bc-product-card" 
+                     data-product-id="{{ product.id }}"
+                     data-product-sizes="{{ product_sizes }}"
+                     data-product-colors="{{ product_colors }}"
+                     data-product-features="{{ product_features }}"
+                     data-product-tags="{{ product_tags }}">
                   <div class="bc-product-image-wrapper">
                     <a href="{{ product.url }}">
                       {% if product.featured_image %}
@@ -370,14 +460,154 @@
         nav.classList.toggle('active');
       }
 
-      // Filter toggles
+      // Initialize filter state
+      let activeFilters = {
+        sizes: [],
+        colors: [],
+        features: []
+      };
+
+      // Filter toggles - expand/collapse filter groups
       document.querySelectorAll('.bc-filter-toggle').forEach(toggle => {
         toggle.addEventListener('click', function() {
           this.classList.toggle('active');
           const options = this.nextElementSibling;
-          options.style.maxHeight = options.style.maxHeight ? null : options.scrollHeight + 'px';
+          if (options) {
+            options.style.maxHeight = options.style.maxHeight ? null : options.scrollHeight + 'px';
+          }
         });
       });
+
+      // Apply filters function
+      function applyFilters() {
+        const products = document.querySelectorAll('.bc-product-card');
+        let visibleCount = 0;
+
+        products.forEach(product => {
+          let shouldShow = true;
+
+          // Check size filters
+          if (activeFilters.sizes.length > 0) {
+            const productSizes = (product.dataset.productSizes || '').split(',').filter(s => s);
+            const hasMatchingSize = activeFilters.sizes.some(size => productSizes.includes(size));
+            if (!hasMatchingSize) shouldShow = false;
+          }
+
+          // Check color filters
+          if (shouldShow && activeFilters.colors.length > 0) {
+            const productColors = (product.dataset.productColors || '').split(',').filter(c => c);
+            const hasMatchingColor = activeFilters.colors.some(color => productColors.includes(color));
+            if (!hasMatchingColor) shouldShow = false;
+          }
+
+          // Check feature filters
+          if (shouldShow && activeFilters.features.length > 0) {
+            const productFeatures = (product.dataset.productFeatures || '').split(',').filter(f => f);
+            const hasMatchingFeature = activeFilters.features.some(feature => productFeatures.includes(feature));
+            if (!hasMatchingFeature) shouldShow = false;
+          }
+
+          // Show or hide product
+          if (shouldShow) {
+            product.style.display = '';
+            product.classList.remove('bc-hidden');
+            visibleCount++;
+          } else {
+            product.style.display = 'none';
+            product.classList.add('bc-hidden');
+          }
+        });
+
+        // Update product count
+        const countElement = document.getElementById('ProductCount');
+        if (countElement) {
+          const totalCount = products.length;
+          if (visibleCount === totalCount) {
+            countElement.textContent = `${totalCount} Beautiful Trees`;
+          } else {
+            countElement.textContent = `${visibleCount} of ${totalCount} Trees`;
+          }
+        }
+
+        // Show/hide empty state
+        const emptyState = document.querySelector('.bc-empty-state');
+        if (visibleCount === 0) {
+          if (!emptyState) {
+            const gridContainer = document.querySelector('.bc-product-grid');
+            if (gridContainer) {
+              const emptyHTML = `
+                <div class="bc-empty-state">
+                  <span class="bc-empty-icon">🌻</span>
+                  <h3>No trees found</h3>
+                  <p>Try adjusting your filters to discover more cat trees!</p>
+                </div>
+              `;
+              gridContainer.insertAdjacentHTML('afterend', emptyHTML);
+            }
+          } else {
+            emptyState.style.display = 'block';
+          }
+        } else if (emptyState) {
+          emptyState.style.display = 'none';
+        }
+      }
+
+      // Handle checkbox changes for size and features
+      document.querySelectorAll('input[type="checkbox"][name="size"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          if (this.checked) {
+            activeFilters.sizes.push(this.value);
+          } else {
+            activeFilters.sizes = activeFilters.sizes.filter(s => s !== this.value);
+          }
+          applyFilters();
+        });
+      });
+
+      document.querySelectorAll('input[type="checkbox"][name="feature"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          if (this.checked) {
+            activeFilters.features.push(this.value);
+          } else {
+            activeFilters.features = activeFilters.features.filter(f => f !== this.value);
+          }
+          applyFilters();
+        });
+      });
+
+      // Handle radio changes for color
+      document.querySelectorAll('input[type="radio"][name="color"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (this.checked) {
+            activeFilters.colors = [this.value];
+          }
+          applyFilters();
+        });
+      });
+
+      // Clear all filters
+      const clearButton = document.querySelector('.bc-clear-filters');
+      if (clearButton) {
+        clearButton.addEventListener('click', function() {
+          // Reset filter state
+          activeFilters = {
+            sizes: [],
+            colors: [],
+            features: []
+          };
+
+          // Uncheck all checkboxes and radios
+          document.querySelectorAll('.bc-filter-options input[type="checkbox"]').forEach(cb => {
+            cb.checked = false;
+          });
+          document.querySelectorAll('.bc-filter-options input[type="radio"]').forEach(radio => {
+            radio.checked = false;
+          });
+
+          // Apply filters (show all)
+          applyFilters();
+        });
+      }
 
       // Add to cart with animation
       document.querySelectorAll('.bc-add-to-cart').forEach(button => {
