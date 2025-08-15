@@ -1,9 +1,19 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "featured_product": {
       "type": "featured-product-landing",
       "settings": {
-        "product": "bloom-climb",
+        "hide_header": false,
+        "product": "180cm-large-cat-tree-tower-home-furniture-cat-tower-pets-hammock-sisal-cat-scratching-post-climbing-frame-toy-spacious-perch",
         "color_scheme": "scheme-1",
         "media_max_width": 600,
         "info_max_width": 600,
@@ -11,11 +21,31 @@
         "pad_left": 32,
         "pad_right": 32,
         "bundle_max_width": 520,
+        "custom_heading": "",
         "show_dynamic_checkout": true,
         "show_video_section": true,
         "video1_title": "Morning Zoomies",
-        "video2_title": "Afternoon Bliss", 
+        "video1_url": "",
+        "video1_shopify_url": "",
+        "video2_title": "Afternoon Bliss",
+        "video2_url": "",
+        "video2_shopify_url": "",
         "video3_title": "Evening Perch",
+        "video3_url": "",
+        "video3_shopify_url": "",
+        "show_instagram_section": true,
+        "reel1_shopify_url": "",
+        "reel1_url": "",
+        "reel1_caption": "Morning stretches on the flower perch 🌅",
+        "reel1_likes": "2.3M",
+        "reel2_shopify_url": "",
+        "reel2_url": "",
+        "reel2_caption": "Playtime paradise 🎮 Who else has a climber?",
+        "reel2_likes": "1.8M",
+        "reel3_shopify_url": "",
+        "reel3_url": "",
+        "reel3_caption": "Naptime in the clouds ☁️💤",
+        "reel3_likes": "3.1M",
         "padding_top": 0,
         "padding_bottom": 0
       }
