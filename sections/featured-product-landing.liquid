@@ -37,7 +37,7 @@
       position: relative;
     }
     
-    .popular-badge, .value-badge {
+    .popular-badge {
       position: absolute;
       top: -10px;
       right: 10px;
@@ -53,23 +53,12 @@
       background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
     }
     
-    .value-badge {
-      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-    }
-    
     .bundle-option.selected {
-      border: 2px solid #0066FF;
-      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+      border: 2px solid #AFC8FF; /* softer outline */
+      box-shadow: 0 0 0 3px rgba(175, 200, 255, 0.25);
     }
     
-    .bundle-option.bundle-best-value {
-      border-color: transparent;
-    }
-    
-    .bundle-option.bundle-best-value.selected {
-      border: 2px solid #FFA500;
-      box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.18);
-    }
+    .bundle-option.bundle-best-value { border-color: transparent; }
     
     .bundle-save span {
       display: block;
@@ -522,7 +511,6 @@
             </label>
 
             <label class="bundle-option bundle-best-value">
-              <span class="value-badge">BEST VALUE</span>
               <input type="radio" name="bundle-qty" value="3" class="bundle-radio">
               <div class="bundle-details">
                 <div class="bundle-label">Ultimate Kingdom</div>
