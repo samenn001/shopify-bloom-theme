@@ -971,9 +971,11 @@ body {
 
 .bundle-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
+  text-align: center;
 }
 
 .bundle-title {
@@ -984,11 +986,19 @@ body {
   color: var(--notion-black);
 }
 
+.bundle-subtitle {
+  font-size: 14px;
+  color: var(--notion-gray-600);
+  font-weight: 400;
+  margin-top: 4px;
+}
+
 .bundle-divider {
-  flex: 1;
+  width: 60px;
   height: 2px;
-  background: linear-gradient(90deg, var(--notion-black) 0%, transparent 100%);
+  background: linear-gradient(90deg, transparent, var(--notion-black), transparent);
   opacity: 0.1;
+  margin-top: 8px;
 }
 
 .bundle-options {
@@ -1070,7 +1080,7 @@ body {
 
 .bundle-details {
   flex: 1;
-  margin-left: 16px;
+  margin-left: 60px;
 }
 
 .bundle-label {
@@ -1079,11 +1089,35 @@ body {
   color: var(--notion-black);
 }
 
+.bundle-includes {
+  font-size: 12px;
+  color: var(--notion-gray-600);
+  margin-top: 4px;
+  font-style: italic;
+}
+
 .bundle-save {
   font-size: 13px;
   color: var(--notion-green);
   margin-top: 4px;
   font-weight: 500;
+}
+
+.bundle-qty-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .bundle-pricing {
@@ -1097,11 +1131,42 @@ body {
   color: var(--notion-black);
 }
 
+.bundle-per-item {
+  font-size: 13px;
+  color: var(--notion-green);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
 .bundle-compare {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--notion-gray-400);
   text-decoration: line-through;
-  margin-top: 4px;
+  margin-top: 2px;
+}
+
+/* Trust Strip */
+.trust-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  padding: 12px;
+  background: rgba(127, 176, 105, 0.08);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  font-size: 12px;
+  color: var(--notion-gray-700);
+  font-weight: 500;
+}
+
+.trust-divider {
+  color: var(--notion-gray-400);
+  font-size: 10px;
 }
 
 /* CTA Buttons */
@@ -2182,6 +2247,99 @@ body {
   
   .bento-grid {
     grid-template-columns: 1fr;
+  }
+  
+  /* Bundle Mobile Styles */
+  .bundle-modern {
+    padding: 16px;
+    margin: 24px 0;
+  }
+  
+  .bundle-header {
+    margin-bottom: 16px;
+  }
+  
+  .bundle-title {
+    font-size: 12px;
+  }
+  
+  .bundle-subtitle {
+    font-size: 12px;
+  }
+  
+  .bundle-option {
+    padding: 16px;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .bundle-qty-badge {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    top: 12px;
+    left: 12px;
+  }
+  
+  .bundle-details {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 100%;
+  }
+  
+  .bundle-label {
+    font-size: 14px;
+  }
+  
+  .bundle-includes {
+    font-size: 11px;
+  }
+  
+  .bundle-save {
+    font-size: 12px;
+  }
+  
+  .bundle-pricing {
+    width: 100%;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  
+  .bundle-final {
+    font-size: 18px;
+  }
+  
+  .bundle-per-item {
+    font-size: 12px;
+  }
+  
+  .bundle-compare {
+    font-size: 12px;
+  }
+  
+  .popular-badge, .value-badge {
+    font-size: 9px;
+    padding: 3px 8px;
+    top: -8px;
+    right: 8px;
+  }
+  
+  .trust-strip {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .trust-divider {
+    display: none;
+  }
+  
+  .trust-item {
+    width: 100%;
+    text-align: center;
   }
   
   .reviews-masonry {

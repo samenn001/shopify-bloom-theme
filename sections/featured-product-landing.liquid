@@ -483,15 +483,18 @@
         
         <div class="bundle-modern bundle-ultra-thin">
           <div class="bundle-header">
-            <span class="bundle-title">🎁 BUILD YOUR CAT PARADISE</span>
+            <span class="bundle-title">🎁 Build Your Cat Paradise — Bundle & Save</span>
+            <span class="bundle-subtitle">Choose your pack size. Bigger packs = bigger savings + exclusive freebies</span>
             <span class="bundle-divider"></span>
           </div>
           
           <div class="bundle-options">
             <label class="bundle-option">
               <input type="radio" name="bundle-qty" value="1" class="bundle-radio">
+              <span class="bundle-qty-badge">1×</span>
               <div class="bundle-details">
-                <div class="bundle-label">Starter Paradise</div>
+                <div class="bundle-label">Starter Paradise — 1 Tree</div>
+                <div class="bundle-includes">Includes: 1 Cat Flower Tree</div>
                 <div class="bundle-save">
                   <span style="color: #4CAF50; font-weight: bold;">✓ FREE Spring Toys Set</span>
                   <span style="display: block; font-size: 0.85em; margin-top: 2px;">Perfect for 1 cat ($15 value)</span>
@@ -499,6 +502,7 @@
               </div>
               <div class="bundle-pricing">
                 <div class="bundle-final">{{ bundle1_price | money }}</div>
+                <div class="bundle-per-item">{{ bundle1_price | money }} each</div>
                 {%- if original_price > base_price -%}
                   <div class="bundle-compare">{{ original_price | money }}</div>
                 {%- endif -%}
@@ -508,32 +512,38 @@
             <label class="bundle-option selected bundle-popular">
               <span class="popular-badge">MOST POPULAR</span>
               <input type="radio" name="bundle-qty" value="2" checked class="bundle-radio">
+              <span class="bundle-qty-badge">2×</span>
               <div class="bundle-details">
-                <div class="bundle-label">Family Playground</div>
+                <div class="bundle-label">Family Playground — 2 Trees</div>
+                <div class="bundle-includes">Includes: 2 Cat Flower Trees + FREE Gifts</div>
                 <div class="bundle-save">
                   <span style="color: #4CAF50; font-weight: bold;">✓ FREE Catnip + Toys</span>
-                  <span style="display: block; font-size: 0.85em;">Save {{ bundle2_save | money }}</span>
+                  <span style="display: block; font-size: 0.85em;">Save {{ bundle2_save | money }} (10% off)</span>
                 </div>
               </div>
               <div class="bundle-pricing">
                 <div class="bundle-final">{{ bundle2_price | money }}</div>
-                <div class="bundle-compare">{{ bundle2_original | money }}</div>
+                <div class="bundle-per-item">{{ bundle2_price | divided_by: 2 | money }} each</div>
+                <div class="bundle-compare">Was {{ bundle2_original | money }}</div>
               </div>
             </label>
 
             <label class="bundle-option bundle-best-value">
               <span class="value-badge">BEST VALUE</span>
               <input type="radio" name="bundle-qty" value="3" class="bundle-radio">
+              <span class="bundle-qty-badge">3×</span>
               <div class="bundle-details">
-                <div class="bundle-label">Ultimate Kingdom</div>
+                <div class="bundle-label">Ultimate Kingdom — 3 Trees</div>
+                <div class="bundle-includes">Includes: 3 Cat Flower Trees + Premium Gifts</div>
                 <div class="bundle-save">
-                  <span style="color: #4CAF50; font-weight: bold;">✓ Wall Set + Toys + Carpet</span>
-                  <span style="display: block; font-size: 0.85em;">Save {{ bundle3_save | money }}</span>
+                  <span style="color: #4CAF50; font-weight: bold;">✓ FREE Wall Set + Toys + Carpet</span>
+                  <span style="display: block; font-size: 0.85em;">Save {{ bundle3_save | money }} (15% off)</span>
                 </div>
               </div>
               <div class="bundle-pricing">
                 <div class="bundle-final">{{ bundle3_price | money }}</div>
-                <div class="bundle-compare">{{ bundle3_original | money }}</div>
+                <div class="bundle-per-item">{{ bundle3_price | divided_by: 3 | money }} each</div>
+                <div class="bundle-compare">Was {{ bundle3_original | money }}</div>
               </div>
             </label>
           </div>
@@ -553,9 +563,9 @@
               <!-- Real Add to Cart Button -->
               <button type="submit" name="add" class="btn-primary ripple product-form__submit" 
                       {% unless product.first_available_variant.available %}disabled{% endunless %}>
-                <span>
+                <span id="cta-text-{{ section.id }}">
                   {%- if product.first_available_variant.available -%}
-                    ADD TO CART
+                    Add 2 Trees — {{ bundle2_price | money }}
                   {%- else -%}
                     SOLD OUT
                   {%- endif -%}
@@ -585,11 +595,22 @@
           </div>
         {%- endunless -%}
 
+        <!-- Trust Strip -->
+        <div class="trust-strip">
+          <span class="trust-item">🐱 30-Day Happy Cat Guarantee</span>
+          <span class="trust-divider">•</span>
+          <span class="trust-item">🚚 Free Shipping</span>
+          <span class="trust-divider">•</span>
+          <span class="trust-item">↩ Easy Returns</span>
+          <span class="trust-divider">•</span>
+          <span class="trust-item">⭐ 4.9/5 (2,847 reviews)</span>
+        </div>
+        
         <!-- Stock Alert -->
         {%- assign selected_variant = product.first_available_variant -%}
         {%- if selected_variant.inventory_management == 'shopify' and selected_variant.inventory_quantity > 0 and selected_variant.inventory_quantity <= 50 -%}
-          <div class="stock-alert">
-            ☀️ Limited Summer Collection - Only {{ selected_variant.inventory_quantity }} left!
+          <div class="stock-alert" id="stock-alert-{{ section.id }}">
+            ☀️ Only <span id="stock-qty-{{ section.id }}">{{ selected_variant.inventory_quantity }}</span> two-packs left today!
           </div>
         {%- elsif selected_variant.available == false -%}
           <div class="stock-alert">
@@ -1324,6 +1345,39 @@
           if (qtyInput) {
             qtyInput.value = this.value;
           }
+          
+          // Update CTA button text
+          const ctaText = document.getElementById('cta-text-{{ section.id }}');
+          if (ctaText) {
+            const qty = parseInt(this.value);
+            const price = parentOption.querySelector('.bundle-final')?.textContent || '';
+            if (qty === 1) {
+              ctaText.textContent = `Add 1 Tree — ${price}`;
+            } else {
+              ctaText.textContent = `Add ${qty} Trees — ${price}`;
+            }
+          }
+          
+          // Update stock alert for dynamic quantity
+          const stockAlert = document.getElementById('stock-alert-{{ section.id }}');
+          const stockQty = document.getElementById('stock-qty-{{ section.id }}');
+          if (stockAlert && stockQty) {
+            const qty = parseInt(this.value);
+            const currentStock = parseInt(stockQty.dataset.originalStock || stockQty.textContent);
+            if (!stockQty.dataset.originalStock) {
+              stockQty.dataset.originalStock = currentStock;
+            }
+            
+            if (qty === 1) {
+              stockAlert.innerHTML = `☀️ Only <span id="stock-qty-{{ section.id }}">${currentStock}</span> left today!`;
+            } else if (qty === 2) {
+              const packStock = Math.floor(currentStock / 2);
+              stockAlert.innerHTML = `☀️ Only <span id="stock-qty-{{ section.id }}">${packStock}</span> two-packs left today!`;
+            } else if (qty === 3) {
+              const packStock = Math.floor(currentStock / 3);
+              stockAlert.innerHTML = `☀️ Only <span id="stock-qty-{{ section.id }}">${packStock}</span> three-packs left today!`;
+            }
+          }
         });
       });
       
@@ -1541,46 +1595,60 @@
       function updateBundlePrices(basePrice, originalPrice) {
         // Bundle 1 (no discount)
         const bundle1Final = document.querySelector('.bundle-option:nth-child(1) .bundle-final');
+        const bundle1PerItem = document.querySelector('.bundle-option:nth-child(1) .bundle-per-item');
         if (bundle1Final) {
           bundle1Final.textContent = formatMoney(basePrice);
+        }
+        if (bundle1PerItem) {
+          bundle1PerItem.textContent = formatMoney(basePrice) + ' each';
         }
         
         // Bundle 2 (10% off)
         const bundle2Price = basePrice * 2 * 0.9;
         const bundle2Final = document.querySelector('.bundle-option:nth-child(2) .bundle-final');
+        const bundle2PerItem = document.querySelector('.bundle-option:nth-child(2) .bundle-per-item');
         const bundle2Compare = document.querySelector('.bundle-option:nth-child(2) .bundle-compare');
         const bundle2SaveContainer = document.querySelector('.bundle-option:nth-child(2) .bundle-save');
         const bundle2SaveAmount = document.querySelector('.bundle-option:nth-child(2) .bundle-save span:nth-child(2)');
         
         if (bundle2Final) bundle2Final.textContent = formatMoney(bundle2Price);
-        if (bundle2Compare) bundle2Compare.textContent = formatMoney(basePrice * 2);
+        if (bundle2PerItem) bundle2PerItem.textContent = formatMoney(bundle2Price / 2) + ' each';
+        if (bundle2Compare) bundle2Compare.textContent = 'Was ' + formatMoney(basePrice * 2);
         if (bundle2SaveAmount) {
-          bundle2SaveAmount.textContent = 'Save ' + formatMoney(basePrice * 2 - bundle2Price);
+          bundle2SaveAmount.textContent = 'Save ' + formatMoney(basePrice * 2 - bundle2Price) + ' (10% off)';
         } else if (bundle2SaveContainer) {
           const span = document.createElement('span');
           span.style.display = 'block';
           span.style.fontSize = '0.85em';
-          span.textContent = 'Save ' + formatMoney(basePrice * 2 - bundle2Price);
+          span.textContent = 'Save ' + formatMoney(basePrice * 2 - bundle2Price) + ' (10% off)';
           bundle2SaveContainer.appendChild(span);
         }
         
         // Bundle 3 (15% off)
         const bundle3Price = basePrice * 3 * 0.85;
         const bundle3Final = document.querySelector('.bundle-option:nth-child(3) .bundle-final');
+        const bundle3PerItem = document.querySelector('.bundle-option:nth-child(3) .bundle-per-item');
         const bundle3Compare = document.querySelector('.bundle-option:nth-child(3) .bundle-compare');
         const bundle3SaveContainer = document.querySelector('.bundle-option:nth-child(3) .bundle-save');
         const bundle3SaveAmount = document.querySelector('.bundle-option:nth-child(3) .bundle-save span:nth-child(2)');
         
         if (bundle3Final) bundle3Final.textContent = formatMoney(bundle3Price);
-        if (bundle3Compare) bundle3Compare.textContent = formatMoney(basePrice * 3);
+        if (bundle3PerItem) bundle3PerItem.textContent = formatMoney(bundle3Price / 3) + ' each';
+        if (bundle3Compare) bundle3Compare.textContent = 'Was ' + formatMoney(basePrice * 3);
         if (bundle3SaveAmount) {
-          bundle3SaveAmount.textContent = 'Save ' + formatMoney(basePrice * 3 - bundle3Price);
+          bundle3SaveAmount.textContent = 'Save ' + formatMoney(basePrice * 3 - bundle3Price) + ' (15% off)';
         } else if (bundle3SaveContainer) {
           const span = document.createElement('span');
           span.style.display = 'block';
           span.style.fontSize = '0.85em';
-          span.textContent = 'Save ' + formatMoney(basePrice * 3 - bundle3Price);
+          span.textContent = 'Save ' + formatMoney(basePrice * 3 - bundle3Price) + ' (15% off)';
           bundle3SaveContainer.appendChild(span);
+        }
+        
+        // Update CTA for currently selected bundle
+        const selectedRadio = document.querySelector('.bundle-radio:checked');
+        if (selectedRadio) {
+          selectedRadio.dispatchEvent(new Event('change'));
         }
       }
       
