@@ -31,6 +31,50 @@
   {{ 'section-product-landing.css' | asset_url | stylesheet_tag }}
   {{ 'instagram-reels.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+  
+  <style>
+    .bundle-option {
+      position: relative;
+    }
+    
+    .popular-badge, .value-badge {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+      border-radius: 12px;
+      z-index: 2;
+    }
+    
+    .popular-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .value-badge {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .bundle-option.selected {
+      border: 2px solid #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .bundle-option.bundle-best-value {
+      border-color: #f5576c;
+    }
+    
+    .bundle-option.bundle-best-value.selected {
+      border: 2px solid #f5576c;
+      box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.1);
+    }
+    
+    .bundle-save span {
+      display: block;
+    }
+  </style>
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
@@ -439,7 +483,7 @@
         
         <div class="bundle-modern bundle-ultra-thin">
           <div class="bundle-header">
-            <span class="bundle-title">CREATE YOUR CAT GARDEN</span>
+            <span class="bundle-title">🎁 BUILD YOUR CAT PARADISE</span>
             <span class="bundle-divider"></span>
           </div>
           
@@ -447,12 +491,11 @@
             <label class="bundle-option">
               <input type="radio" name="bundle-qty" value="1" class="bundle-radio">
               <div class="bundle-details">
-                <div class="bundle-label">Starter Garden</div>
-                {%- if bundle1_save > 0 -%}
-                  <div class="bundle-save">1 Tree + Toy Set</div>
-                {%- else -%}
-                  <div class="bundle-save">Perfect for 1-2 cats</div>
-                {%- endif -%}
+                <div class="bundle-label">Starter Paradise</div>
+                <div class="bundle-save">
+                  <span style="color: #4CAF50; font-weight: bold;">✓ FREE Spring Toys Set</span>
+                  <span style="display: block; font-size: 0.85em; margin-top: 2px;">Perfect for 1 cat ($15 value)</span>
+                </div>
               </div>
               <div class="bundle-pricing">
                 <div class="bundle-final">{{ bundle1_price | money }}</div>
@@ -463,10 +506,14 @@
             </label>
 
             <label class="bundle-option selected bundle-popular">
+              <span class="popular-badge">MOST POPULAR</span>
               <input type="radio" name="bundle-qty" value="2" checked class="bundle-radio">
               <div class="bundle-details">
-                <div class="bundle-label">Family Forest</div>
-                <div class="bundle-save">2 Trees + Bridge - Save {{ bundle2_save | money }}</div>
+                <div class="bundle-label">Family Playground</div>
+                <div class="bundle-save">
+                  <span style="color: #4CAF50; font-weight: bold;">✓ FREE Catnip Ball + Spring Toys</span>
+                  <span style="display: block; font-size: 0.85em; margin-top: 2px;">Save {{ bundle2_save | money }} + $40 in FREE gifts!</span>
+                </div>
               </div>
               <div class="bundle-pricing">
                 <div class="bundle-final">{{ bundle2_price | money }}</div>
@@ -474,11 +521,15 @@
               </div>
             </label>
 
-            <label class="bundle-option">
+            <label class="bundle-option bundle-best-value">
+              <span class="value-badge">BEST VALUE</span>
               <input type="radio" name="bundle-qty" value="3" class="bundle-radio">
               <div class="bundle-details">
-                <div class="bundle-label">Palace Paradise</div>
-                <div class="bundle-save">3 Trees + Wall Garden - Save {{ bundle3_save | money }}</div>
+                <div class="bundle-label">Ultimate Kingdom</div>
+                <div class="bundle-save">
+                  <span style="color: #4CAF50; font-weight: bold;">✓ Wall Set + Catnip + Toys + Carpet</span>
+                  <span style="display: block; font-size: 0.85em; margin-top: 2px;">Save {{ bundle3_save | money }} + $164 in FREE gifts!</span>
+                </div>
               </div>
               <div class="bundle-pricing">
                 <div class="bundle-final">{{ bundle3_price | money }}</div>
