@@ -1072,6 +1072,126 @@ body {
   font-size: 9px;
 }
 
+/* Use explicit badges from markup; hide legacy pseudo badge to avoid duplicates */
+.bundle-option.bundle-popular::after { display: none; }
+
+/* Refined Bundle Aesthetic */
+.bundle-modern {
+  background: #FAFAF9 !important;
+  border: 1px solid #E5E7E5 !important;
+  border-radius: 12px !important;
+  padding: 32px !important;
+}
+
+.bundle-option {
+  background: white !important;
+  border: 1px solid #E5E7E5 !important;
+  border-radius: 8px !important;
+  padding: 24px !important;
+  transition: all 0.2s ease !important;
+}
+
+.bundle-option::before {
+  background: linear-gradient(90deg, #7FB069, transparent) !important;
+  opacity: 0.03 !important;
+  transition: width 0.2s ease !important;
+}
+
+.bundle-option:hover {
+  transform: translateY(-2px) !important;
+  border-color: #C7D2CC !important;
+  box-shadow: 0 4px 12px rgba(127, 176, 105, 0.08) !important;
+}
+
+.bundle-option.selected {
+  border-color: #7FB069 !important;
+  background: linear-gradient(180deg, rgba(127, 176, 105, 0.03) 0%, white 100%) !important;
+  box-shadow: 0 2px 8px rgba(127, 176, 105, 0.12) !important;
+}
+
+.bundle-qty-badge {
+  background: white !important;
+  border: 1.5px solid #7FB069 !important;
+  color: #7FB069 !important;
+  box-shadow: none !important;
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.popular-badge {
+  background: #7FB069 !important;
+  box-shadow: 0 2px 4px rgba(127, 176, 105, 0.2) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+  padding: 4px 10px !important;
+  border-radius: 4px !important;
+}
+
+.value-badge {
+  background: #F3F4F6 !important;
+  color: #6B7280 !important;
+  border: 1px solid #E5E7EB !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  border-radius: 4px !important;
+}
+
+.bundle-title {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  color: #2D3E2E !important;
+}
+
+.bundle-subtitle {
+  font-size: 13px !important;
+  color: #6B7280 !important;
+  line-height: 1.5 !important;
+}
+
+.bundle-save span:first-child {
+  color: #7FB069 !important;
+}
+
+.bundle-save span:last-child {
+  color: #6B7280 !important;
+  font-size: 11px !important;
+}
+
+.bundle-per-item {
+  font-size: 11px !important;
+  color: #7FB069 !important;
+  opacity: 0.9 !important;
+}
+
+.bundle-compare {
+  font-size: 12px !important;
+  color: #9CA3AF !important;
+  opacity: 0.8 !important;
+}
+
+.trust-strip {
+  background: transparent !important;
+  padding: 0 !important;
+  gap: 16px !important;
+}
+
+.trust-item {
+  font-size: 11px !important;
+  color: #6B7280 !important;
+  font-weight: 400 !important;
+}
+
+.trust-divider {
+  color: #E5E7EB !important;
+  font-size: 8px !important;
+  opacity: 0.5 !important;
+}
+
 .bundle-radio {
   width: 20px;
   height: 20px;
