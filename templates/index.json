@@ -12,7 +12,7 @@
     "featured_product": {
       "type": "featured-product-landing",
       "settings": {
-        "hide_header": false,
+        "hide_header": true,
         "product": "54-5-inch-double-condo-cat-tree-tower-with-scratching-post-fur-balls-perches-sturdy-base-small-medium-cats",
         "color_scheme": "scheme-1",
         "media_max_width": 600,
