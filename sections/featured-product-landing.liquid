@@ -54,7 +54,7 @@
     }
     
     .value-badge {
-      background: linear-gradient(135deg, #00A3FF 0%, #0066FF 100%);
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
     }
     
     .bundle-option.selected {
@@ -63,12 +63,12 @@
     }
     
     .bundle-option.bundle-best-value {
-      border-color: #0066FF;
+      border-color: transparent;
     }
     
     .bundle-option.bundle-best-value.selected {
-      border: 2px solid #0066FF;
-      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+      border: 2px solid #FFA500;
+      box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.18);
     }
     
     .bundle-save span {
@@ -488,8 +488,8 @@
           </div>
           
           <div class="bundle-options">
-            <label class="bundle-option">
-              <input type="radio" name="bundle-qty" value="1" class="bundle-radio">
+            <label class="bundle-option selected">
+              <input type="radio" name="bundle-qty" value="1" checked class="bundle-radio">
               <div class="bundle-details">
                 <div class="bundle-label">Starter Paradise</div>
                 <div class="bundle-save">
@@ -505,9 +505,9 @@
               </div>
             </label>
 
-            <label class="bundle-option selected bundle-popular">
+            <label class="bundle-option bundle-popular">
               <span class="popular-badge">MOST POPULAR</span>
-              <input type="radio" name="bundle-qty" value="2" checked class="bundle-radio">
+              <input type="radio" name="bundle-qty" value="2" class="bundle-radio">
               <div class="bundle-details">
                 <div class="bundle-label">Family Playground</div>
                 <div class="bundle-save">
@@ -546,8 +546,8 @@
             <!-- Hidden variant selector defaults to first available variant -->
             <input type="hidden" name="id" value="{{ product.first_available_variant.id }}" data-variant-id>
             
-            <!-- Quantity for bundles (default is 2 since that's selected) -->
-            <input type="hidden" name="quantity" value="2" id="quantity-input-{{ section.id }}">
+            <!-- Quantity for bundles (default is 1 since Starter is selected) -->
+            <input type="hidden" name="quantity" value="1" id="quantity-input-{{ section.id }}">
             
             <div class="cta-container">
               <!-- Real Add to Cart Button -->
@@ -1774,14 +1774,8 @@
         });
       });
 
-      // Bundle option selection (second declaration - removed duplicate)
-      const bundleOptionsElements = document.querySelectorAll('.bundle-option');
-      bundleOptionsElements.forEach(option => {
-        option.addEventListener('click', function() {
-          bundleOptionsElements.forEach(o => o.classList.remove('selected'));
-          this.classList.add('selected');
-        });
-      });
+      // Ensure visual selection strictly follows radio checked state
+      // We rely only on the radio 'change' handler above to toggle the 'selected' class
 
       // Ripple effect
       const rippleButtons = document.querySelectorAll('.ripple');
