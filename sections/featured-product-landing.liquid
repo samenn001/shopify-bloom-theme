@@ -119,6 +119,8 @@
         max-width: {{ section.settings.bundle_max_width }}px !important;
       }
     }
+    /* Add breathing room between gallery and social-proof */
+    .social-proof-bar { margin-top: 24px; }
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
