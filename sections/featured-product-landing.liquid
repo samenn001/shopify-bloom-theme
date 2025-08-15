@@ -1549,21 +1549,39 @@
         const bundle2Price = basePrice * 2 * 0.9;
         const bundle2Final = document.querySelector('.bundle-option:nth-child(2) .bundle-final');
         const bundle2Compare = document.querySelector('.bundle-option:nth-child(2) .bundle-compare');
-        const bundle2Save = document.querySelector('.bundle-option:nth-child(2) .bundle-save');
+        const bundle2SaveContainer = document.querySelector('.bundle-option:nth-child(2) .bundle-save');
+        const bundle2SaveAmount = document.querySelector('.bundle-option:nth-child(2) .bundle-save span:nth-child(2)');
         
         if (bundle2Final) bundle2Final.textContent = formatMoney(bundle2Price);
         if (bundle2Compare) bundle2Compare.textContent = formatMoney(basePrice * 2);
-        if (bundle2Save) bundle2Save.textContent = 'Save ' + formatMoney(basePrice * 2 - bundle2Price);
+        if (bundle2SaveAmount) {
+          bundle2SaveAmount.textContent = 'Save ' + formatMoney(basePrice * 2 - bundle2Price);
+        } else if (bundle2SaveContainer) {
+          const span = document.createElement('span');
+          span.style.display = 'block';
+          span.style.fontSize = '0.85em';
+          span.textContent = 'Save ' + formatMoney(basePrice * 2 - bundle2Price);
+          bundle2SaveContainer.appendChild(span);
+        }
         
         // Bundle 3 (15% off)
         const bundle3Price = basePrice * 3 * 0.85;
         const bundle3Final = document.querySelector('.bundle-option:nth-child(3) .bundle-final');
         const bundle3Compare = document.querySelector('.bundle-option:nth-child(3) .bundle-compare');
-        const bundle3Save = document.querySelector('.bundle-option:nth-child(3) .bundle-save');
+        const bundle3SaveContainer = document.querySelector('.bundle-option:nth-child(3) .bundle-save');
+        const bundle3SaveAmount = document.querySelector('.bundle-option:nth-child(3) .bundle-save span:nth-child(2)');
         
         if (bundle3Final) bundle3Final.textContent = formatMoney(bundle3Price);
         if (bundle3Compare) bundle3Compare.textContent = formatMoney(basePrice * 3);
-        if (bundle3Save) bundle3Save.textContent = 'Save ' + formatMoney(basePrice * 3 - bundle3Price);
+        if (bundle3SaveAmount) {
+          bundle3SaveAmount.textContent = 'Save ' + formatMoney(basePrice * 3 - bundle3Price);
+        } else if (bundle3SaveContainer) {
+          const span = document.createElement('span');
+          span.style.display = 'block';
+          span.style.fontSize = '0.85em';
+          span.textContent = 'Save ' + formatMoney(basePrice * 3 - bundle3Price);
+          bundle3SaveContainer.appendChild(span);
+        }
       }
       
       // Money formatting function
