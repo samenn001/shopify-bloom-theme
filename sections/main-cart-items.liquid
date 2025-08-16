@@ -100,6 +100,18 @@
                             height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
                           >
                         </div>
+                      {% else %}
+                        {% if item.properties._free_gift == 'true' %}
+                          <div class="cart-item__image-container gradient">
+                            <img
+                              src="{{ 'icon-gift.svg' | asset_url }}"
+                              alt="Free Gift"
+                              width="48"
+                              height="48"
+                              style="margin: 16px"
+                            >
+                          </div>
+                        {% endif %}
                       {% endif %}
                     </td>
 

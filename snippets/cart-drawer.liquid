@@ -142,6 +142,17 @@
                               width="150"
                               height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
                             >
+                          {% else %}
+                            {% if item.properties._free_gift == 'true' %}
+                              <img
+                                class="cart-item__image"
+                                src="{{ 'icon-gift.svg' | asset_url }}"
+                                alt="Free Gift"
+                                width="48"
+                                height="48"
+                                style="margin: 16px"
+                              >
+                            {% endif %}
                           {% endif %}
                         </td>
 
