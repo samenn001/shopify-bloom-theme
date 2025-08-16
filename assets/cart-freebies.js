@@ -18,6 +18,8 @@
   let PRODUCT_ID = resolveProductId();
   if (!PRODUCT_ID) return;
 
+  const DEBUG = /(^|[?&])debug_freebies=1(&|$)/.test(location.search);
+
   let syncInProgress = false;
 
   function getDesiredGiftsForQty(qty) {
@@ -61,6 +63,7 @@
       const qty = computeBundleQty(cart);
       const desired = new Set(getDesiredGiftsForQty(qty).map((v) => Number(v)));
       const present = currentGiftVariantIds(cart);
+      if (DEBUG) console.debug('[freebies] ensure', { PRODUCT_ID, qty, desired: Array.from(desired), present: Array.from(present) });
 
       // Determine gifts to add (missing)
       const toAdd = [];
@@ -82,6 +85,7 @@
             body: JSON.stringify({ items: toAdd }),
           });
           const addJson = await addResp.json();
+          if (DEBUG) console.debug('[freebies] bulk add resp', addResp.status, addJson);
           if (!addResp.ok || addJson?.status) {
             // Fallback sequential adds
             for (const g of toAdd) {
@@ -91,6 +95,7 @@
                   headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                   body: JSON.stringify(g),
                 });
+                if (DEBUG) console.debug('[freebies] single add ok', g.id);
               } catch (e) {}
             }
           }
@@ -99,6 +104,7 @@
             const r = await fetch('/cart.js');
             const cartData = await r.json();
             publish(PUB_SUB_EVENTS.cartUpdate, { source: 'cart-freebies', cartData: { cart: cartData } });
+            if (DEBUG) console.debug('[freebies] published cartUpdate');
           } catch (e) {}
         } catch (e) {}
       }
@@ -129,6 +135,12 @@
     }
   });
   mo.observe(document.documentElement, { childList: true, subtree: true });
+
+  // Expose manual trigger in debug mode
+  if (DEBUG) {
+    window.forceAddGifts = ensureFreebies;
+    console.debug('[freebies] debug mode: call window.forceAddGifts() to retry');
+  }
 })();
 
 
