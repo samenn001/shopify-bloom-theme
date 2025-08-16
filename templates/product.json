@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "featured_product": {
@@ -18,6 +27,14 @@
         "video3_title": "Evening Perch",
         "padding_top": 0,
         "padding_bottom": 0
+      }
+    },
+    "product_reviews": {
+      "type": "product-reviews",
+      "settings": {
+        "title": "What Our Customers Say",
+        "review_count": "126",
+        "show_load_more": true
       }
     },
     "related-products": {
@@ -41,6 +58,7 @@
   },
   "order": [
     "featured_product",
+    "product_reviews",
     "related-products"
   ]
 }
