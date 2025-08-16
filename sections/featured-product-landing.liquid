@@ -296,12 +296,12 @@
                         <source src="{{ source.url }}" type="{{ source.mime_type }}">
                       {%- endfor -%}
                     </video>
-                    <div class="sound-indicator-pill" data-sound-toggle>
+                    <button type="button" class="sound-indicator-pill" aria-label="Toggle sound">
                       <svg class="sound-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
                       </svg>
                       <span class="sound-text">Tap for Sound</span>
-                    </div>
+                    </button>
                   </div>
                 {%- when 'external_video' -%}
                   <div id="main-product-media-{{ section.id }}" class="main-media-wrapper" data-media-type="external_video">
@@ -417,6 +417,45 @@
           {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
         {%- endif -%}
       </div>
+      
+      <!-- Sound Toggle Script -->
+      <script>
+        (function() {
+          // Sound toggle handler - use capturing to ensure we get the event
+          document.addEventListener('click', function(e) {
+            // Check if clicked element is the sound button or its children
+            const pill = e.target.closest('.sound-indicator-pill');
+            if (!pill) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const video = pill.parentElement.querySelector('video');
+            
+            if (video) {
+              video.muted = !video.muted;
+              
+              if (video.muted) {
+                pill.classList.remove('sound-on');
+                pill.innerHTML = `
+                  <svg class="sound-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                  <span class="sound-text">Tap for Sound</span>`;
+              } else {
+                pill.classList.add('sound-on');
+                pill.innerHTML = `
+                  <svg class="sound-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm16.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                  </svg>
+                  <span class="sound-text">Sound On</span>`;
+                video.currentTime = 0;
+                video.play();
+              }
+            }
+          }, true); // Use capture phase
+        })();
+      </script>
 
       <!-- Product Info -->
       <div class="product-hero-info">
@@ -1326,12 +1365,12 @@
                        poster="${media.poster}">
                   ${sourcesHtml}
                 </video>
-                <div class="sound-indicator-pill" data-sound-toggle>
+                <button type="button" class="sound-indicator-pill" aria-label="Toggle sound">
                   <svg class="sound-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
                   </svg>
                   <span class="sound-text">Tap for Sound</span>
-                </div>
+                </button>
               </div>`;
           } else if (media && media.type === 'external_video') {
             container.innerHTML = `

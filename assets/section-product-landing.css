@@ -2757,7 +2757,7 @@ body {
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 100;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.3px;
@@ -2767,6 +2767,13 @@ body {
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   user-select: none;
+  pointer-events: auto !important;
+  /* Button reset styles */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  font-family: inherit;
 }
 
 /* Pulsing animation - "tap me please" effect */
@@ -2809,10 +2816,12 @@ body {
 
 .sound-icon {
   flex-shrink: 0;
+  pointer-events: none;
 }
 
 .sound-text {
   white-space: nowrap;
+  pointer-events: none;
 }
 
 /* Hide pill on images */
