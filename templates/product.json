@@ -88,13 +88,41 @@
             "has_video": true,
             "video_url": "https://cdn.shopify.com/videos/c/o/v/01a426f18677426f8431957544eecabb.mp4"
           }
+        },
+        "review-5": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "br***64",
+            "rating": 5,
+            "review_date": "Jan 11, 2025",
+            "product_variant": "Blue Black",
+            "review_text": "My cats love this. It's kept them entertained for at least 30 minutes now which is more than I can say for any other of their toys.",
+            "verified_purchase": true,
+            "has_video": false,
+            "show_helpful": true
+          }
+        },
+        "review-6": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Audrey Oh",
+            "rating": 5,
+            "review_date": "Jan 28, 2025",
+            "product_variant": "Blue Black",
+            "review_text": "My cats love it. The instructions aren't the most helpful, but it's pretty intuitive. I have no desire to buy the more expensive version.",
+            "verified_purchase": true,
+            "has_video": false,
+            "show_helpful": true
+          }
         }
       },
       "block_order": [
         "review-1",
         "review-2",
         "review-3",
-        "review-4"
+        "review-4",
+        "review-5",
+        "review-6"
       ]
     },
     "related-products": {
