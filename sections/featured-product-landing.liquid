@@ -568,6 +568,7 @@
         <!-- CTA Buttons with Real Shopify Checkout -->
         {%- unless product == blank -%}
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
+          <product-form class="product-form">
           {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
             <!-- Hidden variant selector defaults to first available variant -->
             <input type="hidden" name="id" value="{{ product.first_available_variant.id }}" data-variant-id>
@@ -599,6 +600,7 @@
               {%- endif -%}
             </div>
           {%- endform -%}
+          </product-form>
         {%- else -%}
           <!-- Fallback for placeholder -->
           <div class="cta-container">

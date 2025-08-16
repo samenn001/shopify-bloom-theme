@@ -102,7 +102,14 @@ if (!customElements.get('product-form')) {
                 quantityInput = document.querySelector('input[name="quantity"]');
               }
               
-              const bundleQty = quantityInput ? parseInt(quantityInput.value || '1', 10) : 1;
+              // Prefer selected bundle radio value if present
+              let bundleQty = 1;
+              const selectedBundleRadio = document.querySelector('.bundle-radio:checked');
+              if (selectedBundleRadio) {
+                bundleQty = parseInt(selectedBundleRadio.value || '1', 10);
+              } else {
+                bundleQty = quantityInput ? parseInt(quantityInput.value || '1', 10) : 1;
+              }
               console.log('Bundle gift check:', {
                 bundleQty: bundleQty,
                 inputFound: !!quantityInput,
