@@ -125,38 +125,68 @@ if (!customElements.get('product-form')) {
               
               if (bundleQty > 1 && typeof BUNDLE_FREEBIES !== 'undefined' && BUNDLE_FREEBIES[bundleQty]?.length) {
                 console.log('Adding freebies for bundle qty', bundleQty, ':', BUNDLE_FREEBIES[bundleQty]);
-                const gifts = BUNDLE_FREEBIES[bundleQty].map((variantId) => ({ 
-                  id: variantId, 
-                  quantity: 1, 
-                  properties: { 
-                    _free_gift: true, 
-                    _bundle_qty: bundleQty 
-                  } 
+                const gifts = BUNDLE_FREEBIES[bundleQty].map((variantId) => ({
+                  id: variantId,
+                  quantity: 1,
+                  properties: {
+                    _free_gift: true,
+                    _bundle_qty: bundleQty
+                  }
                 }));
-                
-                // Add with a small delay to ensure main product adds first
+
+                const refreshCartUI = () => {
+                  if (!this.cart) return;
+                  fetch('/cart.js')
+                    .then((r) => r.json())
+                    .then((cartData) => {
+                      publish(PUB_SUB_EVENTS.cartUpdate, {
+                        source: 'product-form-gifts',
+                        cartData: { cart: cartData }
+                      });
+                    })
+                    .catch(() => {});
+                };
+
+                // Add with a small delay to ensure main product adds first, try bulk first then fall back to sequential
                 setTimeout(() => {
-                  fetch('/cart/add.js', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                    body: JSON.stringify({ items: gifts })
-                  })
-                  .then(response => response.json())
-                  .then(data => {
-                    console.log('Freebies added successfully:', data);
-                    // Trigger cart update if cart drawer exists
-                    if (this.cart) {
-                      fetch('/cart.js')
-                        .then(r => r.json())
-                        .then(cartData => {
-                          publish(PUB_SUB_EVENTS.cartUpdate, {
-                            source: 'product-form-gifts',
-                            cartData: { cart: cartData }
-                          });
-                        });
+                  (async () => {
+                    try {
+                      const bulkResp = await fetch('/cart/add.js', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                        body: JSON.stringify({ items: gifts })
+                      });
+                      const bulkJson = await bulkResp.json();
+                      if (!bulkResp.ok || bulkJson?.status) {
+                        throw new Error(bulkJson?.message || bulkJson?.description || 'Bulk freebies add failed');
+                      }
+                      console.log('Freebies added (bulk):', bulkJson);
+                      refreshCartUI();
+                      return;
+                    } catch (bulkError) {
+                      console.warn('Bulk freebies add failed, falling back to sequential', bulkError);
                     }
-                  })
-                  .catch((e) => console.error('Failed to add freebies:', e));
+
+                    // Fallback: add each gift one by one
+                    for (const gift of gifts) {
+                      try {
+                        const resp = await fetch('/cart/add.js', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                          body: JSON.stringify(gift)
+                        });
+                        const json = await resp.json();
+                        if (!resp.ok || json?.status) {
+                          console.error('Failed to add free gift variant', gift.id, json);
+                        } else {
+                          console.log('Free gift added (single):', gift.id);
+                        }
+                      } catch (e) {
+                        console.error('Error adding free gift variant', gift.id, e);
+                      }
+                    }
+                    refreshCartUI();
+                  })();
                 }, 500);
               }
             } catch(e) { 
