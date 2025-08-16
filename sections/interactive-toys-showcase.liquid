@@ -4,14 +4,14 @@
   <div class="page-width">
     <!-- Section Header -->
     <div class="toys-header">
-      <h2 class="toys-title">{{ section.settings.title }}</h2>
-      <p class="toys-subtitle">{{ section.settings.subtitle }}</p>
+      <h2 class="toys-title">{{ section.settings.title | default: "✨ COMPLETE THEIR PARADISE WITH INTERACTIVE PLAY ✨" }}</h2>
+      <p class="toys-subtitle">{{ section.settings.subtitle | default: "While trees give them a kingdom to rule, toys give them adventures to conquer" }}</p>
     </div>
 
     <!-- Featured Toy Display -->
     <div class="featured-toy-container">
       <div class="featured-toy-media">
-        {% if section.settings.featured_toy_video %}
+        {% if section.settings.featured_toy_video != blank %}
           <div class="toy-video-wrapper">
             <video 
               class="toy-video"
@@ -21,7 +21,6 @@
               autoplay
               loop
               preload="metadata"
-              poster="{{ section.settings.featured_toy_image | image_url: width: 800 }}"
             >
               <source src="{{ section.settings.featured_toy_video }}" type="video/mp4">
             </video>
@@ -35,48 +34,59 @@
             alt="{{ section.settings.featured_toy_title }}"
             class="toy-featured-image"
           >
+        {% else %}
+          <div class="toy-placeholder">
+            <h3>Upload Toy Image or Video</h3>
+          </div>
         {% endif %}
       </div>
 
       <div class="featured-toy-info">
-        <div class="toy-badge">{{ section.settings.toy_badge }}</div>
-        <h3 class="featured-toy-title">{{ section.settings.featured_toy_title }}</h3>
+        <div class="toy-badge">{{ section.settings.toy_badge | default: "🎮 SMART PLAY TECHNOLOGY" }}</div>
+        <h3 class="featured-toy-title">{{ section.settings.featured_toy_title | default: "AUTOMATIC ROTATING TRACK" }}</h3>
         
         <div class="toy-features">
-          {% for block in section.blocks %}
-            {% if block.type == 'feature' %}
-              <div class="toy-feature" {{ block.shopify_attributes }}>
-                <span class="feature-icon">{{ block.settings.icon }}</span>
-                <span class="feature-text">{{ block.settings.feature_text }}</span>
-              </div>
-            {% endif %}
-          {% endfor %}
+          <div class="toy-feature">
+            <span class="feature-icon">•</span>
+            <span class="feature-text">Motion-activated sensors</span>
+          </div>
+          <div class="toy-feature">
+            <span class="feature-icon">•</span>
+            <span class="feature-text">3 Speed settings</span>
+          </div>
+          <div class="toy-feature">
+            <span class="feature-icon">•</span>
+            <span class="feature-text">Auto shut-off timer</span>
+          </div>
+          <div class="toy-feature">
+            <span class="feature-icon">•</span>
+            <span class="feature-text">Whisper-quiet motor</span>
+          </div>
         </div>
 
         <div class="toy-rating">
           <div class="stars">
-            {% for i in (1..5) %}
-              <span class="star">⭐</span>
-            {% endfor %}
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
           </div>
-          <span class="rating-count">({{ section.settings.review_count }} Reviews)</span>
+          <span class="rating-count">({{ section.settings.review_count | default: "2,847" }} Reviews)</span>
         </div>
 
         <div class="toy-pricing">
-          {% if section.settings.compare_price and section.settings.compare_price > section.settings.price %}
+          {% if section.settings.compare_price != blank and section.settings.compare_price != "0" %}
             <span class="compare-price">${{ section.settings.compare_price }}</span>
           {% endif %}
-          <span class="current-price">${{ section.settings.price }}</span>
-          {% if section.settings.compare_price and section.settings.compare_price > section.settings.price %}
-            {% assign discount = section.settings.compare_price | minus: section.settings.price | times: 100 | divided_by: section.settings.compare_price %}
-            <span class="discount-badge">SAVE {{ discount | round }}%</span>
+          <span class="current-price">${{ section.settings.price | default: "39.99" }}</span>
+          {% if section.settings.compare_price != blank and section.settings.compare_price != "0" %}
+            <span class="discount-badge">SAVE 20%</span>
           {% endif %}
         </div>
 
         <div class="toy-actions">
-          <button class="btn-add-cart" data-product-id="{{ section.settings.featured_toy_product.id }}">
-            Add to Cart
-          </button>
+          <button class="btn-add-cart">Add to Cart</button>
           <button class="btn-quick-view">Quick View</button>
         </div>
       </div>
@@ -84,118 +94,134 @@
 
     <!-- Additional Toys Grid -->
     <div class="additional-toys">
-      <h3 class="additional-toys-title">{{ section.settings.grid_title }}</h3>
+      <h3 class="additional-toys-title">{{ section.settings.grid_title | default: "MORE INTERACTIVE TOYS TO EXPLORE:" }}</h3>
       <div class="toys-grid">
-        {% for block in section.blocks %}
-          {% if block.type == 'toy_item' %}
-            <div class="toy-card" {{ block.shopify_attributes }}>
-              {% if block.settings.toy_image %}
-                <div class="toy-card-image">
-                  <img 
-                    src="{{ block.settings.toy_image | image_url: width: 300 }}" 
-                    alt="{{ block.settings.toy_name }}"
-                    loading="lazy"
-                  >
-                  {% if block.settings.is_bestseller %}
-                    <span class="bestseller-badge">Bestseller</span>
-                  {% endif %}
-                </div>
-              {% endif %}
-              
-              <div class="toy-card-content">
-                <h4 class="toy-name">{{ block.settings.toy_name }}</h4>
-                <div class="toy-card-rating">
-                  {% for i in (1..block.settings.rating) %}
-                    <span class="star filled">⭐</span>
-                  {% endfor %}
-                  {% assign empty_stars = 5 | minus: block.settings.rating %}
-                  {% for i in (1..empty_stars) %}
-                    <span class="star">☆</span>
-                  {% endfor %}
-                </div>
-                <div class="toy-card-price">
-                  {% if block.settings.compare_price and block.settings.compare_price > block.settings.price %}
-                    <span class="was-price">${{ block.settings.compare_price }}</span>
-                  {% endif %}
-                  <span class="now-price">${{ block.settings.price }}</span>
-                </div>
-                <button class="btn-toy-add" data-product-id="{{ block.settings.toy_product.id }}">
-                  Add to Cart
-                </button>
-              </div>
+        <div class="toy-card">
+          <div class="toy-card-image">
+            <img src="https://via.placeholder.com/300x300/ff6b6b/ffffff?text=Feather+Wand" alt="Feather Wand Pro" loading="lazy">
+            <span class="bestseller-badge">Bestseller</span>
+          </div>
+          <div class="toy-card-content">
+            <h4 class="toy-name">Feather Wand Pro</h4>
+            <div class="toy-card-rating">
+              <span class="star">⭐⭐⭐⭐⭐</span>
             </div>
-          {% endif %}
-        {% endfor %}
+            <div class="toy-card-price">
+              <span class="now-price">$19.99</span>
+            </div>
+            <button class="btn-toy-add">Add to Cart</button>
+          </div>
+        </div>
+        
+        <div class="toy-card">
+          <div class="toy-card-image">
+            <img src="https://via.placeholder.com/300x300/4ecdc4/ffffff?text=Laser+Tower" alt="Laser Tower" loading="lazy">
+          </div>
+          <div class="toy-card-content">
+            <h4 class="toy-name">Laser Tower</h4>
+            <div class="toy-card-rating">
+              <span class="star">⭐⭐⭐⭐</span>
+            </div>
+            <div class="toy-card-price">
+              <span class="now-price">$34.99</span>
+            </div>
+            <button class="btn-toy-add">Add to Cart</button>
+          </div>
+        </div>
+        
+        <div class="toy-card">
+          <div class="toy-card-image">
+            <img src="https://via.placeholder.com/300x300/45b7d1/ffffff?text=Puzzle+Ball" alt="Puzzle Ball" loading="lazy">
+          </div>
+          <div class="toy-card-content">
+            <h4 class="toy-name">Puzzle Ball</h4>
+            <div class="toy-card-rating">
+              <span class="star">⭐⭐⭐⭐⭐</span>
+            </div>
+            <div class="toy-card-price">
+              <span class="now-price">$24.99</span>
+            </div>
+            <button class="btn-toy-add">Add to Cart</button>
+          </div>
+        </div>
+        
+        <div class="toy-card">
+          <div class="toy-card-image">
+            <img src="https://via.placeholder.com/300x300/f39c12/ffffff?text=Catnip+Mouse" alt="Catnip Mouse" loading="lazy">
+          </div>
+          <div class="toy-card-content">
+            <h4 class="toy-name">Catnip Mouse</h4>
+            <div class="toy-card-rating">
+              <span class="star">⭐⭐⭐⭐</span>
+            </div>
+            <div class="toy-card-price">
+              <span class="now-price">$14.99</span>
+            </div>
+            <button class="btn-toy-add">Add to Cart</button>
+          </div>
+        </div>
       </div>
       
       <div class="view-all-toys">
-        <a href="{{ section.settings.toys_collection_url }}" class="btn-view-all">
+        <a href="/collections/interactive-toys" class="btn-view-all">
           View All Interactive Toys →
         </a>
       </div>
     </div>
 
     <!-- Bundle Offer -->
-    {% if section.settings.show_bundle %}
-      <div class="bundle-offer">
-        <div class="bundle-content">
-          <div class="bundle-icon">🎁</div>
-          <div class="bundle-info">
-            <h3 class="bundle-title">{{ section.settings.bundle_title }}</h3>
-            <p class="bundle-description">{{ section.settings.bundle_description }}</p>
-            
-            <ul class="bundle-features">
-              <li>• Complete entertainment system</li>
-              <li>• Exercise + Play in one setup</li>
-              <li>• Perfect for single or multi-cat homes</li>
-            </ul>
-            
-            <div class="bundle-pricing">
-              <span class="bundle-regular">Regular: ${{ section.settings.bundle_regular_price }}</span>
-              <span class="bundle-sale">Bundle Price: ${{ section.settings.bundle_sale_price }}</span>
-            </div>
-          </div>
+    <div class="bundle-offer">
+      <div class="bundle-content">
+        <div class="bundle-icon">🎁</div>
+        <div class="bundle-info">
+          <h3 class="bundle-title">{{ section.settings.bundle_title | default: "PERFECT PAIRING BUNDLE" }}</h3>
+          <p class="bundle-description">{{ section.settings.bundle_description | default: "Get the Pink Cat Tree + Rotating Track Toy TOGETHER and SAVE $30!" }}</p>
           
-          <div class="bundle-action">
-            <button class="btn-bundle-add">
-              💝 Add Bundle to Cart
-            </button>
+          <ul class="bundle-features">
+            <li>• Complete entertainment system</li>
+            <li>• Exercise + Play in one setup</li>
+            <li>• Perfect for single or multi-cat homes</li>
+          </ul>
+          
+          <div class="bundle-pricing">
+            <span class="bundle-regular">Regular: ${{ section.settings.bundle_regular_price | default: "159.98" }}</span>
+            <span class="bundle-sale">Bundle Price: ${{ section.settings.bundle_sale_price | default: "129.98" }}</span>
           </div>
         </div>
+        
+        <div class="bundle-action">
+          <button class="btn-bundle-add">💝 Add Bundle to Cart</button>
+        </div>
       </div>
-    {% endif %}
+    </div>
 
     <!-- Why Combine Section -->
-    {% if section.settings.show_why_combine %}
-      <div class="why-combine-section">
-        <h3 class="why-combine-title">{{ section.settings.why_combine_title }}</h3>
-        
-        <div class="daily-routine">
-          <div class="routine-card">
-            <div class="routine-icon">🌅</div>
-            <h4>Morning</h4>
-            <p>🎮 Toy Play</p>
-            <span>Energy Release</span>
-          </div>
-          <div class="routine-card">
-            <div class="routine-icon">☀️</div>
-            <h4>Afternoon</h4>
-            <p>🌳 Tree Nap</p>
-            <span>Rest & Watch</span>
-          </div>
-          <div class="routine-card">
-            <div class="routine-icon">🌙</div>
-            <h4>Evening</h4>
-            <p>🎯 Toy Hunt</p>
-            <span>Playtime with You</span>
-          </div>
+    <div class="why-combine-section">
+      <h3 class="why-combine-title">{{ section.settings.why_combine_title | default: "WHY COMBINE TREES & TOYS?" }}</h3>
+      
+      <div class="daily-routine">
+        <div class="routine-card">
+          <div class="routine-icon">🌅</div>
+          <h4>Morning</h4>
+          <p>🎮 Toy Play</p>
+          <span>Energy Release</span>
         </div>
-        
-        {% if section.settings.stats_text %}
-          <p class="happiness-stats">{{ section.settings.stats_text }}</p>
-        {% endif %}
+        <div class="routine-card">
+          <div class="routine-icon">☀️</div>
+          <h4>Afternoon</h4>
+          <p>🌳 Tree Nap</p>
+          <span>Rest & Watch</span>
+        </div>
+        <div class="routine-card">
+          <div class="routine-icon">🌙</div>
+          <h4>Evening</h4>
+          <p>🎯 Toy Hunt</p>
+          <span>Playtime with You</span>
+        </div>
       </div>
-    {% endif %}
+      
+      <p class="happiness-stats">{{ section.settings.stats_text | default: "Studies show cats with both climbing and play options are 73% more active and happier" }}</p>
+    </div>
   </div>
 </section>
 
@@ -203,10 +229,6 @@
 {
   "name": "Interactive Toys Showcase",
   "settings": [
-    {
-      "type": "header",
-      "content": "Section Header"
-    },
     {
       "type": "text",
       "id": "title",
@@ -218,15 +240,6 @@
       "id": "subtitle",
       "label": "Section Subtitle",
       "default": "While trees give them a kingdom to rule, toys give them adventures to conquer"
-    },
-    {
-      "type": "header",
-      "content": "Featured Toy"
-    },
-    {
-      "type": "product",
-      "id": "featured_toy_product",
-      "label": "Featured Toy Product"
     },
     {
       "type": "text",
@@ -246,7 +259,7 @@
       "label": "Featured Toy Image"
     },
     {
-      "type": "url",
+      "type": "text",
       "id": "featured_toy_video",
       "label": "Featured Toy Video URL"
     },
@@ -269,30 +282,10 @@
       "default": "2,847"
     },
     {
-      "type": "header",
-      "content": "Additional Toys Grid"
-    },
-    {
       "type": "text",
       "id": "grid_title",
       "label": "Grid Title",
       "default": "MORE INTERACTIVE TOYS TO EXPLORE:"
-    },
-    {
-      "type": "text",
-      "id": "toys_collection_url",
-      "label": "Toys Collection URL",
-      "default": "/collections/interactive-toys"
-    },
-    {
-      "type": "header",
-      "content": "Bundle Offer"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_bundle",
-      "label": "Show Bundle Offer",
-      "default": true
     },
     {
       "type": "text",
@@ -319,16 +312,6 @@
       "default": "129.98"
     },
     {
-      "type": "header",
-      "content": "Why Combine Section"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_why_combine",
-      "label": "Show Why Combine Section",
-      "default": true
-    },
-    {
       "type": "text",
       "id": "why_combine_title",
       "label": "Why Combine Title",
@@ -341,141 +324,9 @@
       "default": "Studies show cats with both climbing and play options are 73% more active and happier"
     }
   ],
-  "blocks": [
-    {
-      "type": "feature",
-      "name": "Toy Feature",
-      "settings": [
-        {
-          "type": "text",
-          "id": "icon",
-          "label": "Feature Icon",
-          "default": "•"
-        },
-        {
-          "type": "text",
-          "id": "feature_text",
-          "label": "Feature Text",
-          "default": "Motion-activated sensors"
-        }
-      ]
-    },
-    {
-      "type": "toy_item",
-      "name": "Toy Item",
-      "settings": [
-        {
-          "type": "product",
-          "id": "toy_product",
-          "label": "Toy Product"
-        },
-        {
-          "type": "text",
-          "id": "toy_name",
-          "label": "Toy Name",
-          "default": "Interactive Toy"
-        },
-        {
-          "type": "image_picker",
-          "id": "toy_image",
-          "label": "Toy Image"
-        },
-        {
-          "type": "range",
-          "id": "rating",
-          "label": "Rating",
-          "min": 1,
-          "max": 5,
-          "step": 1,
-          "default": 5
-        },
-        {
-          "type": "text",
-          "id": "price",
-          "label": "Price",
-          "default": "19.99"
-        },
-        {
-          "type": "text",
-          "id": "compare_price",
-          "label": "Compare at Price",
-          "default": "0"
-        },
-        {
-          "type": "checkbox",
-          "id": "is_bestseller",
-          "label": "Mark as Bestseller",
-          "default": false
-        }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "Interactive Toys Showcase",
-      "blocks": [
-        {
-          "type": "feature",
-          "settings": {
-            "icon": "•",
-            "feature_text": "Motion-activated sensors"
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "icon": "•",
-            "feature_text": "3 Speed settings"
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "icon": "•",
-            "feature_text": "Auto shut-off timer"
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "icon": "•",
-            "feature_text": "Whisper-quiet motor"
-          }
-        },
-        {
-          "type": "toy_item",
-          "settings": {
-            "toy_name": "Feather Wand Pro",
-            "rating": 5,
-            "price": "19.99",
-            "is_bestseller": true
-          }
-        },
-        {
-          "type": "toy_item",
-          "settings": {
-            "toy_name": "Laser Tower",
-            "rating": 4,
-            "price": "34.99"
-          }
-        },
-        {
-          "type": "toy_item",
-          "settings": {
-            "toy_name": "Puzzle Ball",
-            "rating": 5,
-            "price": "24.99"
-          }
-        },
-        {
-          "type": "toy_item",
-          "settings": {
-            "toy_name": "Catnip Mouse",
-            "rating": 4,
-            "price": "14.99"
-          }
-        }
-      ]
+      "name": "Interactive Toys Showcase"
     }
   ]
 }
