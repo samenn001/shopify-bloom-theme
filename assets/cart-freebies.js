@@ -6,7 +6,17 @@
 (function () {
   if (typeof window === 'undefined') return;
   if (typeof BUNDLE_FREEBIES === 'undefined') return;
-  if (!window.BUNDLE_PRODUCT_ID) return;
+
+  // Resolve product id from global hint or from product-info element
+  function resolveProductId() {
+    if (window.BUNDLE_PRODUCT_ID) return window.BUNDLE_PRODUCT_ID;
+    const el = document.querySelector('product-info[data-product-id]');
+    if (el && el.dataset && el.dataset.productId) return el.dataset.productId;
+    return null;
+  }
+
+  let PRODUCT_ID = resolveProductId();
+  if (!PRODUCT_ID) return;
 
   let syncInProgress = false;
 
@@ -24,7 +34,7 @@
   function computeBundleQty(cart) {
     let qty = 0;
     for (const item of cart.items || []) {
-      if (String(item.product_id) === String(window.BUNDLE_PRODUCT_ID)) {
+      if (String(item.product_id) === String(PRODUCT_ID)) {
         qty += item.quantity;
       }
     }
@@ -106,8 +116,19 @@
     // pubsub missing; skip
   }
 
-  // Initial check shortly after page load
-  window.addEventListener('load', () => setTimeout(ensureFreebies, 800));
+  // Initial check shortly after page load and when DOM changes (for async PDP loads)
+  window.addEventListener('load', () => setTimeout(() => {
+    PRODUCT_ID = resolveProductId() || PRODUCT_ID;
+    if (PRODUCT_ID) ensureFreebies();
+  }, 800));
+  const mo = new MutationObserver(() => {
+    const pid = resolveProductId();
+    if (pid && pid !== PRODUCT_ID) {
+      PRODUCT_ID = pid;
+      ensureFreebies();
+    }
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
 })();
 
 
