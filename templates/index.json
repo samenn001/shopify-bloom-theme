@@ -13,7 +13,7 @@
       "type": "featured-product-landing",
       "settings": {
         "hide_header": false,
-        "product": "interactive-cat-toy-chase-run-exercise-mental-stimulation-cat-treadmill-adjustable-speed-kitten-toy-for-bored-kitten-puppy-play",
+        "product": "cat-tree-for-indoor-cats-multi-level-cat-tower-with-large-hammock-sisal-covered-scratching-posts-cozy-condo-and-top-perch-pink",
         "color_scheme": "scheme-1",
         "media_max_width": 600,
         "info_max_width": 600,
@@ -21,8 +21,6 @@
         "pad_left": 32,
         "pad_right": 32,
         "bundle_max_width": 520,
-        "bundle2_discount": 15,
-        "bundle3_discount": 25,
         "custom_heading": "",
         "show_dynamic_checkout": true,
         "show_video_section": true,
@@ -52,6 +50,25 @@
         "padding_bottom": 0
       }
     },
+    "interactive_toys": {
+      "type": "interactive-toys-showcase",
+      "settings": {
+        "title": "✨ COMPLETE THEIR PARADISE WITH INTERACTIVE PLAY ✨",
+        "subtitle": "While trees give them a kingdom to rule, toys give them adventures to conquer",
+        "featured_toy_title": "AUTOMATIC ROTATING TRACK",
+        "toy_badge": "🎮 SMART PLAY TECHNOLOGY",
+        "price": "39.99",
+        "compare_price": "49.99",
+        "review_count": "2,847",
+        "grid_title": "MORE INTERACTIVE TOYS TO EXPLORE:",
+        "bundle_title": "PERFECT PAIRING BUNDLE",
+        "bundle_description": "Get the Pink Cat Tree + Rotating Track Toy TOGETHER and SAVE $30!",
+        "bundle_regular_price": "159.98",
+        "bundle_sale_price": "129.98",
+        "why_combine_title": "WHY COMBINE TREES & TOYS?",
+        "stats_text": "Studies show cats with both climbing and play options are 73% more active and happier"
+      }
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -73,6 +90,7 @@
   },
   "order": [
     "featured_product",
+    "interactive_toys",
     "related-products"
   ]
 }

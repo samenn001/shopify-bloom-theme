@@ -2746,29 +2746,34 @@ body {
 
 /* Sound Indicator Pill */
 .sound-indicator-pill {
-  position: absolute !important;
-  top: 20px !important;
-  right: 20px !important;
-  background: rgba(0, 0, 0, 0.85) !important;
-  color: white !important;
-  padding: 12px 18px !important;
-  border-radius: 100px !important;
-  display: inline-block !important;
-  cursor: pointer !important;
-  z-index: 99999 !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.3px !important;
-  transition: all 0.3s ease !important;
-  animation: pulse-attention 2s ease-in-out infinite !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border: 2px solid rgba(255, 255, 255, 0.3) !important;
-  user-select: none !important;
-  pointer-events: all !important;
-  text-align: center !important;
-  line-height: 1 !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  z-index: 100;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  animation: pulse-attention 2s ease-in-out infinite;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  user-select: none;
+  pointer-events: auto !important;
+  /* Button reset styles */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  font-family: inherit;
 }
 
 /* Pulsing animation - "tap me please" effect */
@@ -2799,10 +2804,10 @@ body {
 }
 
 .sound-indicator-pill.sound-on {
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #333 !important;
-  animation: none !important;
-  border: 2px solid rgba(0, 0, 0, 0.2) !important;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  animation: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .sound-indicator-pill.sound-on:hover {

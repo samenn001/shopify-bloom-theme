@@ -296,9 +296,12 @@
                         <source src="{{ source.url }}" type="{{ source.mime_type }}">
                       {%- endfor -%}
                     </video>
-                    <div class="sound-indicator-pill" style="z-index: 9999 !important; cursor: pointer;" onclick="var v=this.parentElement.querySelector('video');if(v){v.muted=!v.muted;this.classList.toggle('sound-on');this.innerHTML=v.muted?'🔇 Tap for Sound':'🔊 Sound On';if(!v.muted){v.play();}}">
-                      🔇 Tap for Sound
-                    </div>
+                    <button type="button" class="sound-indicator-pill" aria-label="Toggle sound">
+                      <svg class="sound-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                      </svg>
+                      <span class="sound-text">Tap for Sound</span>
+                    </button>
                   </div>
                 {%- when 'external_video' -%}
                   <div id="main-product-media-{{ section.id }}" class="main-media-wrapper" data-media-type="external_video">
@@ -1362,9 +1365,12 @@
                        poster="${media.poster}">
                   ${sourcesHtml}
                 </video>
-                <div class="sound-indicator-pill" style="z-index: 9999 !important; cursor: pointer;" onclick="var v=this.parentElement.querySelector('video');if(v){v.muted=!v.muted;this.classList.toggle('sound-on');this.innerHTML=v.muted?'🔇 Tap for Sound':'🔊 Sound On';if(!v.muted){v.play();}}">
-                  🔇 Tap for Sound
-                </div>
+                <button type="button" class="sound-indicator-pill" aria-label="Toggle sound">
+                  <svg class="sound-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                  <span class="sound-text">Tap for Sound</span>
+                </button>
               </div>`;
           } else if (media && media.type === 'external_video') {
             container.innerHTML = `
