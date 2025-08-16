@@ -76,6 +76,66 @@ if (!customElements.get('product-form')) {
                 CartPerformance.measureFromMarker('add:wait-for-subscribers', startMarker);
               });
             this.error = false;
+
+            // If a bundle quantity greater than 1 is selected, add configured freebies automatically
+            try {
+              // Try multiple ways to find the quantity input
+              let quantityInput = this.form.querySelector('input[name="quantity"]');
+              if (!quantityInput) {
+                // Try to find by ID pattern
+                const sectionElement = this.closest('[data-section]');
+                const sectionId = sectionElement ? sectionElement.dataset.section : null;
+                if (sectionId) {
+                  quantityInput = document.querySelector('input#quantity-input-' + sectionId);
+                }
+              }
+              if (!quantityInput) {
+                // Fallback: find any quantity input on the page
+                quantityInput = document.querySelector('input[name="quantity"]');
+              }
+              
+              const bundleQty = quantityInput ? parseInt(quantityInput.value || '1', 10) : 1;
+              console.log('Bundle quantity detected:', bundleQty, 'Input found:', !!quantityInput);
+              
+              if (bundleQty > 1 && typeof BUNDLE_FREEBIES !== 'undefined' && BUNDLE_FREEBIES[bundleQty]?.length) {
+                console.log('Adding freebies for bundle qty', bundleQty, ':', BUNDLE_FREEBIES[bundleQty]);
+                const gifts = BUNDLE_FREEBIES[bundleQty].map((variantId) => ({ 
+                  id: variantId, 
+                  quantity: 1, 
+                  properties: { 
+                    _free_gift: true, 
+                    _bundle_qty: bundleQty 
+                  } 
+                }));
+                
+                // Add with a small delay to ensure main product adds first
+                setTimeout(() => {
+                  fetch('/cart/add.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify({ items: gifts })
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log('Freebies added successfully:', data);
+                    // Trigger cart update if cart drawer exists
+                    if (this.cart) {
+                      fetch('/cart.js')
+                        .then(r => r.json())
+                        .then(cartData => {
+                          publish(PUB_SUB_EVENTS.cartUpdate, {
+                            source: 'product-form-gifts',
+                            cartData: { cart: cartData }
+                          });
+                        });
+                    }
+                  })
+                  .catch((e) => console.error('Failed to add freebies:', e));
+                }, 500);
+              }
+            } catch(e) { 
+              console.error('Free gift add failed', e); 
+            }
             const quickAddModal = this.closest('quick-add-modal');
             if (quickAddModal) {
               document.body.addEventListener(
