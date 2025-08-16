@@ -1253,6 +1253,9 @@ body {
   padding: 12px 0;
   box-shadow: var(--shadow-lg);
   height: 48px;
+  /* Improve spacing from the gallery/hero above */
+  margin-top: var(--space-xl);
+  border-radius: 10px;
 }
 
 .social-proof-content {
@@ -1509,6 +1512,10 @@ body {
 }
 
 @media (max-width: 768px) {
+  .social-proof-bar {
+    margin-top: var(--space-lg);
+    border-radius: 8px;
+  }
   .video-main-title {
     font-size: 28px;
   }
