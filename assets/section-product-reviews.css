@@ -1,73 +1,106 @@
+/* Ultra-Modern Review Section Design */
 .product-reviews-section {
-  padding: 80px 0;
+  padding: 100px 0;
   background: #ffffff;
+  position: relative;
 }
 
+.product-reviews-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e0e0e0 20%, #e0e0e0 80%, transparent);
+}
+
+/* Header Design */
 .reviews-header {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 80px;
 }
 
 .reviews-title {
-  font-size: 32px;
-  font-weight: 400;
-  color: #1a1a1a;
-  margin-bottom: 20px;
-  letter-spacing: -0.5px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 200;
+  color: #000;
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+  line-height: 1.2;
 }
 
 .reviews-summary {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 20px;
 }
 
 .stars-rating {
   display: flex;
-  gap: 4px;
+  gap: 3px;
 }
 
 .star-icon {
-  color: #FFD700;
+  color: #000;
+  opacity: 1;
+  transition: transform 0.2s ease;
+}
+
+.star-icon:hover {
+  transform: scale(1.1);
 }
 
 .review-count {
   color: #666;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  position: relative;
+  padding-left: 20px;
 }
 
+.review-count::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 16px;
+  background: #d0d0d0;
+}
+
+/* Grid Layout */
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
-  margin-bottom: 48px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  margin-bottom: 80px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@media (max-width: 768px) {
-  .reviews-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
+/* Ultra-Modern Card Design */
 .review-card {
-  background: #fafafa;
-  border-radius: 20px;
+  background: #fff;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: none;
-  transition: all 0.3s ease;
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
+  border: 1px solid #f5f5f5;
 }
 
 .review-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  border-color: #e0e0e0;
+  transform: translateY(-12px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+  border-color: transparent;
 }
 
+/* Video Section */
 .review-video-wrapper {
   position: relative;
   width: 100%;
@@ -86,94 +119,71 @@
   cursor: pointer;
 }
 
-.review-video[poster] {
-  background-color: #000;
+.review-video::-webkit-media-controls {
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
+.review-video:hover::-webkit-media-controls {
+  opacity: 1;
+}
+
+/* Glassmorphism Play Button */
 .video-play-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 1;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.video-play-overlay:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .video-play-overlay svg {
-  color: #333;
+  color: #fff;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
   margin-left: 3px;
 }
 
-.review-video-wrapper:hover .video-play-overlay {
-  transform: translate(-50%, -50%) scale(1.15);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+/* Video Gradient Overlay */
+.review-video-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+  pointer-events: none;
+  opacity: 0.7;
 }
 
-.review-video::-webkit-media-controls-play-button {
-  display: none;
-}
-
-.review-video[controls]::-webkit-media-controls-panel {
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
-}
-
+/* Content Section */
 .review-content {
-  padding: 24px;
+  padding: 32px;
 }
 
-.review-header {
+/* Rating Stars */
+.review-rating {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-}
-
-.reviewer-info {
-  display: flex;
+  align-items: center;
   gap: 12px;
-  align-items: center;
-}
-
-.reviewer-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 500;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-.reviewer-details {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.reviewer-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 0;
-}
-
-.review-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  margin-bottom: 20px;
 }
 
 .review-stars {
@@ -182,120 +192,229 @@
 }
 
 .review-stars .star-icon {
-  color: #e0e0e0;
+  width: 16px;
+  height: 16px;
+  color: #000;
 }
 
-.review-stars .star-icon.filled {
-  color: #FFD700;
+.review-stars .star-icon:not(.filled) {
+  opacity: 0.15;
+}
+
+.rating-number {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+/* Review Text */
+.review-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #333;
+  margin: 0 0 24px 0;
+  font-weight: 300;
+  letter-spacing: 0.2px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.review-text::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -5px;
+  font-size: 28px;
+  color: #000;
+  opacity: 0.1;
+  font-family: Georgia, serif;
+}
+
+/* Reviewer Info */
+.reviewer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.reviewer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reviewer-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.review-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #999;
 }
 
 .review-date {
-  color: #999;
-  font-size: 13px;
-  padding-left: 8px;
-  border-left: 1px solid #e0e0e0;
+  position: relative;
 }
 
 .verified-badge {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 5px 12px;
-  background: #f0f0f0;
-  color: #333;
-  border-radius: 100px;
+  padding: 0;
+  background: none;
+  color: #000;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .verified-badge svg {
-  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
 }
 
+/* Product Variant Tag */
 .review-variant {
-  font-size: 13px;
+  display: inline-block;
+  font-size: 11px;
   color: #666;
-  margin-bottom: 12px;
-  font-weight: 500;
+  margin-bottom: 16px;
+  padding: 4px 12px;
+  background: #f8f8f8;
+  border-radius: 100px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
-.review-text {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #333;
-  margin: 0 0 16px 0;
-}
-
+/* Actions */
 .review-actions {
   display: flex;
   gap: 12px;
-  padding-top: 16px;
-  border-top: 1px solid #f0f0f0;
+  margin-top: 20px;
 }
 
 .helpful-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
-  background: transparent;
-  border: 1px solid #e0e0e0;
-  border-radius: 100px;
-  color: #666;
-  font-size: 13px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 12px;
   font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .helpful-btn:hover {
-  background: #333;
-  border-color: #333;
-  color: white;
+  color: #000;
 }
 
+.helpful-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Load More Button */
 .reviews-footer {
   text-align: center;
 }
 
 .load-more-btn {
-  padding: 16px 40px;
-  background: transparent;
-  color: #333;
-  border: 1px solid #333;
-  border-radius: 100px;
-  font-size: 14px;
+  padding: 18px 48px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-size: 12px;
   font-weight: 400;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.load-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: left 0.3s ease;
+}
+
+.load-more-btn:hover::before {
+  left: 0;
 }
 
 .load-more-btn:hover {
-  background: #333;
-  color: white;
   transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 640px) {
-  .reviews-title {
-    font-size: 28px;
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .product-reviews-section {
+    padding: 60px 20px;
   }
   
-  .review-card {
-    border-radius: 12px;
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
   
   .review-content {
-    padding: 20px;
+    padding: 24px 20px;
   }
   
-  .reviewer-avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
+  .reviews-header {
+    margin-bottom: 48px;
   }
+  
+  .review-card:hover {
+    transform: none;
+  }
+}
+
+/* No-Video Card Styling */
+.review-card:not(.has-video) {
+  border-top: 2px solid #000;
+}
+
+.review-card:not(.has-video) .review-content {
+  padding-top: 28px;
+}
+
+/* Loading Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.review-card.loading {
+  background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 800px 104px;
+  animation: shimmer 1s ease-in-out infinite;
 }
