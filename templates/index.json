@@ -55,16 +55,12 @@
       "settings": {
         "title": "✨ COMPLETE THEIR PARADISE WITH INTERACTIVE PLAY ✨",
         "subtitle": "While trees give them a kingdom to rule, toys give them adventures to conquer",
-        "featured_toy_title": "AUTOMATIC ROTATING TRACK",
-        "toy_badge": "🎮 SMART PLAY TECHNOLOGY",
-        "price": "39.99",
-        "compare_price": "49.99",
-        "review_count": "2,847",
-        "grid_title": "MORE INTERACTIVE TOYS TO EXPLORE:",
-        "bundle_title": "PERFECT PAIRING BUNDLE",
-        "bundle_description": "Get the Pink Cat Tree + Rotating Track Toy TOGETHER and SAVE $30!",
-        "bundle_regular_price": "159.98",
-        "bundle_sale_price": "129.98",
+        "video1_url": "",
+        "video1_title": "Interactive Play",
+        "video2_url": "",
+        "video2_title": "Active Engagement",
+        "video3_url": "",
+        "video3_title": "Happy Cats",
         "why_combine_title": "WHY COMBINE TREES & TOYS?",
         "stats_text": "Studies show cats with both climbing and play options are 73% more active and happier"
       }

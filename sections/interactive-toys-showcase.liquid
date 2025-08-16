@@ -8,10 +8,10 @@
       <p class="toys-subtitle">{{ section.settings.subtitle | default: "While trees give them a kingdom to rule, toys give them adventures to conquer" }}</p>
     </div>
 
-    <!-- Featured Toy Display -->
-    <div class="featured-toy-container">
-      <div class="featured-toy-media">
-        {% if section.settings.featured_toy_video != blank %}
+    <!-- Three Videos Showcase -->
+    <div class="toy-videos-grid">
+      <div class="video-item">
+        {% if section.settings.video1_url != blank %}
           <div class="toy-video-wrapper">
             <video 
               class="toy-video"
@@ -22,176 +22,58 @@
               loop
               preload="metadata"
             >
-              <source src="{{ section.settings.featured_toy_video }}" type="video/mp4">
+              <source src="{{ section.settings.video1_url }}" type="video/mp4">
             </video>
             <div class="sound-indicator-pill" style="z-index: 9999 !important; cursor: pointer;" onclick="var v=this.parentElement.querySelector('video');if(v){v.muted=!v.muted;this.classList.toggle('sound-on');this.innerHTML=v.muted?'🔇 Tap for Sound':'🔊 Sound On';if(!v.muted){v.play();}}">
               🔇 Tap for Sound
             </div>
           </div>
-        {% elsif section.settings.featured_toy_image %}
-          <img 
-            src="{{ section.settings.featured_toy_image | image_url: width: 800 }}" 
-            alt="{{ section.settings.featured_toy_title }}"
-            class="toy-featured-image"
-          >
-        {% else %}
-          <div class="toy-placeholder">
-            <h3>Upload Toy Image or Video</h3>
+        {% endif %}
+        <h4 class="video-title">{{ section.settings.video1_title | default: "Interactive Play" }}</h4>
+      </div>
+
+      <div class="video-item">
+        {% if section.settings.video2_url != blank %}
+          <div class="toy-video-wrapper">
+            <video 
+              class="toy-video"
+              controls
+              playsinline
+              muted
+              autoplay
+              loop
+              preload="metadata"
+            >
+              <source src="{{ section.settings.video2_url }}" type="video/mp4">
+            </video>
+            <div class="sound-indicator-pill" style="z-index: 9999 !important; cursor: pointer;" onclick="var v=this.parentElement.querySelector('video');if(v){v.muted=!v.muted;this.classList.toggle('sound-on');this.innerHTML=v.muted?'🔇 Tap for Sound':'🔊 Sound On';if(!v.muted){v.play();}}">
+              🔇 Tap for Sound
+            </div>
           </div>
         {% endif %}
+        <h4 class="video-title">{{ section.settings.video2_title | default: "Active Engagement" }}</h4>
       </div>
 
-      <div class="featured-toy-info">
-        <div class="toy-badge">{{ section.settings.toy_badge | default: "🎮 SMART PLAY TECHNOLOGY" }}</div>
-        <h3 class="featured-toy-title">{{ section.settings.featured_toy_title | default: "AUTOMATIC ROTATING TRACK" }}</h3>
-        
-        <div class="toy-features">
-          <div class="toy-feature">
-            <span class="feature-icon">•</span>
-            <span class="feature-text">Motion-activated sensors</span>
-          </div>
-          <div class="toy-feature">
-            <span class="feature-icon">•</span>
-            <span class="feature-text">3 Speed settings</span>
-          </div>
-          <div class="toy-feature">
-            <span class="feature-icon">•</span>
-            <span class="feature-text">Auto shut-off timer</span>
-          </div>
-          <div class="toy-feature">
-            <span class="feature-icon">•</span>
-            <span class="feature-text">Whisper-quiet motor</span>
-          </div>
-        </div>
-
-        <div class="toy-rating">
-          <div class="stars">
-            <span class="star">⭐</span>
-            <span class="star">⭐</span>
-            <span class="star">⭐</span>
-            <span class="star">⭐</span>
-            <span class="star">⭐</span>
-          </div>
-          <span class="rating-count">({{ section.settings.review_count | default: "2,847" }} Reviews)</span>
-        </div>
-
-        <div class="toy-pricing">
-          {% if section.settings.compare_price != blank and section.settings.compare_price != "0" %}
-            <span class="compare-price">${{ section.settings.compare_price }}</span>
-          {% endif %}
-          <span class="current-price">${{ section.settings.price | default: "39.99" }}</span>
-          {% if section.settings.compare_price != blank and section.settings.compare_price != "0" %}
-            <span class="discount-badge">SAVE 20%</span>
-          {% endif %}
-        </div>
-
-        <div class="toy-actions">
-          <button class="btn-add-cart">Add to Cart</button>
-          <button class="btn-quick-view">Quick View</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Additional Toys Grid -->
-    <div class="additional-toys">
-      <h3 class="additional-toys-title">{{ section.settings.grid_title | default: "MORE INTERACTIVE TOYS TO EXPLORE:" }}</h3>
-      <div class="toys-grid">
-        <div class="toy-card">
-          <div class="toy-card-image">
-            <img src="https://via.placeholder.com/300x300/ff6b6b/ffffff?text=Feather+Wand" alt="Feather Wand Pro" loading="lazy">
-            <span class="bestseller-badge">Bestseller</span>
-          </div>
-          <div class="toy-card-content">
-            <h4 class="toy-name">Feather Wand Pro</h4>
-            <div class="toy-card-rating">
-              <span class="star">⭐⭐⭐⭐⭐</span>
+      <div class="video-item">
+        {% if section.settings.video3_url != blank %}
+          <div class="toy-video-wrapper">
+            <video 
+              class="toy-video"
+              controls
+              playsinline
+              muted
+              autoplay
+              loop
+              preload="metadata"
+            >
+              <source src="{{ section.settings.video3_url }}" type="video/mp4">
+            </video>
+            <div class="sound-indicator-pill" style="z-index: 9999 !important; cursor: pointer;" onclick="var v=this.parentElement.querySelector('video');if(v){v.muted=!v.muted;this.classList.toggle('sound-on');this.innerHTML=v.muted?'🔇 Tap for Sound':'🔊 Sound On';if(!v.muted){v.play();}}">
+              🔇 Tap for Sound
             </div>
-            <div class="toy-card-price">
-              <span class="now-price">$19.99</span>
-            </div>
-            <button class="btn-toy-add">Add to Cart</button>
           </div>
-        </div>
-        
-        <div class="toy-card">
-          <div class="toy-card-image">
-            <img src="https://via.placeholder.com/300x300/4ecdc4/ffffff?text=Laser+Tower" alt="Laser Tower" loading="lazy">
-          </div>
-          <div class="toy-card-content">
-            <h4 class="toy-name">Laser Tower</h4>
-            <div class="toy-card-rating">
-              <span class="star">⭐⭐⭐⭐</span>
-            </div>
-            <div class="toy-card-price">
-              <span class="now-price">$34.99</span>
-            </div>
-            <button class="btn-toy-add">Add to Cart</button>
-          </div>
-        </div>
-        
-        <div class="toy-card">
-          <div class="toy-card-image">
-            <img src="https://via.placeholder.com/300x300/45b7d1/ffffff?text=Puzzle+Ball" alt="Puzzle Ball" loading="lazy">
-          </div>
-          <div class="toy-card-content">
-            <h4 class="toy-name">Puzzle Ball</h4>
-            <div class="toy-card-rating">
-              <span class="star">⭐⭐⭐⭐⭐</span>
-            </div>
-            <div class="toy-card-price">
-              <span class="now-price">$24.99</span>
-            </div>
-            <button class="btn-toy-add">Add to Cart</button>
-          </div>
-        </div>
-        
-        <div class="toy-card">
-          <div class="toy-card-image">
-            <img src="https://via.placeholder.com/300x300/f39c12/ffffff?text=Catnip+Mouse" alt="Catnip Mouse" loading="lazy">
-          </div>
-          <div class="toy-card-content">
-            <h4 class="toy-name">Catnip Mouse</h4>
-            <div class="toy-card-rating">
-              <span class="star">⭐⭐⭐⭐</span>
-            </div>
-            <div class="toy-card-price">
-              <span class="now-price">$14.99</span>
-            </div>
-            <button class="btn-toy-add">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="view-all-toys">
-        <a href="/collections/interactive-toys" class="btn-view-all">
-          View All Interactive Toys →
-        </a>
-      </div>
-    </div>
-
-    <!-- Bundle Offer -->
-    <div class="bundle-offer">
-      <div class="bundle-content">
-        <div class="bundle-icon">🎁</div>
-        <div class="bundle-info">
-          <h3 class="bundle-title">{{ section.settings.bundle_title | default: "PERFECT PAIRING BUNDLE" }}</h3>
-          <p class="bundle-description">{{ section.settings.bundle_description | default: "Get the Pink Cat Tree + Rotating Track Toy TOGETHER and SAVE $30!" }}</p>
-          
-          <ul class="bundle-features">
-            <li>• Complete entertainment system</li>
-            <li>• Exercise + Play in one setup</li>
-            <li>• Perfect for single or multi-cat homes</li>
-          </ul>
-          
-          <div class="bundle-pricing">
-            <span class="bundle-regular">Regular: ${{ section.settings.bundle_regular_price | default: "159.98" }}</span>
-            <span class="bundle-sale">Bundle Price: ${{ section.settings.bundle_sale_price | default: "129.98" }}</span>
-          </div>
-        </div>
-        
-        <div class="bundle-action">
-          <button class="btn-bundle-add">💝 Add Bundle to Cart</button>
-        </div>
+        {% endif %}
+        <h4 class="video-title">{{ section.settings.video3_title | default: "Happy Cats" }}</h4>
       </div>
     </div>
 
@@ -242,74 +124,49 @@
       "default": "While trees give them a kingdom to rule, toys give them adventures to conquer"
     },
     {
-      "type": "text",
-      "id": "featured_toy_title",
-      "label": "Featured Toy Title",
-      "default": "AUTOMATIC ROTATING TRACK"
+      "type": "header",
+      "content": "Video 1"
     },
     {
       "type": "text",
-      "id": "toy_badge",
-      "label": "Toy Badge",
-      "default": "🎮 SMART PLAY TECHNOLOGY"
-    },
-    {
-      "type": "image_picker",
-      "id": "featured_toy_image",
-      "label": "Featured Toy Image"
+      "id": "video1_url",
+      "label": "Video 1 URL"
     },
     {
       "type": "text",
-      "id": "featured_toy_video",
-      "label": "Featured Toy Video URL"
+      "id": "video1_title",
+      "label": "Video 1 Title",
+      "default": "Interactive Play"
+    },
+    {
+      "type": "header",
+      "content": "Video 2"
     },
     {
       "type": "text",
-      "id": "price",
-      "label": "Price",
-      "default": "39.99"
+      "id": "video2_url",
+      "label": "Video 2 URL"
     },
     {
       "type": "text",
-      "id": "compare_price",
-      "label": "Compare at Price",
-      "default": "49.99"
+      "id": "video2_title",
+      "label": "Video 2 Title",
+      "default": "Active Engagement"
+    },
+    {
+      "type": "header",
+      "content": "Video 3"
     },
     {
       "type": "text",
-      "id": "review_count",
-      "label": "Review Count",
-      "default": "2,847"
+      "id": "video3_url",
+      "label": "Video 3 URL"
     },
     {
       "type": "text",
-      "id": "grid_title",
-      "label": "Grid Title",
-      "default": "MORE INTERACTIVE TOYS TO EXPLORE:"
-    },
-    {
-      "type": "text",
-      "id": "bundle_title",
-      "label": "Bundle Title",
-      "default": "PERFECT PAIRING BUNDLE"
-    },
-    {
-      "type": "textarea",
-      "id": "bundle_description",
-      "label": "Bundle Description",
-      "default": "Get the Pink Cat Tree + Rotating Track Toy TOGETHER and SAVE $30!"
-    },
-    {
-      "type": "text",
-      "id": "bundle_regular_price",
-      "label": "Bundle Regular Price",
-      "default": "159.98"
-    },
-    {
-      "type": "text",
-      "id": "bundle_sale_price",
-      "label": "Bundle Sale Price",
-      "default": "129.98"
+      "id": "video3_title",
+      "label": "Video 3 Title",
+      "default": "Happy Cats"
     },
     {
       "type": "text",
