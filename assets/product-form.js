@@ -32,6 +32,14 @@ if (!customElements.get('product-form')) {
         delete config.headers['Content-Type'];
 
         const formData = new FormData(this.form);
+        
+        // Debug: Log what's being submitted
+        console.log('Form submission data:', {
+          variantId: formData.get('id'),
+          quantity: formData.get('quantity'),
+          formElement: this.form,
+          quantityInputs: document.querySelectorAll('input[name="quantity"]')
+        });
         if (this.cart) {
           formData.append(
             'sections',
@@ -95,7 +103,14 @@ if (!customElements.get('product-form')) {
               }
               
               const bundleQty = quantityInput ? parseInt(quantityInput.value || '1', 10) : 1;
-              console.log('Bundle quantity detected:', bundleQty, 'Input found:', !!quantityInput);
+              console.log('Bundle gift check:', {
+                bundleQty: bundleQty,
+                inputFound: !!quantityInput,
+                inputValue: quantityInput?.value,
+                bundleFreebiesDefined: typeof BUNDLE_FREEBIES !== 'undefined',
+                bundleFreebiesContent: typeof BUNDLE_FREEBIES !== 'undefined' ? BUNDLE_FREEBIES : 'not defined',
+                giftsForThisQty: typeof BUNDLE_FREEBIES !== 'undefined' ? BUNDLE_FREEBIES[bundleQty] : 'N/A'
+              });
               
               if (bundleQty > 1 && typeof BUNDLE_FREEBIES !== 'undefined' && BUNDLE_FREEBIES[bundleQty]?.length) {
                 console.log('Adding freebies for bundle qty', bundleQty, ':', BUNDLE_FREEBIES[bundleQty]);
