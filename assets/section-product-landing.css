@@ -2743,3 +2743,94 @@ body {
 .thumbnail-video.active .thumbnail-play-overlay {
   display: none;
 }
+
+/* Sound Indicator Pill */
+.sound-indicator-pill {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  animation: pulse-attention 2s ease-in-out infinite;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  user-select: none;
+}
+
+/* Pulsing animation - "tap me please" effect */
+@keyframes pulse-attention {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  25% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  75% {
+    transform: scale(1.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.sound-indicator-pill:hover {
+  background: rgba(0, 0, 0, 0.95);
+  transform: scale(1.1);
+  animation: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.sound-indicator-pill.sound-on {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  animation: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sound-indicator-pill.sound-on:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.sound-icon {
+  flex-shrink: 0;
+}
+
+.sound-text {
+  white-space: nowrap;
+}
+
+/* Hide pill on images */
+.main-image-container:not(:has(video)) .sound-indicator-pill {
+  display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sound-indicator-pill {
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .sound-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
