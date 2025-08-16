@@ -35,7 +35,67 @@
         "title": "What Our Customers Say",
         "review_count": "126",
         "show_load_more": true
-      }
+      },
+      "blocks": {
+        "review-1": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "la***2d",
+            "rating": 5,
+            "review_date": "Jul 9, 2025",
+            "product_variant": "Blue Black",
+            "review_text": "O M G My mainecoon and I love it!! I do wish it were up off the ground just a bit more. And maybe the motor part just a bit more power. Or, maybe this company just needs to make a bigger version for bigger breeds?? Easy, Fun, lots of laughs, lots of craziness. Happy Fur Mama",
+            "verified_purchase": true,
+            "has_video": true,
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/126d206cd73948039c829665934afc23.mp4"
+          }
+        },
+        "review-2": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "al***rd",
+            "rating": 5,
+            "review_date": "May 20, 2025",
+            "product_variant": "Blue Black",
+            "review_text": "My kitten LOVES it so much i have to mount the pieces down so he stops knocking them over he having some much fun. oh and I really like how you can make them as long or short as you like plus just about shape",
+            "verified_purchase": true,
+            "has_video": true,
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/126d206cd73948039c829665934afc23.mp4"
+          }
+        },
+        "review-3": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "se***on",
+            "rating": 5,
+            "review_date": "Jan 4, 2025",
+            "product_variant": "Blue Black",
+            "review_text": "I have 2 three year old Ragdoll cats. This is a wonderful item. It really works them out. My only issue is I don't know who is enjoying it more, the cats or my husband",
+            "verified_purchase": true,
+            "has_video": true,
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/132fae2c9af04bccb01bfc84b0d9c1c3.mp4"
+          }
+        },
+        "review-4": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Jeremy Fobes",
+            "rating": 5,
+            "review_date": "Jan 7, 2025",
+            "product_variant": "Blue Black",
+            "review_text": "My cats absolutely love this toy so far. only problem is only having one isn't enough for all 4 of our cats but only because our black cat is a lot more energetic and hyper than the others",
+            "verified_purchase": true,
+            "has_video": true,
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/01a426f18677426f8431957544eecabb.mp4"
+          }
+        }
+      },
+      "block_order": [
+        "review-1",
+        "review-2",
+        "review-3",
+        "review-4"
+      ]
     },
     "related-products": {
       "type": "related-products",
