@@ -129,8 +129,8 @@ if (!customElements.get('product-form')) {
                   id: variantId,
                   quantity: 1,
                   properties: {
-                    _free_gift: true,
-                    _bundle_qty: bundleQty
+                    _free_gift: 'true',
+                    _bundle_qty: String(bundleQty)
                   }
                 }));
 
@@ -157,6 +157,9 @@ if (!customElements.get('product-form')) {
                         body: JSON.stringify({ items: gifts })
                       });
                       const bulkJson = await bulkResp.json();
+                      if (!bulkResp.ok) {
+                        console.error('Freebies bulk add failed', bulkResp.status, bulkJson);
+                      }
                       if (!bulkResp.ok || bulkJson?.status) {
                         throw new Error(bulkJson?.message || bulkJson?.description || 'Bulk freebies add failed');
                       }
@@ -176,6 +179,9 @@ if (!customElements.get('product-form')) {
                           body: JSON.stringify(gift)
                         });
                         const json = await resp.json();
+                        if (!resp.ok) {
+                          console.error('Free gift add failed', resp.status, json);
+                        }
                         if (!resp.ok || json?.status) {
                           console.error('Failed to add free gift variant', gift.id, json);
                         } else {

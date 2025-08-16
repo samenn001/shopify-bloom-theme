@@ -72,7 +72,7 @@
           toAdd.push({
             id: variantId,
             quantity: 1,
-            properties: { _free_gift: true, _bundle_qty: qty },
+            properties: { _free_gift: 'true', _bundle_qty: String(qty) },
           });
         }
       });
@@ -85,16 +85,19 @@
             body: JSON.stringify({ items: toAdd }),
           });
           const addJson = await addResp.json();
+          if (DEBUG && !addResp.ok) console.debug('[freebies] bulk add failed', addResp.status, addJson);
           if (DEBUG) console.debug('[freebies] bulk add resp', addResp.status, addJson);
           if (!addResp.ok || addJson?.status) {
             // Fallback sequential adds
             for (const g of toAdd) {
               try {
-                await fetch('/cart/add.js', {
+                const resp = await fetch('/cart/add.js', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                   body: JSON.stringify(g),
                 });
+                const j = await resp.json();
+                if (DEBUG && !resp.ok) console.debug('[freebies] single add failed', resp.status, j);
                 if (DEBUG) console.debug('[freebies] single add ok', g.id);
               } catch (e) {}
             }
