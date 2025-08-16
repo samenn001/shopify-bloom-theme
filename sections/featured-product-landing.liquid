@@ -477,6 +477,13 @@
           </div>
         {%- endunless -%}
 
+        <!-- Ensure product-form custom element is available on this landing section -->
+        <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+        <script>
+          window.BUNDLE_PRODUCT_ID = {{ product.id }};
+        </script>
+        <script src="{{ 'cart-freebies.js' | asset_url }}" defer="defer"></script>
+
         <!-- Modern Bundle Section with Dynamic Real Pricing -->
         {%- assign current_variant = product.selected_or_first_available_variant -%}
         {%- assign base_price = current_variant.price -%}
