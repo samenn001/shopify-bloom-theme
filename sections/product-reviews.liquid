@@ -28,13 +28,12 @@
                     controls
                     playsinline
                     muted
-                    loop
-                    poster="{{ block.settings.video_poster | img_url: 'master' }}"
+                    preload="metadata"
                   >
-                    <source src="{{ block.settings.video_url }}" type="video/mp4">
+                    <source src="{{ block.settings.video_url }}#t=0.1" type="video/mp4">
                   </video>
                   <div class="video-play-overlay">
-                    <svg class="play-icon" width="48" height="48" viewBox="0 0 24 24" fill="white">
+                    <svg class="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M8 5v14l11-7z"/>
                     </svg>
                   </div>
@@ -100,6 +99,35 @@
     {% endif %}
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const videoWrappers = document.querySelectorAll('.review-video-wrapper');
+    
+    videoWrappers.forEach(wrapper => {
+      const video = wrapper.querySelector('.review-video');
+      const overlay = wrapper.querySelector('.video-play-overlay');
+      
+      if (video && overlay) {
+        // Hide overlay when video starts playing
+        video.addEventListener('play', () => {
+          overlay.style.display = 'none';
+        });
+        
+        // Show overlay when video is paused
+        video.addEventListener('pause', () => {
+          overlay.style.display = 'flex';
+        });
+        
+        // Click overlay to play video
+        overlay.addEventListener('click', (e) => {
+          e.preventDefault();
+          video.play();
+        });
+      }
+    });
+  });
+</script>
 
 {% schema %}
 {
