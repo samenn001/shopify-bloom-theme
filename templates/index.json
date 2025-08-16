@@ -13,7 +13,7 @@
       "type": "featured-product-landing",
       "settings": {
         "hide_header": false,
-        "product": "cat-tree-for-indoor-cats-multi-level-cat-tower-with-large-hammock-sisal-covered-scratching-posts-cozy-condo-and-top-perch-pink",
+        "product": "interactive-cat-toy-chase-run-exercise-mental-stimulation-cat-treadmill-adjustable-speed-kitten-toy-for-bored-kitten-puppy-play",
         "color_scheme": "scheme-1",
         "media_max_width": 600,
         "info_max_width": 600,
@@ -21,6 +21,8 @@
         "pad_left": 32,
         "pad_right": 32,
         "bundle_max_width": 520,
+        "bundle2_discount": 15,
+        "bundle3_discount": 25,
         "custom_heading": "",
         "show_dynamic_checkout": true,
         "show_video_section": true,
