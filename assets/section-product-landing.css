@@ -548,6 +548,26 @@ body {
 }
 
 /* Thumbnail Carousel */
+/* Video Support in Main Display */
+.main-media-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.main-product-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
 .thumbnail-carousel {
   display: flex;
   align-items: center;
@@ -2675,3 +2695,51 @@ body {
 
 /* Ensure legacy pseudo "POPULAR" badge stays hidden (we render explicit badges in markup) */
 .bundle-option.bundle-popular::after { display: none !important; }
+
+
+/* Video Thumbnail Styles */
+.thumbnail-video {
+  position: relative;
+}
+
+.thumbnail-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.thumbnail-play-overlay svg {
+  width: 12px;
+  height: 12px;
+  margin-left: 2px;
+}
+
+.thumbnail-video:hover .thumbnail-play-overlay {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-thumbnail-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #333;
+  color: white;
+}
+
+.thumbnail-video.active .thumbnail-play-overlay {
+  display: none;
+}

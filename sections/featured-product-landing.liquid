@@ -278,14 +278,40 @@
     <div class="eleve-text-watermark" aria-hidden="true">ELEVÉ</div>
     
     <div class="hero-grid">
-      <!-- Product Image -->
+      <!-- Product Media Gallery (Images & Videos) -->
       <div class="product-hero-image" id="product-images-{{ section.id }}">
         {%- if product != blank -%}
           {%- assign current_variant = product.selected_or_first_available_variant -%}
           
-          <!-- Main image display - Always show main product image first -->
+          <!-- Main media display - Supports both images and videos -->
           <div class="main-image-container">
-            {%- if product.featured_image -%}
+            {%- assign first_media = product.media.first -%}
+            {%- if first_media -%}
+              {%- case first_media.media_type -%}
+                {%- when 'video' -%}
+                  <div id="main-product-media-{{ section.id }}" class="main-media-wrapper" data-media-type="video">
+                    <video controls playsinline muted class="main-product-video"
+                           poster="{{ first_media.preview_image | image_url: width: 1000 }}">
+                      {%- for source in first_media.sources -%}
+                        <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                      {%- endfor -%}
+                    </video>
+                  </div>
+                {%- when 'external_video' -%}
+                  <div id="main-product-media-{{ section.id }}" class="main-media-wrapper" data-media-type="external_video">
+                    {{ first_media | external_video_tag: class: 'main-product-video' }}
+                  </div>
+                {%- else -%}
+                  <img id="main-product-image-{{ section.id }}" 
+                       src="{{ first_media | image_url: width: 1000 }}" 
+                       alt="{{ product.title | escape }}"
+                       loading="eager"
+                       width="1000"
+                       height="1000"
+                       data-main-image
+                       data-original-src="{{ first_media | image_url: width: 1000 }}">
+              {%- endcase -%}
+            {%- elsif product.featured_image -%}
               <img id="main-product-image-{{ section.id }}" 
                    src="{{ product.featured_image | image_url: width: 1000 }}" 
                    alt="{{ product.title | escape }}"
@@ -294,45 +320,64 @@
                    height="1000"
                    data-main-image
                    data-original-src="{{ product.featured_image | image_url: width: 1000 }}">
-            {%- elsif product.images.size > 0 -%}
-              <img id="main-product-image-{{ section.id }}" 
-                   src="{{ product.images.first | image_url: width: 1000 }}" 
-                   alt="{{ product.title | escape }}"
-                   loading="eager"
-                   width="1000"
-                   height="1000"
-                   data-main-image
-                   data-original-src="{{ product.images.first | image_url: width: 1000 }}">
             {%- else -%}
               {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
             {%- endif -%}
           </div>
           
-          <!-- Thumbnail Carousel -->
-          {%- if product.images.size > 1 -%}
+          <!-- Thumbnail Carousel for Images and Videos -->
+          {%- if product.media.size > 1 -%}
             <div class="thumbnail-carousel">
-              <button class="carousel-arrow carousel-prev" aria-label="Previous image" onclick="scrollThumbnails(-1)">
+              <button class="carousel-arrow carousel-prev" aria-label="Previous media" onclick="scrollThumbnails(-1)">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path d="M12 14L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
               </button>
               
               <div class="thumbnail-track" id="thumbnail-track-{{ section.id }}">
-                {%- for image in product.images -%}
-                  <button class="thumbnail-item {% if forloop.first %}active{% endif %}" 
-                          onclick="changeMainImage('{{ image | image_url: width: 1000 }}', this)"
-                          data-image-url="{{ image | image_url: width: 1000 }}"
-                          data-image-index="{{ forloop.index }}"
-                          aria-label="View image {{ forloop.index }}">
-                    <img src="{{ image | image_url: width: 150 }}" 
-                         alt="{{ image.alt | default: product.title | escape }}"
-                         loading="lazy">
-                    <span class="thumbnail-indicator"></span>
-                  </button>
+                {%- for media in product.media -%}
+                  {%- case media.media_type -%}
+                    {%- when 'video' or 'external_video' -%}
+                      <button class="thumbnail-item thumbnail-video {% if forloop.first %}active{% endif %}" 
+                              onclick="changeMainMedia('video', '{{ forloop.index }}', this)"
+                              data-media-type="video"
+                              data-media-index="{{ forloop.index }}"
+                              aria-label="View video {{ forloop.index }}">
+                        {%- if media.preview_image -%}
+                          <img src="{{ media.preview_image | image_url: width: 150 }}" 
+                               alt="Video thumbnail {{ forloop.index }}"
+                               loading="lazy">
+                        {%- else -%}
+                          <div class="video-thumbnail-placeholder">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        {%- endif -%}
+                        <div class="thumbnail-play-overlay">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                        <span class="thumbnail-indicator"></span>
+                      </button>
+                    {%- else -%}
+                      <button class="thumbnail-item {% if forloop.first %}active{% endif %}" 
+                              onclick="changeMainMedia('image', '{{ media | image_url: width: 1000 }}', this)"
+                              data-media-type="image"
+                              data-image-url="{{ media | image_url: width: 1000 }}"
+                              data-media-index="{{ forloop.index }}"
+                              aria-label="View image {{ forloop.index }}">
+                        <img src="{{ media | image_url: width: 150 }}" 
+                             alt="{{ media.alt | default: product.title | escape }}"
+                             loading="lazy">
+                        <span class="thumbnail-indicator"></span>
+                      </button>
+                  {%- endcase -%}
                 {%- endfor -%}
               </div>
               
-              <button class="carousel-arrow carousel-next" aria-label="Next image" onclick="scrollThumbnails(1)">
+              <button class="carousel-arrow carousel-next" aria-label="Next media" onclick="scrollThumbnails(1)">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path d="M8 14L12 10L8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
@@ -1217,24 +1262,92 @@
     }
     
     // Image Carousel Functions
-    function changeMainImage(imageUrl, thumbnailElement) {
-      const mainImage = document.getElementById('main-product-image-{{ section.id }}');
-      if (mainImage) {
-        // Fade transition
-        mainImage.style.opacity = '0.7';
-        setTimeout(() => {
-          mainImage.src = imageUrl;
-          mainImage.style.opacity = '1';
-        }, 150);
-        
-        // Update active thumbnail
-        document.querySelectorAll('.thumbnail-item').forEach(thumb => {
-          thumb.classList.remove('active');
-        });
-        if (thumbnailElement) {
-          thumbnailElement.classList.add('active');
+    // Store all media data
+    const productMedia = [
+      {%- for media in product.media -%}
+        {
+          type: '{{ media.media_type }}',
+          index: {{ forloop.index }},
+          {%- case media.media_type -%}
+            {%- when 'video' -%}
+              sources: [
+                {%- for source in media.sources -%}
+                  { url: '{{ source.url }}', type: '{{ source.mime_type }}' }{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              ],
+              poster: '{{ media.preview_image | image_url: width: 1000 }}'
+            {%- when 'external_video' -%}
+              host: '{{ media.host }}',
+              embedUrl: '{{ media | external_video_url }}'
+            {%- else -%}
+              imageUrl: '{{ media | image_url: width: 1000 }}'
+          {%- endcase -%}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ];
+
+    function changeMainMedia(mediaType, mediaData, thumbnailElement) {
+      const container = document.querySelector('.main-image-container');
+      if (!container) return;
+      
+      // Clear current content with fade
+      container.style.opacity = '0.7';
+      
+      setTimeout(() => {
+        if (mediaType === 'image') {
+          // Display image
+          container.innerHTML = `
+            <img id="main-product-image-{{ section.id }}" 
+                 src="${mediaData}" 
+                 alt="{{ product.title | escape }}"
+                 loading="eager"
+                 width="1000"
+                 height="1000"
+                 data-main-image>`;
+        } else if (mediaType === 'video') {
+          // Display video
+          const mediaIndex = parseInt(mediaData) - 1;
+          const media = productMedia[mediaIndex];
+          
+          if (media && media.type === 'video') {
+            let sourcesHtml = media.sources.map(s => 
+              `<source src="${s.url}" type="${s.type}">`
+            ).join('');
+            
+            container.innerHTML = `
+              <div id="main-product-media-{{ section.id }}" class="main-media-wrapper" data-media-type="video">
+                <video controls playsinline muted class="main-product-video"
+                       poster="${media.poster}">
+                  ${sourcesHtml}
+                </video>
+              </div>`;
+          } else if (media && media.type === 'external_video') {
+            container.innerHTML = `
+              <div id="main-product-media-{{ section.id }}" class="main-media-wrapper" data-media-type="external_video">
+                <iframe src="${media.embedUrl}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        class="main-product-video"></iframe>
+              </div>`;
+          }
         }
+        
+        container.style.opacity = '1';
+      }, 150);
+      
+      // Update active thumbnail
+      document.querySelectorAll('.thumbnail-item').forEach(thumb => {
+        thumb.classList.remove('active');
+      });
+      if (thumbnailElement) {
+        thumbnailElement.classList.add('active');
       }
+    }
+    
+    // Keep backward compatibility
+    function changeMainImage(imageUrl, thumbnailElement) {
+      changeMainMedia('image', imageUrl, thumbnailElement);
     }
     
     function scrollThumbnails(direction) {
