@@ -1535,6 +1535,34 @@ body {
   .social-proof-bar {
     margin-top: var(--space-lg);
     border-radius: 8px;
+    height: auto; /* Remove fixed height on mobile */
+    padding: 12px 8px; /* Better padding for mobile */
+    position: relative; /* Not sticky on mobile to save space */
+  }
+  
+  .social-proof-content {
+    flex-direction: column; /* Stack stats vertically */
+    gap: 8px; /* Smaller gap */
+    padding: 0 12px;
+    align-items: center;
+  }
+  
+  .social-stat {
+    font-size: 12px; /* Smaller text for mobile */
+    justify-content: center;
+    width: 100%;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+  }
+  
+  .stat-icon {
+    font-size: 14px;
+  }
+  
+  .stat-number {
+    font-weight: 700;
+    font-size: 13px;
   }
   .video-main-title {
     font-size: 28px;
