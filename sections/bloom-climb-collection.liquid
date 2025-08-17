@@ -405,6 +405,12 @@
       
       // Prevent horizontal scroll on mobile
       document.addEventListener('DOMContentLoaded', function() {
+        // Remove any existing overlay elements from previous versions
+        const existingOverlay = document.getElementById('mobile-menu-overlay');
+        if (existingOverlay) {
+          existingOverlay.remove();
+        }
+        
         // Check for horizontal overflow
         function checkHorizontalScroll() {
           const scrollWidth = document.documentElement.scrollWidth;
