@@ -437,6 +437,16 @@ class MenuDrawer extends HTMLElement {
     this.querySelectorAll(
       'button:not(.localization-selector):not(.country-selector__close-button):not(.country-filter__reset-button)'
     ).forEach((button) => button.addEventListener('click', this.onCloseButtonClick.bind(this)));
+
+    // Ensure navigating via links inside the drawer closes the menu immediately
+    // to avoid any lingering overlay perception during navigation on mobile
+    this.mainDetailsToggle
+      .querySelectorAll('#menu-drawer a[href]')
+      .forEach((anchor) =>
+        anchor.addEventListener('click', () =>
+          this.closeMenuDrawer(new Event('click'), this.mainDetailsToggle.querySelector('summary'))
+        )
+      );
   }
 
   onKeyUp(event) {
