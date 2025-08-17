@@ -580,8 +580,8 @@ class HeaderDrawer extends MenuDrawer {
   }
 
   closeMenuDrawer(event, elementToFocus) {
-    if (!elementToFocus) return;
-    super.closeMenuDrawer(event, elementToFocus);
+    // Always close, even if no elementToFocus was provided (e.g., on focusout)
+    super.closeMenuDrawer(event, elementToFocus || this.mainDetailsToggle?.querySelector('summary'));
     this.header.classList.remove('menu-open');
     window.removeEventListener('resize', this.onResize);
   }
