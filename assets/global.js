@@ -444,9 +444,17 @@ class MenuDrawer extends HTMLElement {
       .querySelectorAll('#menu-drawer a[href]')
       .forEach((anchor) =>
         anchor.addEventListener('click', () =>
-          this.closeMenuDrawer(new Event('click'), this.mainDetailsToggle.querySelector('summary'))
+          this.closeMenuDrawerImmediately(this.mainDetailsToggle.querySelector('summary'))
         )
       );
+
+    // Backdrop click to close (desktop only; on mobile the backdrop is inert)
+    const backdrop = this.mainDetailsToggle.querySelector('.menu-backdrop');
+    if (backdrop) {
+      backdrop.addEventListener('click', () =>
+        this.closeMenuDrawer(new Event('click'), this.mainDetailsToggle.querySelector('summary'))
+      );
+    }
   }
 
   onKeyUp(event) {
@@ -515,6 +523,22 @@ class MenuDrawer extends HTMLElement {
 
     // Always reflect the closed state on the toggling summary to avoid stale overlays
     elementToFocus?.setAttribute('aria-expanded', false);
+  }
+
+  // Close immediately without waiting for animation frame loop.
+  closeMenuDrawerImmediately(elementToFocus = false) {
+    this.mainDetailsToggle.classList.remove('menu-opening');
+    this.mainDetailsToggle.querySelectorAll('details').forEach((details) => {
+      details.removeAttribute('open');
+      details.classList.remove('menu-opening');
+    });
+    this.mainDetailsToggle.querySelectorAll('.submenu-open').forEach((submenu) => {
+      submenu.classList.remove('submenu-open');
+    });
+    document.body.classList.remove(`overflow-hidden-${this.dataset.breakpoint}`);
+    removeTrapFocus(elementToFocus);
+    this.mainDetailsToggle.removeAttribute('open');
+    (elementToFocus || this.mainDetailsToggle.querySelector('summary'))?.setAttribute('aria-expanded', false);
   }
 
   onFocusOut() {
