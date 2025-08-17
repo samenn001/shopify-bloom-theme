@@ -16,6 +16,7 @@
   opacity: 0;
   visibility: hidden;
   z-index: 2;
+  pointer-events: none;
   transition: opacity 0s, visibility 0s;
 }
 
