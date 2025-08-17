@@ -2576,6 +2576,14 @@ input[type='checkbox'] {
   pointer-events: none;
 }
 
+@media screen and (max-width: 989px) {
+  .header__icon--menu[aria-expanded='true']::before {
+    background: transparent !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+
 .header__icon--account shop-user-avatar {
   --shop-avatar-size: 2.8rem;
 }
