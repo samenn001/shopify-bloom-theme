@@ -150,12 +150,12 @@
       ],
       "settings": {
         "title": "What Our Customers Say",
-        "restrict_visibility": false,
+        "restrict_visibility": true,
         "only_collection_handle": "",
-        "only_product_type": "{{ product.title }}",
+        "only_product_type": "",
         "only_tag": "",
         "only_handles": "",
-        "only_product_ids": "",
+        "only_product_ids": "10291928990033",
         "review_count": "126",
         "show_load_more": true
       }
