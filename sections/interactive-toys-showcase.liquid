@@ -8,72 +8,48 @@
       <p class="toys-subtitle">{{ section.settings.subtitle | default: "While trees give them a kingdom to rule, toys give them adventures to conquer" }}</p>
     </div>
 
-    <!-- Three Videos Showcase -->
-    <div class="toy-videos-grid">
-      <div class="video-item">
-        {% if section.settings.video1_url != blank %}
-          <div class="toy-video-wrapper">
-            <video 
-              class="toy-video"
-              controls
-              playsinline
-              muted
-              autoplay
-              loop
-              preload="metadata"
+    <!-- Three GIFs Showcase -->
+    <div class="toy-gifs-grid">
+      <div class="gif-item">
+        {% if section.settings.gif1_image %}
+          <div class="toy-gif-wrapper">
+            <img 
+              src="{{ section.settings.gif1_image | image_url: width: 400 }}" 
+              alt="{{ section.settings.gif1_title }}"
+              class="toy-gif"
+              loading="lazy"
             >
-              <source src="{{ section.settings.video1_url }}" type="video/mp4">
-            </video>
-            <div class="sound-indicator-pill" style="z-index: 9999 !important; cursor: pointer;" onclick="var v=this.parentElement.querySelector('video');if(v){v.muted=!v.muted;this.classList.toggle('sound-on');this.innerHTML=v.muted?'🔇 Tap for Sound':'🔊 Sound On';if(!v.muted){v.play();}}">
-              🔇 Tap for Sound
-            </div>
           </div>
         {% endif %}
-        <h4 class="video-title">{{ section.settings.video1_title | default: "Interactive Play" }}</h4>
+        <h4 class="gif-title">{{ section.settings.gif1_title | default: "Interactive Play" }}</h4>
       </div>
 
-      <div class="video-item">
-        {% if section.settings.video2_url != blank %}
-          <div class="toy-video-wrapper">
-            <video 
-              class="toy-video"
-              controls
-              playsinline
-              muted
-              autoplay
-              loop
-              preload="metadata"
+      <div class="gif-item">
+        {% if section.settings.gif2_image %}
+          <div class="toy-gif-wrapper">
+            <img 
+              src="{{ section.settings.gif2_image | image_url: width: 400 }}" 
+              alt="{{ section.settings.gif2_title }}"
+              class="toy-gif"
+              loading="lazy"
             >
-              <source src="{{ section.settings.video2_url }}" type="video/mp4">
-            </video>
-            <div class="sound-indicator-pill" style="z-index: 9999 !important; cursor: pointer;" onclick="var v=this.parentElement.querySelector('video');if(v){v.muted=!v.muted;this.classList.toggle('sound-on');this.innerHTML=v.muted?'🔇 Tap for Sound':'🔊 Sound On';if(!v.muted){v.play();}}">
-              🔇 Tap for Sound
-            </div>
           </div>
         {% endif %}
-        <h4 class="video-title">{{ section.settings.video2_title | default: "Active Engagement" }}</h4>
+        <h4 class="gif-title">{{ section.settings.gif2_title | default: "Active Engagement" }}</h4>
       </div>
 
-      <div class="video-item">
-        {% if section.settings.video3_url != blank %}
-          <div class="toy-video-wrapper">
-            <video 
-              class="toy-video"
-              controls
-              playsinline
-              muted
-              autoplay
-              loop
-              preload="metadata"
+      <div class="gif-item">
+        {% if section.settings.gif3_image %}
+          <div class="toy-gif-wrapper">
+            <img 
+              src="{{ section.settings.gif3_image | image_url: width: 400 }}" 
+              alt="{{ section.settings.gif3_title }}"
+              class="toy-gif"
+              loading="lazy"
             >
-              <source src="{{ section.settings.video3_url }}" type="video/mp4">
-            </video>
-            <div class="sound-indicator-pill" style="z-index: 9999 !important; cursor: pointer;" onclick="var v=this.parentElement.querySelector('video');if(v){v.muted=!v.muted;this.classList.toggle('sound-on');this.innerHTML=v.muted?'🔇 Tap for Sound':'🔊 Sound On';if(!v.muted){v.play();}}">
-              🔇 Tap for Sound
-            </div>
           </div>
         {% endif %}
-        <h4 class="video-title">{{ section.settings.video3_title | default: "Happy Cats" }}</h4>
+        <h4 class="gif-title">{{ section.settings.gif3_title | default: "Happy Cats" }}</h4>
       </div>
     </div>
 
@@ -125,47 +101,47 @@
     },
     {
       "type": "header",
-      "content": "Video 1"
+      "content": "GIF 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "gif1_image",
+      "label": "GIF 1 Image"
     },
     {
       "type": "text",
-      "id": "video1_url",
-      "label": "Video 1 URL"
-    },
-    {
-      "type": "text",
-      "id": "video1_title",
-      "label": "Video 1 Title",
+      "id": "gif1_title",
+      "label": "GIF 1 Title",
       "default": "Interactive Play"
     },
     {
       "type": "header",
-      "content": "Video 2"
+      "content": "GIF 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "gif2_image",
+      "label": "GIF 2 Image"
     },
     {
       "type": "text",
-      "id": "video2_url",
-      "label": "Video 2 URL"
-    },
-    {
-      "type": "text",
-      "id": "video2_title",
-      "label": "Video 2 Title",
+      "id": "gif2_title",
+      "label": "GIF 2 Title",
       "default": "Active Engagement"
     },
     {
       "type": "header",
-      "content": "Video 3"
+      "content": "GIF 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "gif3_image",
+      "label": "GIF 3 Image"
     },
     {
       "type": "text",
-      "id": "video3_url",
-      "label": "Video 3 URL"
-    },
-    {
-      "type": "text",
-      "id": "video3_title",
-      "label": "Video 3 Title",
+      "id": "gif3_title",
+      "label": "GIF 3 Title",
       "default": "Happy Cats"
     },
     {

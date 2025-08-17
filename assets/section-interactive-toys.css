@@ -40,43 +40,52 @@
   line-height: 1.5;
 }
 
-/* Three Videos Grid */
-.toy-videos-grid {
+/* Three GIFs Grid */
+.toy-gifs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   margin-bottom: 80px;
 }
 
-.video-item {
+.gif-item {
   text-align: center;
 }
 
-.toy-video-wrapper {
+.toy-gif-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
-  background: #000;
+  aspect-ratio: 1;
+  background: #f8f8f8;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.toy-video {
-  position: absolute;
-  top: 0;
-  left: 0;
+.toy-gif-wrapper:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.toy-gif {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-.video-title {
+.gif-item:hover .toy-gif {
+  transform: scale(1.05);
+}
+
+.gif-title {
   font-size: 18px;
   font-weight: 600;
   color: #1a1a1a;
-  margin-top: 16px;
+  margin-top: 20px;
   margin-bottom: 0;
+  letter-spacing: -0.3px;
 }
 
 
@@ -156,7 +165,7 @@
     padding: 60px 20px;
   }
 
-  .toy-videos-grid {
+  .toy-gifs-grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
@@ -172,7 +181,7 @@
 }
 
 @media (max-width: 480px) {
-  .toy-videos-grid {
+  .toy-gifs-grid {
     gap: 20px;
   }
 }
