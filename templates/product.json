@@ -13,6 +13,7 @@
       "type": "featured-product-landing",
       "settings": {
         "hide_header": true,
+        "product": "",
         "color_scheme": "scheme-1",
         "media_max_width": 600,
         "info_max_width": 600,
@@ -20,25 +21,39 @@
         "pad_left": 32,
         "pad_right": 32,
         "bundle_max_width": 520,
+        "bundle2_discount": 15,
+        "bundle3_discount": 25,
+        "custom_heading": "",
         "show_dynamic_checkout": true,
         "show_video_section": true,
         "video1_title": "Morning Zoomies",
-        "video2_title": "Afternoon Bliss", 
+        "video1_url": "",
+        "video1_shopify_url": "",
+        "video2_title": "Afternoon Bliss",
+        "video2_url": "",
+        "video2_shopify_url": "",
         "video3_title": "Evening Perch",
+        "video3_url": "",
+        "video3_shopify_url": "",
+        "show_instagram_section": true,
+        "reel1_shopify_url": "",
+        "reel1_url": "",
+        "reel1_caption": "Morning stretches on the flower perch 🌅",
+        "reel1_likes": "2.3M",
+        "reel2_shopify_url": "",
+        "reel2_url": "",
+        "reel2_caption": "Playtime paradise 🎮 Who else has a climber?",
+        "reel2_likes": "1.8M",
+        "reel3_shopify_url": "",
+        "reel3_url": "",
+        "reel3_caption": "Naptime in the clouds ☁️💤",
+        "reel3_likes": "3.1M",
         "padding_top": 0,
         "padding_bottom": 0
       }
     },
     "product_reviews": {
       "type": "product-reviews",
-      "settings": {
-        "title": "What Our Customers Say",
-        "restrict_visibility": true,
-        "only_product_ids": "184674025809",
-        "only_collection_handle": "",
-        "review_count": "126",
-        "show_load_more": true
-      },
       "blocks": {
         "review-1": {
           "type": "review",
@@ -50,7 +65,8 @@
             "review_text": "O M G My mainecoon and I love it!! I do wish it were up off the ground just a bit more. And maybe the motor part just a bit more power. Or, maybe this company just needs to make a bigger version for bigger breeds?? Easy, Fun, lots of laughs, lots of craziness. Happy Fur Mama",
             "verified_purchase": true,
             "has_video": true,
-            "video_url": "https://cdn.shopify.com/videos/c/o/v/126d206cd73948039c829665934afc23.mp4"
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/126d206cd73948039c829665934afc23.mp4",
+            "show_helpful": true
           }
         },
         "review-2": {
@@ -63,7 +79,8 @@
             "review_text": "My kitten LOVES it so much i have to mount the pieces down so he stops knocking them over he having some much fun. oh and I really like how you can make them as long or short as you like plus just about shape",
             "verified_purchase": true,
             "has_video": true,
-            "video_url": "https://cdn.shopify.com/videos/c/o/v/126d206cd73948039c829665934afc23.mp4"
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/126d206cd73948039c829665934afc23.mp4",
+            "show_helpful": true
           }
         },
         "review-3": {
@@ -76,7 +93,8 @@
             "review_text": "I have 2 three year old Ragdoll cats. This is a wonderful item. It really works them out. My only issue is I don't know who is enjoying it more, the cats or my husband",
             "verified_purchase": true,
             "has_video": true,
-            "video_url": "https://cdn.shopify.com/videos/c/o/v/132fae2c9af04bccb01bfc84b0d9c1c3.mp4"
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/132fae2c9af04bccb01bfc84b0d9c1c3.mp4",
+            "show_helpful": true
           }
         },
         "review-4": {
@@ -89,7 +107,8 @@
             "review_text": "My cats absolutely love this toy so far. only problem is only having one isn't enough for all 4 of our cats but only because our black cat is a lot more energetic and hyper than the others",
             "verified_purchase": true,
             "has_video": true,
-            "video_url": "https://cdn.shopify.com/videos/c/o/v/01a426f18677426f8431957544eecabb.mp4"
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/01a426f18677426f8431957544eecabb.mp4",
+            "show_helpful": true
           }
         },
         "review-5": {
@@ -102,6 +121,7 @@
             "review_text": "My cats love this. It's kept them entertained for at least 30 minutes now which is more than I can say for any other of their toys.",
             "verified_purchase": true,
             "has_video": false,
+            "video_url": "",
             "show_helpful": true
           }
         },
@@ -115,6 +135,7 @@
             "review_text": "My cats love it. The instructions aren't the most helpful, but it's pretty intuitive. I have no desire to buy the more expensive version.",
             "verified_purchase": true,
             "has_video": false,
+            "video_url": "",
             "show_helpful": true
           }
         }
@@ -126,7 +147,18 @@
         "review-4",
         "review-5",
         "review-6"
-      ]
+      ],
+      "settings": {
+        "title": "What Our Customers Say",
+        "restrict_visibility": false,
+        "only_collection_handle": "",
+        "only_product_type": "{{ product.title }}",
+        "only_tag": "",
+        "only_handles": "",
+        "only_product_ids": "",
+        "review_count": "126",
+        "show_load_more": true
+      }
     },
     "related-products": {
       "type": "related-products",
