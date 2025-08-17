@@ -16,6 +16,12 @@
   domReady(function() {
     console.log('Mobile menu fix initializing...');
     
+    // Skip this script on bloom-climb-collection pages (shop page)
+    if (document.body.classList.contains('bloom-climb-collection')) {
+      console.log('Skipping mobile menu fix on shop page - has its own menu');
+      return;
+    }
+    
     // Remove all backdrop elements
     function removeAllBackdrops() {
       // Remove any existing backdrop elements

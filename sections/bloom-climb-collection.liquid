@@ -80,7 +80,7 @@
     <!-- Header -->
     <header class="bc-header">
       <div class="bc-header-content">
-        <button class="bc-mobile-menu-btn" onclick="toggleMobileMenu()">
+        <button class="bc-mobile-menu-btn" onclick="toggleShopMobileMenu()">
           <span></span>
           <span></span>
           <span></span>
@@ -89,7 +89,7 @@
         <a href="/" class="bc-logo">bloom</a>
         
         <nav class="bc-nav" id="mobile-nav">
-          <button class="bc-mobile-close" onclick="toggleMobileMenu()">✕</button>
+          <button class="bc-mobile-close" onclick="toggleShopMobileMenu()">✕</button>
           <a href="/collections/all" class="bc-nav-link active">Shop</a>
           <a href="/" class="bc-nav-link">Home</a>
           <a href="/pages/contact" class="bc-nav-link">Contact</a>
@@ -373,12 +373,17 @@
 
 
     <script>
-      // Mobile menu toggle for shop page - simplified version
-      window.toggleMobileMenu = function() {
+      // Dedicated mobile menu toggle for shop page
+      function toggleShopMobileMenu() {
+        console.log('Toggle shop menu clicked');
         const nav = document.getElementById('mobile-nav');
-        if (!nav) return;
+        if (!nav) {
+          console.error('Mobile nav not found');
+          return;
+        }
         
         const isOpen = nav.classList.contains('active');
+        console.log('Menu is currently:', isOpen ? 'open' : 'closed');
         
         if (isOpen) {
           // Close menu
@@ -391,6 +396,9 @@
           document.body.style.overflow = 'hidden';
         }
       }
+      
+      // Make it globally available
+      window.toggleShopMobileMenu = toggleShopMobileMenu;
       
       // Close menu when clicking outside
       document.addEventListener('click', function(e) {
