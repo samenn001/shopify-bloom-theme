@@ -373,38 +373,35 @@
 
 
     <script>
-      // Mobile menu toggle with overlay
+      // Mobile menu toggle WITHOUT overlay
       function toggleMobileMenu() {
         const nav = document.getElementById('mobile-nav');
         const isOpen = nav.classList.contains('active');
         
-        // Get or create overlay
-        let overlay = document.getElementById('mobile-menu-overlay');
-        if (!overlay) {
-          overlay = document.createElement('div');
-          overlay.id = 'mobile-menu-overlay';
-          overlay.className = 'bc-mobile-overlay';
-          overlay.onclick = function(e) {
-            e.stopPropagation();
-            toggleMobileMenu();
-          };
-          document.body.appendChild(overlay);
-        }
-        
         if (isOpen) {
           // Close menu
           nav.classList.remove('active');
-          overlay.classList.remove('active');
           document.body.style.overflow = '';
-          document.body.style.position = '';
         } else {
           // Open menu
           nav.classList.add('active');
-          overlay.classList.add('active');
-          // Don't use position fixed on body - causes mobile issues
           document.body.style.overflow = 'hidden';
         }
       }
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', function(e) {
+        const nav = document.getElementById('mobile-nav');
+        const menuBtn = document.querySelector('.bc-mobile-menu-btn');
+        
+        // If menu is open and click is outside menu and not on menu button
+        if (nav && nav.classList.contains('active')) {
+          if (!nav.contains(e.target) && !menuBtn.contains(e.target)) {
+            nav.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        }
+      });
       
       // Prevent horizontal scroll on mobile
       document.addEventListener('DOMContentLoaded', function() {
