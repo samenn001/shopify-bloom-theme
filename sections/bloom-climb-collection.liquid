@@ -373,11 +373,42 @@
 
 
     <script>
-      // Mobile menu toggle
+      // Mobile menu toggle with scroll prevention
       function toggleMobileMenu() {
         const nav = document.getElementById('mobile-nav');
-        nav.classList.toggle('active');
+        const body = document.body;
+        const isOpen = nav.classList.contains('active');
+        
+        if (isOpen) {
+          nav.classList.remove('active');
+          body.style.overflow = '';
+          body.style.position = '';
+        } else {
+          nav.classList.add('active');
+          body.style.overflow = 'hidden';
+          body.style.position = 'fixed';
+        }
       }
+      
+      // Prevent horizontal scroll on mobile
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check for horizontal overflow
+        function checkHorizontalScroll() {
+          const scrollWidth = document.documentElement.scrollWidth;
+          const clientWidth = document.documentElement.clientWidth;
+          if (scrollWidth > clientWidth) {
+            console.warn('Horizontal scroll detected:', scrollWidth - clientWidth, 'px');
+          }
+        }
+        
+        // Fix viewport on mobile
+        if (window.innerWidth <= 768) {
+          document.querySelector('meta[name="viewport"]').setAttribute('content', 
+            'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+        }
+        
+        checkHorizontalScroll();
+      });
 
       // Simple animations for trust sidebar
       const reviewTexts = [
