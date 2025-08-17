@@ -20,8 +20,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Hide default Shopify header -->
+    <!-- Hide default Shopify header and fix mobile menu -->
     <style>
+      /* CRITICAL MOBILE MENU FIX */
+      @media (max-width: 768px) {
+        #mobile-nav.active {
+          left: 0 !important;
+          display: flex !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          z-index: 999999 !important;
+        }
+        
+        #mobile-nav {
+          position: fixed !important;
+          top: 0 !important;
+          left: -100% !important;
+          width: 80% !important;
+          max-width: 320px !important;
+          height: 100vh !important;
+          background: white !important;
+          flex-direction: column !important;
+          padding: 60px 32px !important;
+          box-shadow: 4px 0 30px rgba(0,0,0,0.3) !important;
+          transition: left 0.3s ease !important;
+          z-index: 999999 !important;
+          overflow-y: auto !important;
+        }
+      }
+      
       /* Hide default Dawn theme header and footer */
       #shopify-section-header,
       #shopify-section-footer,
@@ -80,7 +107,7 @@
     <!-- Header -->
     <header class="bc-header">
       <div class="bc-header-content">
-        <button class="bc-mobile-menu-btn" onclick="toggleShopMobileMenu()">
+        <button class="bc-mobile-menu-btn" onclick="document.getElementById('mobile-nav').classList.toggle('active'); document.body.style.overflow = document.getElementById('mobile-nav').classList.contains('active') ? 'hidden' : ''; return false;">
           <span></span>
           <span></span>
           <span></span>
@@ -89,7 +116,7 @@
         <a href="/" class="bc-logo">bloom</a>
         
         <nav class="bc-nav" id="mobile-nav">
-          <button class="bc-mobile-close" onclick="toggleShopMobileMenu()">✕</button>
+          <button class="bc-mobile-close" onclick="document.getElementById('mobile-nav').classList.remove('active'); document.body.style.overflow = ''; return false;">✕</button>
           <a href="/collections/all" class="bc-nav-link active">Shop</a>
           <a href="/" class="bc-nav-link">Home</a>
           <a href="/pages/contact" class="bc-nav-link">Contact</a>
@@ -373,44 +400,12 @@
 
 
     <script>
-      // Dedicated mobile menu toggle for shop page
-      function toggleShopMobileMenu() {
-        console.log('Toggle shop menu clicked');
+      // Simple menu functionality for shop page
+      document.addEventListener('DOMContentLoaded', function() {
+        // Just ensure menu starts closed
         const nav = document.getElementById('mobile-nav');
-        if (!nav) {
-          console.error('Mobile nav not found');
-          return;
-        }
-        
-        const isOpen = nav.classList.contains('active');
-        console.log('Menu is currently:', isOpen ? 'open' : 'closed');
-        
-        if (isOpen) {
-          // Close menu
+        if (nav) {
           nav.classList.remove('active');
-          document.body.style.overflow = '';
-          document.body.style.position = '';
-        } else {
-          // Open menu
-          nav.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        }
-      }
-      
-      // Make it globally available
-      window.toggleShopMobileMenu = toggleShopMobileMenu;
-      
-      // Close menu when clicking outside
-      document.addEventListener('click', function(e) {
-        const nav = document.getElementById('mobile-nav');
-        const menuBtn = document.querySelector('.bc-mobile-menu-btn');
-        
-        // If menu is open and click is outside menu and not on menu button
-        if (nav && nav.classList.contains('active')) {
-          if (!nav.contains(e.target) && !menuBtn.contains(e.target)) {
-            nav.classList.remove('active');
-            document.body.style.overflow = '';
-          }
         }
       });
       
