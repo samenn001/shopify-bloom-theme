@@ -118,6 +118,9 @@
       "block_order": ["review_1", "review_2", "review_3", "review_4", "review_5", "review_6"],
       "settings": {
         "title": "What Our Customers Say",
+        "restrict_visibility": true,
+        "only_product_ids": "10291928990033",
+        "only_collection_handle": "",
         "review_count": "126",
         "show_load_more": true
       }

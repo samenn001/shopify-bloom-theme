@@ -33,6 +33,9 @@
       "type": "product-reviews",
       "settings": {
         "title": "What Our Customers Say",
+        "restrict_visibility": true,
+        "only_product_ids": "10291928990033",
+        "only_collection_handle": "",
         "review_count": "126",
         "show_load_more": true
       },

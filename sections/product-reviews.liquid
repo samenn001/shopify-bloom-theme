@@ -1,5 +1,57 @@
 {{ 'section-product-reviews.css' | asset_url | stylesheet_tag }}
 
+{% liquid
+  assign should_show = true
+  if section.settings.restrict_visibility
+    assign should_show = false
+    if section.settings.only_collection_handle != blank and product
+      for c in product.collections
+        if c.handle == section.settings.only_collection_handle
+          assign should_show = true
+        endif
+      endfor
+    endif
+    if section.settings.only_product_type != blank and product
+      assign ptype = product.product_type
+      if ptype == blank
+        assign ptype = product.type
+      endif
+      assign ptype_lc = ptype | downcase
+      assign want_type_lc = section.settings.only_product_type | downcase | strip
+      if ptype_lc == want_type_lc
+        assign should_show = true
+      endif
+    endif
+    if section.settings.only_tag != blank and product
+      if product.tags contains section.settings.only_tag
+        assign should_show = true
+      endif
+    endif
+    if section.settings.only_handles != blank and product
+      assign product_handle_lc = product.handle | downcase
+      assign allowed_handles = section.settings.only_handles | downcase | split: ','
+      for h in allowed_handles
+        assign h_trim = h | strip
+        if h_trim == product_handle_lc
+          assign should_show = true
+        endif
+      endfor
+    endif
+    if section.settings.only_product_ids != blank and product
+      assign product_id_str = product.id | string
+      assign allowed_ids = section.settings.only_product_ids | split: ','
+      for idstr in allowed_ids
+        assign id_trim = idstr | strip
+        if id_trim == product_id_str
+          assign should_show = true
+        endif
+      endfor
+    endif
+  endif
+%}
+
+{% if should_show %}
+
 <div class="product-reviews-section">
   <div class="page-width">
     <div class="reviews-header">
@@ -149,6 +201,8 @@
   });
 </script>
 
+{% endif %}
+
 {% schema %}
 {
   "name": "Product Reviews",
@@ -158,6 +212,45 @@
       "id": "title",
       "label": "Section Title",
       "default": "Customer Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "restrict_visibility",
+      "label": "Restrict to specific products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "only_collection_handle",
+      "label": "Only show for collection handle",
+      "default": "interactive-toys",
+      "info": "Example: interactive-toys. Leave blank to ignore this filter."
+    },
+    {
+      "type": "text",
+      "id": "only_product_type",
+      "label": "Only show for product type",
+      "default": "Interactive Toys",
+      "info": "Matches the Product type field exactly (case-insensitive)."
+    },
+    {
+      "type": "text",
+      "id": "only_tag",
+      "label": "Only show for product tag",
+      "info": "Example: interactive-toy. Leave blank to ignore this filter."
+    },
+    {
+      "type": "textarea",
+      "id": "only_handles",
+      "label": "Only show for product handles (comma-separated)",
+      "info": "Example: interactive-cat-toy, smart-feather-wand",
+      "default": "interactive-cat-toy"
+    },
+    {
+      "type": "textarea",
+      "id": "only_product_ids",
+      "label": "Only show for product IDs (comma-separated)",
+      "info": "Find the numeric product ID in Admin → Products (URL contains /products/ID)"
     },
     {
       "type": "text",
