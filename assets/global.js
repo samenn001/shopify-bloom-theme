@@ -443,9 +443,13 @@ class MenuDrawer extends HTMLElement {
     this.mainDetailsToggle
       .querySelectorAll('#menu-drawer a[href]')
       .forEach((anchor) =>
-        anchor.addEventListener('click', () =>
-          this.closeMenuDrawerImmediately(this.mainDetailsToggle.querySelector('summary'))
-        )
+        anchor.addEventListener('click', (event) => {
+          const href = anchor.getAttribute('href');
+          if (!href || href === '#') return;
+          event.preventDefault();
+          this.closeMenuDrawerImmediately(this.mainDetailsToggle.querySelector('summary'));
+          window.location.assign(href);
+        })
       );
 
     // Backdrop click to close (desktop only; on mobile the backdrop is inert)
