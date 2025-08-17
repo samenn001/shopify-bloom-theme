@@ -2,28 +2,28 @@
   position: initial;
 }
 
-.js menu-drawer > details > summary::before,
-.js menu-drawer > details[open]:not(.menu-opening) > summary::before {
-  content: '';
+/* removed Dawn overlay pseudo-element; using real .menu-backdrop instead */
+
+/* Real backdrop element inside the drawer - COMPLETELY REMOVED FOR MOBILE */
+.menu-backdrop {
+  display: none !important; /* Completely hide the backdrop */
   position: absolute;
-  cursor: default;
-  width: 100%;
-  height: calc(100vh - 100%);
-  height: calc(var(--viewport-height, 100vh) - (var(--header-bottom-position, 100%)));
   top: 100%;
   left: 0;
-  background: rgba(var(--color-foreground), 0.5);
+  width: 100%;
+  height: calc(var(--viewport-height, 100vh) - (var(--header-bottom-position, 100%)));
+  background: transparent !important; /* No gray background */
   opacity: 0;
   visibility: hidden;
-  z-index: 2;
-  pointer-events: none;
-  transition: opacity 0s, visibility 0s;
+  z-index: 2; /* below .menu-drawer (z-index: 3) */
+  transition: opacity var(--duration-default) ease, visibility var(--duration-default) ease;
+  pointer-events: none !important; /* Never block clicks */
 }
 
-menu-drawer > details[open] > summary::before {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity var(--duration-default) ease, visibility var(--duration-default) ease;
+.js details[open].menu-opening > .menu-backdrop {
+  display: none !important; /* Never show backdrop */
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 .menu-drawer {
@@ -71,6 +71,16 @@ details[open].menu-opening > .menu-drawer__submenu {
   }
 }
 
+/* Hide real backdrop on mobile completely */
+@media screen and (max-width: 989px) {
+  .menu-backdrop {
+    background: transparent !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
 /* Ensure overlay is disabled at all breakpoints as a fallback */
 .js menu-drawer > details > summary::before,
 .js menu-drawer > details[open]:not(.menu-opening) > summary::before,
@@ -79,6 +89,13 @@ menu-drawer > details[open] > summary::before {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+@media screen and (min-width: 990px) {
+  /* Allow clicking on the backdrop to close on desktop */
+  .menu-backdrop {
+    pointer-events: auto;
+  }
 }
 
 .js .menu-drawer__navigation .submenu-open {
