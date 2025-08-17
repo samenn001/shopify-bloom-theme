@@ -373,15 +373,18 @@
 
 
     <script>
-      // Mobile menu toggle WITHOUT overlay
-      function toggleMobileMenu() {
+      // Mobile menu toggle for shop page - simplified version
+      window.toggleMobileMenu = function() {
         const nav = document.getElementById('mobile-nav');
+        if (!nav) return;
+        
         const isOpen = nav.classList.contains('active');
         
         if (isOpen) {
           // Close menu
           nav.classList.remove('active');
           document.body.style.overflow = '';
+          document.body.style.position = '';
         } else {
           // Open menu
           nav.classList.add('active');
