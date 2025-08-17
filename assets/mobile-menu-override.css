@@ -1,0 +1,167 @@
+/* COMPLETE MOBILE MENU OVERLAY OVERRIDE */
+/* This CSS aggressively removes all gray overlays and backdrops */
+
+/* Kill all backdrop elements */
+.menu-backdrop,
+.mobile-menu-backdrop,
+.drawer-backdrop,
+.modal-backdrop,
+[class*="backdrop"],
+[class*="overlay"]:not(.bc-mobile-overlay),
+.menu-drawer-container .menu-backdrop,
+header-drawer .menu-backdrop,
+menu-drawer .menu-backdrop,
+#menu-drawer-backdrop,
+.js .menu-backdrop,
+.js details[open] .menu-backdrop,
+.js details[open].menu-opening .menu-backdrop {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  background: transparent !important;
+  z-index: -9999 !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+/* Kill all pseudo-elements that create overlays */
+header-drawer::before,
+header-drawer::after,
+header-drawer details::before,
+header-drawer details::after,
+header-drawer summary::before,
+header-drawer summary::after,
+menu-drawer::before,
+menu-drawer::after,
+menu-drawer details::before,
+menu-drawer details::after,
+menu-drawer summary::before,
+menu-drawer summary::after,
+.menu-drawer-container::before,
+.menu-drawer-container::after,
+.menu-drawer-container details::before,
+.menu-drawer-container details::after,
+.menu-drawer-container summary::before,
+.menu-drawer-container summary::after,
+#Details-menu-drawer-container::before,
+#Details-menu-drawer-container::after,
+details[open] > summary::before,
+details[open] > summary::after,
+.js details[open] > summary::before,
+.js details[open] > summary::after,
+.js menu-drawer > details > summary::before,
+.js menu-drawer > details > summary::after,
+.js menu-drawer > details[open] > summary::before,
+.js menu-drawer > details[open] > summary::after,
+.js menu-drawer > details[open]:not(.menu-opening) > summary::before,
+.js menu-drawer > details[open]:not(.menu-opening) > summary::after,
+menu-drawer > details[open] > summary::before,
+menu-drawer > details[open] > summary::after,
+.js header-drawer > details > summary::before,
+.js header-drawer > details > summary::after,
+.js header-drawer > details[open] > summary::before,
+.js header-drawer > details[open] > summary::after,
+header-drawer > details[open] > summary::before,
+header-drawer > details[open] > summary::after {
+  content: none !important;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  background: transparent !important;
+  z-index: -9999 !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+/* Ensure menu drawer is always on top and accessible */
+#menu-drawer,
+.menu-drawer,
+header-drawer #menu-drawer,
+header-drawer .menu-drawer {
+  z-index: 999999 !important;
+  position: fixed !important;
+  background: white !important;
+}
+
+/* Remove any background color that might be causing gray overlay */
+@media screen and (max-width: 989px) {
+  body.overflow-hidden-tablet,
+  body.overflow-hidden-mobile {
+    overflow: hidden !important;
+    position: relative !important; /* Not fixed to avoid issues */
+  }
+  
+  /* Make absolutely sure no overlay shows on mobile */
+  * {
+    --drawer-shadow-opacity: 0 !important;
+    --drawer-overlay-opacity: 0 !important;
+  }
+  
+  /* Override any inline styles */
+  [style*="background: rgba"] {
+    background: transparent !important;
+  }
+  
+  [style*="opacity"] {
+    opacity: 1 !important;
+  }
+}
+
+/* Specific Dawn theme overrides */
+.js .drawer__overlay,
+.drawer__overlay,
+.js .modal__overlay,
+.modal__overlay {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Nuclear option - hide anything that might be an overlay */
+div[style*="position: fixed"][style*="background"],
+div[style*="position: absolute"][style*="background"] {
+  background: transparent !important;
+}
+
+/* Ensure the menu drawer itself is visible */
+header-drawer details[open] #menu-drawer,
+.menu-drawer-container details[open] #menu-drawer {
+  visibility: visible !important;
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* High specificity override for any remaining issues */
+html body header-drawer details.menu-drawer-container .menu-backdrop,
+html body .menu-drawer-container .menu-backdrop,
+html body #Details-menu-drawer-container .menu-backdrop {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  background: transparent !important;
+}
+
+/* Additional mobile-specific overrides */
+@media (max-width: 768px) {
+  .menu-backdrop,
+  [class*="backdrop"],
+  [class*="overlay"]:not(.bc-mobile-overlay) {
+    display: none !important;
+  }
+  
+  /* Ensure menu is usable */
+  #menu-drawer {
+    z-index: 2147483647 !important; /* Maximum z-index value */
+  }
+}
