@@ -22,7 +22,7 @@
         "pad_right": 32,
         "bundle_max_width": 520,
         "bundle2_discount": 15,
-        "bundle3_discount": 25,
+        "bundle3_discount": 30,
         "custom_heading": "",
         "show_dynamic_checkout": true,
         "show_video_section": true,
