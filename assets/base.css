@@ -2596,6 +2596,15 @@ input[type='checkbox'] {
   .mobile-facets {
     background-color: transparent !important;
   }
+
+  /* Disable any summary overlay pseudo-elements on mobile */
+  details > summary::before,
+  details[open] > summary::before {
+    background: transparent !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 }
 
 /* Fallback: disable header menu overlay at all sizes */
