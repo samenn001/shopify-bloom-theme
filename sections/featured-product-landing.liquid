@@ -727,7 +727,7 @@
 
   <!-- Social Proof Bar -->
   <div class="social-proof-bar">
-    <div class="social-proof-content">
+    <div class="social-proof-content" id="social-proof-ticker">
       <div class="social-stat">
         <span class="stat-icon">🐱</span>
         <span class="stat-number">234</span> happy cats playing
@@ -740,8 +740,38 @@
         <span class="stat-icon">⭐</span>
         <span class="stat-number">4.9/5</span> (2,847 reviews)
       </div>
+      <!-- Duplicate for seamless scroll on mobile -->
+      <div class="social-stat mobile-duplicate">
+        <span class="stat-icon">🐱</span>
+        <span class="stat-number">234</span> happy cats playing
+      </div>
+      <div class="social-stat mobile-duplicate">
+        <span class="stat-icon">🌸</span>
+        <span class="stat-number">89</span> sold today
+      </div>
+      <div class="social-stat mobile-duplicate">
+        <span class="stat-icon">⭐</span>
+        <span class="stat-number">4.9/5</span> (2,847 reviews)
+      </div>
     </div>
   </div>
+  
+  <script>
+    // Pause animation on hover for better UX
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      const ticker = document.getElementById('social-proof-ticker');
+      if (ticker) {
+        ticker.addEventListener('touchstart', () => {
+          ticker.style.animationPlayState = 'paused';
+        });
+        ticker.addEventListener('touchend', () => {
+          setTimeout(() => {
+            ticker.style.animationPlayState = 'running';
+          }, 2000);
+        });
+      }
+    }
+  </script>
 
   <!-- Value Props - Bento Grid -->
   <section class="value-props">

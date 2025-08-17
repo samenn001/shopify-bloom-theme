@@ -1278,6 +1278,11 @@ body {
   border-radius: 10px;
 }
 
+/* Hide mobile duplicates on desktop */
+.mobile-duplicate {
+  display: none;
+}
+
 .social-proof-content {
   max-width: var(--content-width);
   margin: 0 auto;
@@ -1534,35 +1539,97 @@ body {
 @media (max-width: 768px) {
   .social-proof-bar {
     margin-top: var(--space-lg);
-    border-radius: 8px;
-    height: auto; /* Remove fixed height on mobile */
-    padding: 12px 8px; /* Better padding for mobile */
-    position: relative; /* Not sticky on mobile to save space */
+    border-radius: 0;
+    height: 40px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .social-proof-bar::before,
+  .social-proof-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .social-proof-bar::before {
+    left: 0;
+    background: linear-gradient(90deg, #1a1a1a 0%, transparent 100%);
+  }
+  
+  .social-proof-bar::after {
+    right: 0;
+    background: linear-gradient(90deg, transparent 0%, #2d2d2d 100%);
   }
   
   .social-proof-content {
-    flex-direction: column; /* Stack stats vertically */
-    gap: 8px; /* Smaller gap */
-    padding: 0 12px;
+    display: flex;
     align-items: center;
+    height: 100%;
+    padding: 0;
+    gap: 0;
+    animation: scrollProof 20s linear infinite;
+    width: max-content;
+  }
+  
+  @keyframes scrollProof {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
   }
   
   .social-stat {
-    font-size: 12px; /* Smaller text for mobile */
-    justify-content: center;
-    width: 100%;
-    padding: 6px 10px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    padding: 0 25px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    border: none;
+    background: transparent;
+  }
+  
+  .social-stat::after {
+    content: '•';
+    position: absolute;
+    right: 0;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 8px;
+  }
+  
+  .social-stat:last-child::after {
+    display: none;
   }
   
   .stat-icon {
     font-size: 14px;
+    filter: saturate(1.2);
   }
   
   .stat-number {
-    font-weight: 700;
-    font-size: 13px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 12px;
+  }
+  
+  /* Show duplicates on mobile for seamless loop */
+  .mobile-duplicate {
+    display: flex !important;
   }
   .video-main-title {
     font-size: 28px;
