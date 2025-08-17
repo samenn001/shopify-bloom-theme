@@ -2584,6 +2584,13 @@ input[type='checkbox'] {
   }
 }
 
+/* Fallback: disable header menu overlay at all sizes */
+.header__icon--menu[aria-expanded='true']::before {
+  background: transparent !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
 .header__icon--account shop-user-avatar {
   --shop-avatar-size: 2.8rem;
 }
