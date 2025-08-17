@@ -373,20 +373,30 @@
 
 
     <script>
-      // Mobile menu toggle with scroll prevention
+      // Mobile menu toggle with overlay
       function toggleMobileMenu() {
         const nav = document.getElementById('mobile-nav');
         const body = document.body;
         const isOpen = nav.classList.contains('active');
         
+        // Get or create overlay
+        let overlay = document.getElementById('mobile-menu-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.id = 'mobile-menu-overlay';
+          overlay.className = 'bc-mobile-overlay';
+          overlay.onclick = toggleMobileMenu;
+          document.body.appendChild(overlay);
+        }
+        
         if (isOpen) {
           nav.classList.remove('active');
+          overlay.classList.remove('active');
           body.style.overflow = '';
-          body.style.position = '';
         } else {
           nav.classList.add('active');
+          overlay.classList.add('active');
           body.style.overflow = 'hidden';
-          body.style.position = 'fixed';
         }
       }
       
