@@ -1904,6 +1904,7 @@ body {
 
 /* Sticky Bottom CTA */
 .sticky-cta {
+  display: none !important; /* Disabled - blocks content */
   position: fixed;
   bottom: 0;
   left: 0;
@@ -1917,6 +1918,7 @@ body {
 }
 
 .sticky-cta.visible {
+  display: none !important; /* Hide even when visible */
   transform: translateY(0);
 }
 
