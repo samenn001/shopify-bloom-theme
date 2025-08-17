@@ -865,14 +865,16 @@ body.bloom-climb-collection {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 998; /* Lower than nav (1001) and header (999) */
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none; /* Prevent blocking when hidden */
 }
 
 .bc-mobile-overlay.active {
   display: block;
   opacity: 1;
+  pointer-events: auto; /* Enable clicks when active */
 }
 
 @media (max-width: 768px) {
@@ -1003,7 +1005,7 @@ body.bloom-climb-collection {
     padding: 60px 32px;
     box-shadow: 2px 0 20px rgba(0,0,0,0.1);
     transition: left 0.3s ease;
-    z-index: 1001;
+    z-index: 1002; /* Higher than everything including overlay */
     overflow-y: auto;
   }
   
