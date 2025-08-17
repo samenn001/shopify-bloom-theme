@@ -2582,6 +2582,20 @@ input[type='checkbox'] {
     opacity: 0 !important;
     visibility: hidden !important;
   }
+
+  /* Neutralize any dark overlays on mobile */
+  details[open] .modal-overlay,
+  details[open] .modal-overlay::after {
+    background: transparent !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Ensure collection filter overlay doesn't dim the page */
+  .mobile-facets {
+    background-color: transparent !important;
+  }
 }
 
 /* Fallback: disable header menu overlay at all sizes */
