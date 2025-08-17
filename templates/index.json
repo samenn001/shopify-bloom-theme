@@ -9,6 +9,21 @@
  */
 {
   "sections": {
+    "interactive_toys": {
+      "type": "interactive-toys-showcase",
+      "settings": {
+        "title": "✨ COMPLETE THEIR PARADISE WITH INTERACTIVE PLAY ✨",
+        "subtitle": "While trees give them a kingdom to rule, toys give them adventures to conquer",
+        "gif1_image": "shopify://shop_images/gifi_4.webp",
+        "gif1_title": "Interactive Play",
+        "gif2_image": "shopify://shop_images/gifi_1_prod.webp",
+        "gif2_title": "Active Engagement",
+        "gif3_image": "shopify://shop_images/giif_3.webp",
+        "gif3_title": "Happy Cats",
+        "why_combine_title": "WHY COMBINE TREES & TOYS?",
+        "stats_text": "Studies show cats with both climbing and play options are 73% more active and happier"
+      }
+    },
     "featured_product": {
       "type": "featured-product-landing",
       "settings": {
@@ -50,21 +65,6 @@
         "reel3_likes": "3.1M",
         "padding_top": 0,
         "padding_bottom": 0
-      }
-    },
-    "interactive_toys": {
-      "type": "interactive-toys-showcase",
-      "settings": {
-        "title": "✨ COMPLETE THEIR PARADISE WITH INTERACTIVE PLAY ✨",
-        "subtitle": "While trees give them a kingdom to rule, toys give them adventures to conquer",
-        "gif1_image": "shopify://shop_images/gifi_4.webp",
-        "gif1_title": "Interactive Play",
-        "gif2_image": "shopify://shop_images/gifi_1_prod.webp",
-        "gif2_title": "Active Engagement",
-        "gif3_image": "shopify://shop_images/giif_3.webp",
-        "gif3_title": "Happy Cats",
-        "why_combine_title": "WHY COMBINE TREES & TOYS?",
-        "stats_text": "Studies show cats with both climbing and play options are 73% more active and happier"
       }
     },
     "related-products": {
