@@ -37,54 +37,8 @@
   </head>
 
   <body class="bloom-climb-contact">
-    <!-- Announcement Bar -->
-    <div class="bc-announcement-bar">
-      <div class="bc-announcement-track">
-        <span>🌸 FREE SHIPPING on Orders $75+</span>
-        <span>•</span>
-        <span>30-Day Happy Cat Guarantee</span>
-        <span>•</span>
-        <span>🐾 Vet Approved Design</span>
-        <span>•</span>
-        <span>🌿 Eco-Friendly Materials</span>
-        <span>•</span>
-        <span>🌸 FREE SHIPPING on Orders $75+</span>
-        <span>•</span>
-        <span>30-Day Happy Cat Guarantee</span>
-        <span>•</span>
-        <span>🐾 Vet Approved Design</span>
-        <span>•</span>
-        <span>🌿 Eco-Friendly Materials</span>
-      </div>
-    </div>
-
-    <!-- Header -->
-    <header class="bc-header">
-      <div class="bc-header-content">
-        <button class="bc-mobile-menu-btn" onclick="toggleMobileMenu()">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        
-        <a href="/" class="bc-logo">BLOOM & CLIMB</a>
-        
-        <nav class="bc-nav" id="mobile-nav">
-          <button class="bc-mobile-close" onclick="toggleMobileMenu()">✕</button>
-          <a href="/collections/all" class="bc-nav-link">Shop</a>
-          <a href="/" class="bc-nav-link">Home</a>
-          <a href="/pages/contact" class="bc-nav-link active">Contact</a>
-        </nav>
-        
-        <div class="bc-header-actions">
-          <button class="bc-search-btn">🔍</button>
-          <a href="/account" class="bc-account-btn">👤</a>
-          <a href="/cart" class="bc-cart-btn">
-            🛒 <span class="bc-cart-count">{{ cart.item_count }}</span>
-          </a>
-        </div>
-      </div>
-    </header>
+    <!-- Include Bloom & Climb Header Section -->
+    {% section 'bloom-climb-header' %}
 
     <!-- Hero Section -->
     <section class="bc-contact-hero">
@@ -264,12 +218,6 @@
     </main>
 
     <script>
-      // Mobile menu toggle
-      function toggleMobileMenu() {
-        const nav = document.getElementById('mobile-nav');
-        nav.classList.toggle('active');
-      }
-
       // FAQ toggles
       document.querySelectorAll('.bc-faq-toggle').forEach(toggle => {
         toggle.addEventListener('click', function() {

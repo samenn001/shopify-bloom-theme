@@ -160,7 +160,7 @@ body.bloom-climb-contact {
 
 /* Hero Section */
 .bc-contact-hero {
-  margin-top: 116px;
+  margin-top: 0;
   padding: 80px 20px;
   text-align: center;
   background: linear-gradient(135deg, var(--bc-cream) 0%, rgba(255, 183, 197, 0.2) 100%);
