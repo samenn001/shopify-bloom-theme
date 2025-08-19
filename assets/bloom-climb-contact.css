@@ -627,7 +627,7 @@ body.bloom-climb-contact {
     gap: 20px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     transition: left 0.3s ease;
-    z-index: 1001;
+    z-index: 999999; /* Much higher than any other elements */
   }
   
   .bc-nav.active {
