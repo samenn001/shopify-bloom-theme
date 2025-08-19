@@ -57,106 +57,7 @@ body.bloom-climb-contact {
   100% { transform: translateX(-50%); }
 }
 
-/* Header */
-.bc-header {
-  background: var(--bc-white);
-  padding: 20px 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  position: fixed;
-  top: 36px;
-  left: 0;
-  right: 0;
-  z-index: 998;
-}
-
-.bc-header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.bc-mobile-menu-btn {
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.bc-mobile-menu-btn span {
-  width: 24px;
-  height: 2px;
-  background: var(--bc-dark);
-  transition: all 0.3s ease;
-}
-
-.bc-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--bc-dark);
-  text-decoration: none;
-  letter-spacing: 1px;
-}
-
-.bc-nav {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-
-.bc-mobile-close {
-  display: none;
-}
-
-.bc-nav-link {
-  color: var(--bc-gray);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.bc-nav-link:hover,
-.bc-nav-link.active {
-  color: var(--bc-primary);
-}
-
-.bc-header-actions {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.bc-search-btn,
-.bc-account-btn,
-.bc-cart-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: var(--bc-dark);
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.bc-search-btn:hover,
-.bc-account-btn:hover,
-.bc-cart-btn:hover {
-  transform: scale(1.1);
-}
-
-.bc-cart-count {
-  background: var(--bc-secondary);
-  color: white;
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  margin-left: 4px;
-}
+/* Header styles removed - using bloom-climb-header section */
 
 /* Hero Section */
 .bc-contact-hero {
@@ -610,41 +511,6 @@ body.bloom-climb-contact {
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .bc-mobile-menu-btn {
-    display: flex;
-  }
-  
-  .bc-nav {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: white;
-    flex-direction: column;
-    padding: 60px 30px;
-    gap: 20px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: left 0.3s ease;
-    z-index: 999999; /* Much higher than any other elements */
-  }
-  
-  .bc-nav.active {
-    left: 0;
-  }
-  
-  .bc-mobile-close {
-    display: block;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
   .bc-hero-title {
     font-size: 36px;
   }
