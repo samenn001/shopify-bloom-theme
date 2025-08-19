@@ -157,10 +157,12 @@
       height: 100vh;
       background: white;
       flex-direction: column;
-      padding: 80px 32px;
+      padding: 120px 32px 32px 32px;
       transition: all 0.3s ease;
       z-index: 999999;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      align-items: flex-start;
+      justify-content: flex-start;
     }
     
     .bc-nav.active {
@@ -176,6 +178,13 @@
       border: none;
       font-size: 24px;
       cursor: pointer;
+    }
+    
+    .bc-nav .bc-nav-link {
+      display: block;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 18px;
     }
   }
 </style>
